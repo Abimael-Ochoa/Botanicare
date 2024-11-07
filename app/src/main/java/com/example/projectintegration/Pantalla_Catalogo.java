@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class Pantalla_Catalogo extends AppCompatActivity {
 
     //CUANDO JALES DE LA BASE DE DATOS CREALES MODELOS A LAS ENTIDADES COMO EL QUE HICE DE USER, MAMAGUEVO
-    
+
     // Declaración de ImageView para el botón de logout
     ImageView logOutButton;
 
