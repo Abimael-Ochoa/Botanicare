@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -72,16 +70,12 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            // Crea un mapa con los datos del usuario
-                            Map<String, Object> userData = new HashMap<>();
-                            userData.put("name", name);
-                            userData.put("phone", phone);
-                            userData.put("address", address);
-                            userData.put("email", email);
+                            // Crea un objeto User con los datos del registro
+                            User newUser = new User(name, phone, address, email);
 
-                            // Guarda los datos en Firestore bajo la colección "users"
+                            // Guarda el objeto User en Firestore bajo la colección "users"
                             db.collection("users").document(user.getUid())
-                                    .set(userData)
+                                    .set(newUser)
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(RegisterActivity.this, "Registro y guardado exitoso", Toast.LENGTH_SHORT).show();
                                         // Redirige al usuario a la actividad principal
