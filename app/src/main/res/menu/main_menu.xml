@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_calendario"
+        android:title="Calendario"
+        android:icon="@drawable/nav_calendario"
+        />
+    <item
+        android:id="@+id/nav_consejos"
+        android:title="Consejos"
+        android:icon="@drawable/nav_consejos"/>
+    <item
+        android:id="@+id/nav_sugerencias"
+        android:title="Sugerencias"
+        android:icon="@drawable/nav_sugerencias"
+        />
+    <item
+        android:id="@+id/nav_plantas_adquiridas"
+        android:title="Plantas adquiridas"
+        android:icon="@drawable/nav_plantas_adquiridas"
+        />
+    <item
+        android:id="@+id/nav_progreso"
+        android:title="Progreso de plantas"
+        android:icon="@drawable/nav_progreso"
+        />
+    <item
+        android:id="@+id/nav_chat"
+        android:title="Chat"
+        android:icon="@drawable/nav_chat"
+        />
+    <item
+        android:id="@+id/nav_registrarP"
+        android:title="Registrar Planta"
+        android:icon="@drawable/nav_registrarp"
+        />
+</group>
+    <group android:checkableBehavior="single">
+        <item android:title="Profile">
+
+            <menu>
+
+                <item
+                    android:id="@+id/nav_logout"
+                    android:title="Registrar Planta"
+                    android:icon="@drawable/nav_logout"
+                    />
+
+            </menu>
+
+        </item>
+
+    </group>
+</menu>
