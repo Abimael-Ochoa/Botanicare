@@ -35,11 +35,13 @@
             android:gravity="center" />
 
         <ImageView
-
+            android:id="@+id/searchButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_search"
-            android:contentDescription="Search" />
+            android:contentDescription="Search"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
 
     <!-- Sección de Mis Plantas -->
