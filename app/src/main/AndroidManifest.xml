@@ -13,6 +13,17 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
+            android:name=".nav_drawer"
+            android:exported="false"
+            android:label="@string/title_activity_nav_drawer"
+            android:theme="@style/Theme.ProjectIntegration.NoActionBar" />
+        <activity
+            android:name=".Calendario"
+            android:exported="false" />
+        <activity
+            android:name=".SecondActivity"
+            android:exported="false" />
+        <activity
             android:name=".Pantalla_Catalogo"
             android:exported="false" />
         <activity
@@ -29,7 +40,13 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

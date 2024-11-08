@@ -36,20 +36,19 @@
         android:icon="@drawable/nav_registrarp"
         />
 </group>
-    <group android:checkableBehavior="single">
         <item android:title="Profile">
 
             <menu>
-
+                <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_logout"
-                    android:title="Registrar Planta"
+                    android:title="Salir"
                     android:icon="@drawable/nav_logout"
                     />
-
+                </group>
             </menu>
 
         </item>
 
-    </group>
+
 </menu>

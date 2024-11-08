@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,15 +10,15 @@
     tools:context=".Pantalla_Catalogo">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <!-- Barra superior -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:padding="16dp"
         android:background="#225E1D"
         android:gravity="center_vertical">
 
@@ -44,8 +44,8 @@
             android:layout_height="45dp"
             android:src="@drawable/ic_search"
             android:contentDescription="Search"
-            android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:clickable="true"/>
     </LinearLayout>
 
     <!-- Sección de Mis Plantas -->
@@ -114,17 +114,8 @@
     </LinearLayout>
 
     <!-- Sección de Plantas Disponibles -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Plantas disponibles"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:fontFamily="@font/coustard"
-        android:textSize="18sp"
-        android:textColor="#333333" />
 
-    <GridLayout
+        <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="2"
@@ -534,8 +525,111 @@
                     android:fontFamily="@font/coustard"/>
             </LinearLayout>
 
+
         </LinearLayout>
-        <!-- Agrega más plantas siguiendo el mismo formato -->
+
+        <!-- Planta 4 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:background="@drawable/background_plantas"
+            android:padding="8dp"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_plant"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_height="wrap_content"
+                android:text="Planta de casa"
+                android:fontFamily="@font/my_custom_font"
+                />
+
+            <!-- Contenedor horizontal para la estrella y el valor 75 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_marginTop="3dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_estrella"
+                    android:layout_marginStart="36dp"/>
+
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="75"
+                    android:textColor="#FFA000"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/coustard"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <!-- Planta 4 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:orientation="vertical"
+            android:background="@drawable/background_plantas"
+            android:padding="8dp"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_plant"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_height="wrap_content"
+                android:text="Planta de casa"
+                android:fontFamily="@font/my_custom_font"
+                />
+
+            <!-- Contenedor horizontal para la estrella y el valor 75 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_marginTop="3dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_estrella"
+                    android:layout_marginStart="36dp"/>
+
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="75"
+                    android:textColor="#FFA000"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/coustard"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+            <!-- Agrega más plantas siguiendo el mismo formato -->
     </GridLayout>
-    </LinearLayout>
+</LinearLayout>
 </ScrollView>

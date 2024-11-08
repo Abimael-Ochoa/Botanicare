@@ -1,26 +1,43 @@
 package com.example.projectintegration;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.example.projectintegration.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     private FirebaseAuth mAuth;  // Instancia de FirebaseAuth
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
 
         // Inicializar FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -51,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+
 
     // Método para iniciar sesión
     private void loginUser(String email, String password) {
@@ -84,4 +103,6 @@ public class MainActivity extends AppCompatActivity {
             finish(); // Cierra la actividad de login
         }
     }
+
+
 }
