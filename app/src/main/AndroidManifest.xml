@@ -17,14 +17,12 @@
             android:exported="false"
             android:label="@string/title_activity_nav_drawer"
             android:theme="@style/Theme.ProjectIntegration.NoActionBar" />
-        <activity
-            android:name=".Calendario"
-            android:exported="false" />
-        <activity
-            android:name=".SecondActivity"
-            android:exported="false" />
+
         <activity
             android:name=".Pantalla_Catalogo"
+            android:exported="false" />
+        <activity
+            android:name=".EdicionPlantaActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"

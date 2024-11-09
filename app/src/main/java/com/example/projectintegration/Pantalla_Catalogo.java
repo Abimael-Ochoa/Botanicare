@@ -21,6 +21,8 @@ public class Pantalla_Catalogo extends AppCompatActivity {
     // Declaración de ImageView para el botón de logout
     ImageView logOutButton;
 
+    ImageView editPlantButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
 
         // Inicializa el ImageView como botón de logout
         logOutButton = findViewById(R.id.searchButton); // Asegúrate de que el ID coincide con el de tu XML
+        editPlantButton = findViewById(R.id.editPlant);
 
         // Configura el OnClickListener para el botón de logout
         logOutButton.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +53,18 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish(); // Finaliza la actividad actual para evitar volver atrás
+            }
+        });
+
+        editPlantButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Pantalla_Catalogo.this, EdicionPlantaActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish(); // Finaliza la actividad actual para evitar volver atrás
+
             }
         });
     }
