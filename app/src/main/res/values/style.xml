@@ -1,0 +1,5 @@
+<resources>
+    <style name="CustomMenuItemFont">
+        <item name="android:fontFamily">@font/my_custom_font</item>  <!-- Aplica la fuente -->
+    </style>
+</resources>
