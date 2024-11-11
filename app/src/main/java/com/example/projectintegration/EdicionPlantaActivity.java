@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class EdicionPlantaActivity extends AppCompatActivity {
-
+ //edicion
     private static final int IMAGE_REQUEST_CODE = 1;
 
     private ImageView plantImage;
