@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,14 +27,20 @@ public class Pantalla_Catalogo extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
 
+    ImageView logOutButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
 
+
         // Configuración del Toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Inicializa el ImageView como botón de logout
+        logOutButton = findViewById(R.id.searchButton); // Asegúrate de que el ID coincide con el de tu XML
 
         // Oculta el título predeterminado
         if (getSupportActionBar() != null) {
@@ -126,6 +133,8 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                     .replace(R.id.content_frame, defaultFragment)
                     .commit();
         }
+
+
     }
 
     @Override

@@ -32,7 +32,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/action_search_icon"
+                android:id="@+id/searchButton"
                 android:src="@drawable/ic_search"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
