@@ -1,5 +1,6 @@
 package com.example.projectintegration;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,8 +43,19 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Inicializa el ImageView como botón de logout
+// Inicializa el ImageView como botón de logout
         logOutButton = findViewById(R.id.searchButton); // Asegúrate de que el ID coincide con el de tu XML
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear el Intent para abrir otra actividad (página)
+                Intent intent = new Intent(Pantalla_Catalogo.this, EdicionPlantaActivity.class);
+
+                // Iniciar la actividad
+                startActivity(intent);
+            }
+        });
 
         // Oculta el título predeterminado
         if (getSupportActionBar() != null) {

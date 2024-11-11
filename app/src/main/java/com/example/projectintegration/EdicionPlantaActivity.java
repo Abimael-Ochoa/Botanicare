@@ -2,8 +2,12 @@ package com.example.projectintegration;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +18,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class EdicionPlantaActivity extends AppCompatActivity {
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+public class EdicionPlantaActivity extends AppCompatActivity {
+ //edicion
     private static final int IMAGE_REQUEST_CODE = 1;
 
     private ImageView plantImage;
@@ -31,13 +42,17 @@ public class EdicionPlantaActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private int quantity = 1;
+    private static final String GITHUB_TOKEN = "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"; // Reemplaza con tu token
+    private static final String REPO_OWNER = "Abimael-Ochoa"; // Reemplaza con tu usuario de GitHub
+    private static final String REPO_NAME = "Botanicare"; // Reemplaza con el nombre del repositorio
+    private static final String GITHUB_API_URL = "https://api.github.com/repos/" + REPO_OWNER + "/" + REPO_NAME + "/contents/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_plant);
 
-        // Inicializar Firebase Database
         db = FirebaseFirestore.getInstance();
 
         // Inicializar vistas
@@ -48,23 +63,9 @@ public class EdicionPlantaActivity extends AppCompatActivity {
         uploadImageButton = findViewById(R.id.upload_image_button);
         saveButton = findViewById(R.id.save_button);
 
-        // Evento para seleccionar imagen
-        uploadImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImageSelector();
-            }
-        });
+        uploadImageButton.setOnClickListener(v -> openImageSelector());
+        saveButton.setOnClickListener(v -> savePlantData());
 
-        // Evento para guardar datos
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                savePlantData();
-            }
-        });
-
-        // Incremento y decremento de cantidad
         findViewById(R.id.increment_button).setOnClickListener(v -> {
             quantity++;
             updateQuantityText();
@@ -101,27 +102,89 @@ public class EdicionPlantaActivity extends AppCompatActivity {
             return;
         }
 
-        String imagePath = imageUri.toString();
-        Plant plant = new Plant(name, description, quantity, imagePath);
+        try {
+            InputStream imageStream = getContentResolver().openInputStream(imageUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+            String imageBase64 = encodeImageToBase64(bitmap);
 
-        // Guarda el objeto Plant en Firestore bajo la colección "plants"
-        db.collection("plants").document()  // Deja que Firestore genere un ID
-                .set(plant)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(EdicionPlantaActivity.this, "Planta guardada con éxito", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EdicionPlantaActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(EdicionPlantaActivity.this, "Error al guardar los datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            // Subir la imagen a GitHub utilizando un hilo de fondo
+            String imageName = name + ".png";
+
+            // Ejecutar la tarea de subida en un hilo en segundo plano
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                boolean result = uploadImageToGitHub(imageBase64, imageName);
+
+                // Después de completar la operación de red, volvemos al hilo principal para actualizar la UI
+                runOnUiThread(() -> {
+                    if (result) {
+                        Plant plant = new Plant(name, description, quantity, imageName);
+
+                        db.collection("plants").document()
+                                .set(plant)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(EdicionPlantaActivity.this, "Planta guardada con éxito", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(EdicionPlantaActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(EdicionPlantaActivity.this, "Error al guardar los datos: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    } else {
+                        Toast.makeText(EdicionPlantaActivity.this, "Error al subir la imagen. Los datos no se guardaron.", Toast.LENGTH_SHORT).show();
+                    }
                 });
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
+
+    private String encodeImageToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+    }
+
+    // Método modificado para subir la imagen usando un hilo en segundo plano
+    private boolean uploadImageToGitHub(String imageBase64, String imageName) {
+        boolean uploadSuccess = false;
+
+        try {
+            URL url = new URL(GITHUB_API_URL + imageName);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Authorization", "Bearer " + GITHUB_TOKEN);
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setDoOutput(true);
+
+            String jsonPayload = "{ \"message\": \"Subir imagen de planta\", \"content\": \"" + imageBase64 + "\" }";
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonPayload.getBytes(StandardCharsets.UTF_8));
+            os.close();
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == 201) {
+                Log.d("GitHubUpload", "Imagen subida con éxito");
+                uploadSuccess = true;
+            } else {
+                Log.d("GitHubUpload", "Error al subir imagen: " + responseCode);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("GitHubUpload", "Error al subir imagen", e);
+        }
+
+        return uploadSuccess;
+    }
+
 
     private void updateQuantityText() {
         quantityText.setText(String.valueOf(quantity));
     }
 }
-
-
-
