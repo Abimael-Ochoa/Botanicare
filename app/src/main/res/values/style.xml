@@ -2,4 +2,7 @@
     <style name="CustomMenuItemFont">
         <item name="android:fontFamily">@font/my_custom_font</item>  <!-- Aplica la fuente -->
     </style>
+    <item name="colorPrimaryDark" type="color">@color/tu_color_verde</item>
+
+
 </resources>

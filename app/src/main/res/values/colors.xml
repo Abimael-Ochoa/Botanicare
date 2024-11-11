@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="nav_item_icon_color">#FFFFFF</color> <!-- Red for icons -->
     <color name="nav_item_text_color">#FFFFFF</color> <!-- White for text -->
+    <color name="tu_color_verde">#225E1D</color> <!-- Cambia el valor por el color verde deseado -->
+
 </resources>

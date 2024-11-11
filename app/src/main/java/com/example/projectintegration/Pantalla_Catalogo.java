@@ -26,7 +26,6 @@ public class Pantalla_Catalogo extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-
     ImageView logOutButton;
 
     @Override
@@ -34,6 +33,10 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
 
+        // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.tu_color_verde)); // Reemplaza 'tu_color_verde' con el color que desees
+        }
 
         // Configuración del Toolbar
         toolbar = findViewById(R.id.toolbar);
@@ -133,8 +136,6 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                     .replace(R.id.content_frame, defaultFragment)
                     .commit();
         }
-
-
     }
 
     @Override
@@ -152,7 +153,6 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         }
     }
 
-    // Clase CustomTypefaceSpan
     // Clase CustomTypefaceSpan
     public class CustomTypefaceSpan extends TypefaceSpan {
 
@@ -173,7 +173,6 @@ public class Pantalla_Catalogo extends AppCompatActivity {
             applyCustomTypeFace(paint, newType);
         }
 
-        // Eliminamos la palabra clave 'static' de aquí
         private void applyCustomTypeFace(TextPaint paint, Typeface tf) {
             int oldStyle = paint.getTypeface() != null ? paint.getTypeface().getStyle() : 0;
             int fake = oldStyle & ~tf.getStyle();
@@ -186,5 +185,4 @@ public class Pantalla_Catalogo extends AppCompatActivity {
             paint.setTypeface(tf);
         }
     }
-
 }
