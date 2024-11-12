@@ -42,7 +42,6 @@ public class EdicionPlantaActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private int quantity = 1;
-    private static final String GITHUB_TOKEN = ""; // Reemplaza con tu token
     private static final String REPO_OWNER = "Abimael-Ochoa"; // Reemplaza con tu usuario de GitHub
     private static final String REPO_NAME = "Botanicare"; // Reemplaza con el nombre del repositorio
     private static final String GITHUB_API_URL = "https://api.github.com/repos/" + REPO_OWNER + "/" + REPO_NAME + "/contents/";
@@ -158,7 +157,6 @@ public class EdicionPlantaActivity extends AppCompatActivity {
             URL url = new URL(GITHUB_API_URL + imageName);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
-            connection.setRequestProperty("Authorization", "Bearer " + GITHUB_TOKEN);
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setDoOutput(true);
 
