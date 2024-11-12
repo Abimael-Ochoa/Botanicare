@@ -42,7 +42,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private int quantity = 1;
-    private static final String GITHUB_TOKEN = "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"; // Reemplaza con tu token
+    private static final String GITHUB_TOKEN = ""; // Reemplaza con tu token
     private static final String REPO_OWNER = "Abimael-Ochoa"; // Reemplaza con tu usuario de GitHub
     private static final String REPO_NAME = "Botanicare"; // Reemplaza con el nombre del repositorio
     private static final String GITHUB_API_URL = "https://api.github.com/repos/" + REPO_OWNER + "/" + REPO_NAME + "/contents/";
