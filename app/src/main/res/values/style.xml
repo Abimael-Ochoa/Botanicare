@@ -4,5 +4,7 @@
     </style>
     <item name="colorPrimaryDark" type="color">@color/tu_color_verde</item>
 
-
+    <style name="NavDrawerItemStyle">
+        <item name="android:textSize">25dp</item> <!-- Aumenta el tamaño del texto -->
+    </style>
 </resources>

@@ -55,11 +55,15 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#225E1D"
+        app:itemIconSize="35dp"
         app:menu="@menu/drawer_menu"
         app:itemIconTint="@color/nav_item_icon_color"
+        app:itemBackground="@drawable/drawer_background_selector"
         app:itemTextColor="@color/nav_item_text_color"
-        app:headerLayout="@layout/nav_header"/>
+        app:itemTextAppearance="@style/NavDrawerItemStyle"
+        app:headerLayout="@layout/nav_header"
+        app:itemVerticalPadding="25dp"/>
 </androidx.drawerlayout.widget.DrawerLayout>

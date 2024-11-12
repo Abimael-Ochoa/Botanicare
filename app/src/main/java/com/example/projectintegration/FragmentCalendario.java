@@ -23,6 +23,7 @@ public class FragmentCalendario extends Fragment {
             backButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     // Llamar a onBackPressed para regresar a la MainActivity
                     getActivity().onBackPressed();  // Llama al método onBackPressed() de la actividad
                 }
