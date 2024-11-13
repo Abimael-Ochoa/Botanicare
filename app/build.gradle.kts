@@ -55,5 +55,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     //dependecias de lottie effect
     implementation("com.airbnb.android:lottie:3.7.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
 
 }
