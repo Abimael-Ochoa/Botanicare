@@ -3,56 +3,59 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="15dp"
     android:background="@drawable/alert_background"
     android:gravity="center">
 
-    <TextView
-        android:id="@+id/alertTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirmación de Cierre de Sesión"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:gravity="center"/>
+        <TextView
+            android:id="@+id/alertTitle"
+            android:fontFamily="@font/coustard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirmación de Cierre de Sesión"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+
 
     <TextView
         android:id="@+id/alertMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:fontFamily="@font/coustard"
         android:text="¿Estás seguro de que deseas cerrar sesión?"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:gravity="center"
         android:textSize="16sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:gravity="center">
 
         <Button
-            android:id="@+id/btnConfirmLogout"
+            android:id="@+id/btnconfirmar"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:fontFamily="@font/coustard"
             android:layout_height="wrap_content"
             android:text="Cerrar Sesión"
             android:textColor="@color/white"
-            android:backgroundTint="@color/purple_200"
+            android:backgroundTint="#35C28D"
             android:padding="10dp"
             android:layout_marginEnd="5dp" />
 
         <Button
-            android:id="@+id/btnCancelLogout"
+            android:id="@+id/btncancelar"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Cancelar"
             android:textColor="@color/white"
-            android:backgroundTint="@color/grey"
+            android:backgroundTint="#FF5152"
             android:padding="10dp"
             android:layout_marginStart="5dp" />
     </LinearLayout>
