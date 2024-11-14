@@ -102,6 +102,8 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                     // Aquí decides cuál fragmento mostrar
                     if (id == R.id.nav_calendario) {
                         fragment = new FragmentCalendario(); // Fragmento de calendario
+                    }else if (id == R.id.nav_chat) {
+                        fragment = new Fragment_Usuarios_Chat();
                     }
 
                     // Si el fragmento es válido
@@ -109,7 +111,9 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                         // Mostrar u ocultar el toolbar dependiendo del fragmento
                         if (id == R.id.nav_calendario) {
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
-                        } else {
+                        } else if (id == R.id.nav_chat){
+                            toolbar.setVisibility(View.GONE); // Oculta el Toolbar
+                        } else{
                             toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
                         }
 
