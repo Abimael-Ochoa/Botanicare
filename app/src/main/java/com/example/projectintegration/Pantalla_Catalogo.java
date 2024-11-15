@@ -149,7 +149,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
             // Si la app se inicia por primera vez, carga el fragmento por defecto
             Fragment defaultFragment = new Fragment_Content(); // Asegúrate de que el fragmento por defecto sea cargado
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, defaultFragment)
+                    .replace(R.id.content_frame,  new PlantsGridFragment())
                     .commit();
         }
     }

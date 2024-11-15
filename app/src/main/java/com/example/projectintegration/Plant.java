@@ -14,7 +14,6 @@ public class Plant {
         this.quantity = quantity;
         this.imageUrl = imageUrl;
     }
-
     // Getters y Setters
 
     public String getName() {
