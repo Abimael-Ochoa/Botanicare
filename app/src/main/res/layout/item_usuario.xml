@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@drawable/rounded_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_bc_circular"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/usuario_icon"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/usuario_icon"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Usuario"
+            android:textSize="35dp"
+            android:fontFamily="@font/my_custom_font"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_notification_count"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/circle_red"
+            android:fontFamily="@font/my_custom_font"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:visibility="visible" />
+    </LinearLayout>
+</LinearLayout>

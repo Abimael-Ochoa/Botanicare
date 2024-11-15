@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/content_frame"
+    tools:context=".Fragment_Content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mis plantas"
+                android:fontFamily="@font/coustard"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:textSize="18sp"
+                android:textColor="#333333" />
+
+            <!-- Horizontal ScrollView para Mis Plantas -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <!-- Primer Plantas Card -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/fondo_mis_plantas"
+                        android:padding="8dp"
+                        android:layout_marginRight="8dp">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/ic_plant" />
+
+                        <TextView
+                            android:textSize="20dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/my_custom_font"
+                            android:text="Planta de \ncasa" />
+                    </LinearLayout>
+
+                    <!-- Segundo Plantas Card -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/fondo_mis_plantas"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/ic_plant" />
+                        <TextView
+                            android:textSize="20dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/my_custom_font"
+                            android:text="Planta de \ncasa" />
+                    </LinearLayout>
+
+                    <!-- tercero Plantas Card -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/fondo_mis_plantas"
+                        android:layout_marginLeft="8dp"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/ic_plant" />
+                        <TextView
+                            android:textSize="20dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/my_custom_font"
+                            android:text="Planta de \ncasa" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Sección Plantas Disponibles -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Plantas disponibles"
+                android:fontFamily="@font/coustard"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:textSize="18sp"
+                android:textColor="#333333" />
+
+            <!-- GridView que se llenará dinámicamente con el adaptador -->
+            <GridView
+                android:id="@+id/plantsGridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="2"
+                android:horizontalSpacing="8dp"
+                android:paddingTop="16dp"
+                android:verticalSpacing="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:clipToPadding="false"
+                android:background="@drawable/background_plantas_disponibles" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
