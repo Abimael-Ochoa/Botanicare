@@ -9,6 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         android:fillViewport="true">
 
         <LinearLayout
@@ -97,8 +98,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:numColumns="2"
-                android:padding="16dp"
-                android:background="@drawable/background_plantas_disponibles"/>
+                android:horizontalSpacing="8dp"
+                android:paddingTop="16dp"
+            android:verticalSpacing="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clipToPadding="false"
+            android:background="@drawable/background_plantas_disponibles" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
