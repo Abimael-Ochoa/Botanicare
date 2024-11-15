@@ -2,24 +2,19 @@ package com.example.projectintegration;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_Content#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
 public class Fragment_Content extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -27,15 +22,6 @@ public class Fragment_Content extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_Content.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Fragment_Content newInstance(String param1, String param2) {
         Fragment_Content fragment = new Fragment_Content();
         Bundle args = new Bundle();
@@ -55,9 +41,30 @@ public class Fragment_Content extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__content, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment__content, container, false);
+
+        // Encuentra el GridView
+        GridView plantsGridView = view.findViewById(R.id.plantsGridView);
+
+        // Configura el número de columnas
+        plantsGridView.setNumColumns(2);  // Ajuste de columnas para el diseño en cuadrícula
+
+        // Asume que tienes un adaptador y una lista de datos ya definidos
+        // Reemplaza YourExistingAdapter y yourDataList con tu adaptador y lista de datos reales
+        List<Plant> yourDataList = getDataFromDatabase();  // Método que obtendría datos de la base de datos
+        PlantAdapter adapter = new PlantAdapter(getContext(), yourDataList);
+        plantsGridView.setAdapter(adapter);
+
+        // Ajuste para que el GridView se expanda completamente dentro del ScrollView
+        plantsGridView.setOnTouchListener((v, event) -> event.getAction() == MotionEvent.ACTION_MOVE);
+
+        return view;
+    }
+
+    // Método ficticio para obtener datos desde la base de datos, reemplázalo con tu implementación real
+    private List<Plant> getDataFromDatabase() {
+        // Implementa la lógica para obtener la lista de plantas desde tu base de datos
+        return null; // Esto debería ser tu lista de datos real
     }
 }

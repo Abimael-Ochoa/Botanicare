@@ -1,6 +1,5 @@
 package com.example.projectintegration;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +43,14 @@ public class PlantAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.plants_item, parent, false);
         }
 
+        // Define el tamaño deseado en píxeles (ajusta según tus necesidades)
+        int itemWidth = 450;  // Ancho del elemento
+        int itemHeight = 400; // Alto del elemento
+
+        // Ajusta el tamaño de la vista del elemento
+        convertView.getLayoutParams().width = itemWidth;
+        convertView.getLayoutParams().height = itemHeight;
+
         // Obtén la planta actual
         Plant plant = plantList.get(position);
 
@@ -52,24 +59,23 @@ public class PlantAdapter extends BaseAdapter {
         TextView quantityTextView = convertView.findViewById(R.id.plantQuantityTextView);
         ImageView imageView = convertView.findViewById(R.id.plantImageView);
 
-
         // Llenar los elementos con datos
         nameTextView.setText(plant.getName());
         quantityTextView.setText("Cantidad: " + plant.getQuantity());
 
         String imageUrl = plant.getImageUrl();
-        if (imageUrl == null || imageUrl.isEmpty() || imageUrl.equals("")) {
+        if (imageUrl == null || imageUrl.isEmpty()) {
             // Si la URL es null o vacía, usa una imagen predeterminada
-            imageView.setImageResource(R.drawable.ic_plant);  // Asegúrate de tener un drawable con ese nombre
+            imageView.setImageResource(R.drawable.ic_plant);
         } else {
             // Si la URL es válida, carga la imagen con Glide
             Glide.with(context)
                     .load(imageUrl)
-                    .placeholder(R.drawable.ic_plant)  // Imagen predeterminada mientras se carga
-                    .error(R.drawable.ic_plant)  // Imagen que se muestra si hay un error al cargar la imagen
+                    .placeholder(R.drawable.ic_plant)
+                    .error(R.drawable.ic_plant)
                     .into(imageView);
         }
+
         return convertView;
     }
 }
-
