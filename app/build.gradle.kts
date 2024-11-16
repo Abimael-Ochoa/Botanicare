@@ -37,6 +37,7 @@ android {
 
 dependencies {
 
+    implementation (libs.play.services.auth)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

@@ -31,7 +31,7 @@ public class SplashScreen extends AppCompatActivity {
                 try {
                     // Utiliza synchronized para esperar durante 10 segundos
                     synchronized (this) {
-                        wait(5000); // Espera 10,000 milisegundos (10 segundos)
+                        wait(2000); // Espera 10,000 milisegundos (10 segundos)
                     }
                 } catch (InterruptedException e) {
                     // Maneja la excepción en caso de que el hilo sea interrumpido
