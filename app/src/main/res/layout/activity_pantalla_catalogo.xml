@@ -30,7 +30,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="30sp"
                 android:textStyle="bold" />
-
             <ImageView
                 android:id="@+id/searchButton"
                 android:src="@drawable/ic_search"
@@ -39,6 +38,16 @@
                 android:layout_gravity="end"
                 android:layout_marginRight="12dp"
                 android:contentDescription="Search" />
+
+            <ImageView
+                android:id="@+id/addButton"
+                android:src="@drawable/ic_add"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="12dp"
+                android:contentDescription="AddPlant" />
+
 
         </androidx.appcompat.widget.Toolbar>
 
