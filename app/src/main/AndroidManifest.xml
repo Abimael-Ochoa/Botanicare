@@ -1,17 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.projectintegration">
 
-    <!-- Permisos para acceder al almacenamiento -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
+    <!-- Permiso para acceder al almacenamiento externo -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
 
+
+    <!-- Para Android 12 y versiones posteriores -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" android:requestLegacyExternalStorage="true"/>
 
     <application
         android:allowBackup="true"
@@ -22,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectIntegration"
-        tools:targetApi="31" >
+        tools:targetApi="31" > <!-- Esto es para asegurar que estás apuntando a la API 31 -->
 
         <activity
             android:name=".Pantalla_Catalogo"
@@ -50,5 +47,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
