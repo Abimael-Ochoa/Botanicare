@@ -15,15 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.OutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import org.json.JSONObject;
 
 public class EdicionPlantaActivity extends AppCompatActivity {
     private static final int IMAGE_REQUEST_CODE = 1;
@@ -37,6 +41,9 @@ public class EdicionPlantaActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private int quantity = 1;
+
+    private static final String IMGBB_API_URL = "https://api.imgbb.com/1/upload";
+    private static final String IMGBB_API_KEY = "4dd1efa1fd6fb30f68398021c8847e9c"; // Asegúrate de que esta clave es válida y segura.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,21 +99,79 @@ public class EdicionPlantaActivity extends AppCompatActivity {
             return;
         }
 
-        // Guardar los datos de la planta en Firebase
-        Plant plant = new Plant(name, description, quantity, "image_placeholder"); // Cambia image_placeholder con la URL de Firebase si decides usar Firebase Storage para la imagen.
+        // Subir imagen a Imgbb y luego guardar los datos
+        uploadImageToImgbb(imageUri, url -> {
+            // Guardar los datos de la planta en Firebase
+            Plant plant = new Plant(name, description, quantity, url);
 
-        db.collection("plants").document()
-                .set(plant)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(EdicionPlantaActivity.this, "Planta guardada con éxito", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EdicionPlantaActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                })
-                .addOnFailureListener(e -> Toast.makeText(EdicionPlantaActivity.this, "Error al guardar los datos: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            db.collection("plants").document()
+                    .set(plant)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(EdicionPlantaActivity.this, "Planta guardada con éxito", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(EdicionPlantaActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(EdicionPlantaActivity.this, "Error al guardar los datos: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        });
+    }
+
+    private void uploadImageToImgbb(Uri imageUri, ImageUploadCallback callback) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            try {
+                // Leer la imagen y convertirla a Base64
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+
+                // Construir el cuerpo de la solicitud
+                String data = "key=" + IMGBB_API_KEY + "&image=" + encodedImage;
+
+                // Conexión HTTP
+                URL url = new URL(IMGBB_API_URL);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                connection.setDoOutput(true);
+
+                // Enviar datos
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(data.getBytes());
+                outputStream.flush();
+                outputStream.close();
+
+                // Leer respuesta
+                InputStream responseStream = connection.getInputStream();
+                ByteArrayOutputStream responseBuffer = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = responseStream.read(buffer)) != -1) {
+                    responseBuffer.write(buffer, 0, length);
+                }
+                responseStream.close();
+
+                // Parsear la respuesta JSON
+                String response = responseBuffer.toString();
+                JSONObject jsonResponse = new JSONObject(response);
+                String imageUrl = jsonResponse.getJSONObject("data").getString("url");
+
+                // Llamar al callback con la URL de la imagen
+                runOnUiThread(() -> callback.onUploadSuccess(imageUrl));
+            } catch (Exception e) {
+                Log.e("ImgbbUpload", "Error al subir la imagen", e);
+                runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show());
+            }
+        });
     }
 
     private void updateQuantityText() {
         quantityText.setText(String.valueOf(quantity));
+    }
+
+    interface ImageUploadCallback {
+        void onUploadSuccess(String imageUrl);
     }
 }
