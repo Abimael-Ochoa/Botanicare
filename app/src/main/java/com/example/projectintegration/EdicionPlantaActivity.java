@@ -19,15 +19,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.io.OutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.json.JSONObject;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class EdicionPlantaActivity extends AppCompatActivity {
     private static final int IMAGE_REQUEST_CODE = 1;
@@ -43,7 +46,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
     private int quantity = 1;
 
     private static final String IMGBB_API_URL = "https://api.imgbb.com/1/upload";
-    private static final String IMGBB_API_KEY = "4dd1efa1fd6fb30f68398021c8847e9c"; // Asegúrate de que esta clave es válida y segura.
+    private static final String IMGBB_API_KEY = "2a3854d4c56935ed6fa743b1abee822c"; // Asegúrate de que esta clave es válida y segura.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,39 +130,38 @@ public class EdicionPlantaActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
 
+                // Crear el cliente OkHttp
+                OkHttpClient client = new OkHttpClient();
+
                 // Construir el cuerpo de la solicitud
-                String data = "key=" + IMGBB_API_KEY + "&image=" + encodedImage;
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("key", IMGBB_API_KEY)
+                        .add("image", encodedImage)
+                        .build();
 
-                // Conexión HTTP
-                URL url = new URL(IMGBB_API_URL);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                connection.setDoOutput(true);
+                // Crear la solicitud
+                Request request = new Request.Builder()
+                        .url(IMGBB_API_URL)
+                        .post(requestBody)
+                        .build();
 
-                // Enviar datos
-                OutputStream outputStream = connection.getOutputStream();
-                outputStream.write(data.getBytes());
-                outputStream.flush();
-                outputStream.close();
+                // Enviar la solicitud
+                Response response = client.newCall(request).execute();
 
-                // Leer respuesta
-                InputStream responseStream = connection.getInputStream();
-                ByteArrayOutputStream responseBuffer = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = responseStream.read(buffer)) != -1) {
-                    responseBuffer.write(buffer, 0, length);
+                if (response.isSuccessful() && response.body() != null) {
+                    // Parsear la respuesta JSON
+                    String responseBody = response.body().string();
+                    JSONObject jsonResponse = new JSONObject(responseBody);
+                    String imageUrl = jsonResponse.getJSONObject("data").getString("url");
+
+                    // Llamar al callback con la URL de la imagen
+                    runOnUiThread(() -> callback.onUploadSuccess(imageUrl));
+                } else {
+                    // Manejo de errores
+                    String errorMessage = response.body() != null ? response.body().string() : "Error desconocido";
+                    Log.e("ImgbbUpload", "Error en la respuesta: " + errorMessage);
+                    runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show());
                 }
-                responseStream.close();
-
-                // Parsear la respuesta JSON
-                String response = responseBuffer.toString();
-                JSONObject jsonResponse = new JSONObject(response);
-                String imageUrl = jsonResponse.getJSONObject("data").getString("url");
-
-                // Llamar al callback con la URL de la imagen
-                runOnUiThread(() -> callback.onUploadSuccess(imageUrl));
             } catch (Exception e) {
                 Log.e("ImgbbUpload", "Error al subir la imagen", e);
                 runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show());
