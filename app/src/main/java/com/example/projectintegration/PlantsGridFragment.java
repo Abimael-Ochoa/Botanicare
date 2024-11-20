@@ -23,7 +23,7 @@ public class PlantsGridFragment extends Fragment {
 
     @Override
     public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment__content, container, false);
+        View view = inflater.inflate(R.layout.fragment__catalogo_plantas, container, false);
 
         // Inicializa el GridView y la lista de plantas
         plantsGridView = view.findViewById(R.id.plantsGridView);

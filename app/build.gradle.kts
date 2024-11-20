@@ -58,9 +58,14 @@ dependencies {
     implementation("com.airbnb.android:lottie:3.7.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     //Dependencias de supabase
+    // Para Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+
+    // Para manejar peticiones de red
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    // Picasso para cargar imágenes desde una URL
+    implementation("com.squareup.picasso:picasso:2.71828")
 
 
 }

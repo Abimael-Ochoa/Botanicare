@@ -44,7 +44,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 // Inicializa el ImageView como botón de logout
-        logOutButton = findViewById(R.id.searchButton); // Asegúrate de que el ID coincide con el de tu XML
+        logOutButton = findViewById(R.id.addButton); // Asegúrate de que el ID coincide con el de tu XML
 
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
