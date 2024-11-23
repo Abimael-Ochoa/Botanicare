@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment_Plantas_Adquiridas_admin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Encabezado con el título de la aplicación y botón de retroceso -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#225E1D"
+            android:padding="8dp">
+
+            <!-- Botón de retroceso -->
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_regreso"
+                android:layout_alignParentStart="true"
+                />
+
+            <!-- Título de la aplicación -->
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/my_custom_font"
+                android:text="Botanicare"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- Campo de búsqueda -->
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/buscar_usuario">
+
+            <EditText
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:id="@+id/search_field"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:hint="Buscar usuario"
+                android:fontFamily="@font/my_custom_font"
+                android:background="@null" />
+
+            <ImageView
+                android:id="@+id/boton_enviar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:rotation="40"
+                android:src="@drawable/ic_boton_enviar"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null" />
+
+
+        </LinearLayout>
+        <!-- RecyclerView para la lista de usuarios -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="15dp"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_plantas_disponibles"
+            android:padding="8dp" />
+
+
+    </LinearLayout>
+
+</FrameLayout>
