@@ -66,6 +66,8 @@ public class EdicionPlantaActivity extends AppCompatActivity {
         uploadImageButton.setOnClickListener(v -> openImageSelector());
         saveButton.setOnClickListener(v -> savePlantData());
 
+        updateQuantityText();
+
         findViewById(R.id.increment_button).setOnClickListener(v -> {
             quantity++;
             updateQuantityText();
