@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".FragmentCalendario">
 
     <!-- Encabezado con botón de regreso y título -->
@@ -30,7 +31,31 @@
             android:text="Botanicare"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
+
     </LinearLayout>
+    <!-- Título del Calendario -->
+    <TextView
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="7dp"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calendario"
+        android:fontFamily="@font/my_custom_font"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <android.widget.CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <!-- Botón para seleccionar la hora -->
+
+    </RelativeLayout>
 </FrameLayout>

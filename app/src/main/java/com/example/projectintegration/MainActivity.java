@@ -1,7 +1,10 @@
 package com.example.projectintegration;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -24,10 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.projectintegration.R;
 
-
 public class MainActivity extends AppCompatActivity {
-
-
 
     private FirebaseAuth mAuth;  // Instancia de FirebaseAuth
 
@@ -69,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
     // Método para iniciar sesión
     private void loginUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
@@ -103,6 +100,4 @@ public class MainActivity extends AppCompatActivity {
             finish(); // Cierra la actividad de login
         }
     }
-
-
 }
