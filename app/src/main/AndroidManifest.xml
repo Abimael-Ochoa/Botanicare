@@ -32,7 +32,11 @@
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />2
+            android:exported="false" />
+
+        <activity
+            android:name=".CustomAlert"
+            android:exported="false" />
         <activity
             android:name=".SplashScreen"
             android:exported="true" >
