@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
     private TextView quantityText;
     private Button uploadImageButton, saveButton;
     private Uri imageUri;
+    TextView errorMessage;
 
     private FirebaseFirestore db;
 
@@ -62,6 +64,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
         quantityText = findViewById(R.id.quantity_text);
         uploadImageButton = findViewById(R.id.upload_image_button);
         saveButton = findViewById(R.id.save_button);
+        errorMessage = findViewById(R.id.errorMessage);
 
         uploadImageButton.setOnClickListener(v -> openImageSelector());
         saveButton.setOnClickListener(v -> savePlantData());
@@ -100,7 +103,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
         String description = plantDescription.getText().toString().trim();
 
         if (name.isEmpty() || description.isEmpty() || imageUri == null) {
-            Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+            ErrorHandler.showErrorMessage(errorMessage, "Completa todos los campos");
             return;
         }
 
@@ -117,7 +120,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     })
-                    .addOnFailureListener(e -> Toast.makeText(EdicionPlantaActivity.this, "Error al guardar los datos: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    .addOnFailureListener(e ->  ErrorHandler.showErrorMessage(errorMessage, "Error al guardar planta"));
         });
     }
 
@@ -160,13 +163,13 @@ public class EdicionPlantaActivity extends AppCompatActivity {
                     runOnUiThread(() -> callback.onUploadSuccess(imageUrl));
                 } else {
                     // Manejo de errores
-                    String errorMessage = response.body() != null ? response.body().string() : "Error desconocido";
+                    String errorMess = response.body() != null ? response.body().string() : "Error desconocido";
                     Log.e("ImgbbUpload", "Error en la respuesta: " + errorMessage);
-                    runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() ->  ErrorHandler.showErrorMessage(errorMessage, "Error al subir imagen"));
                 }
             } catch (Exception e) {
                 Log.e("ImgbbUpload", "Error al subir la imagen", e);
-                runOnUiThread(() -> Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> ErrorHandler.showErrorMessage(errorMessage, "Error al subir imagen"));
             }
         });
     }

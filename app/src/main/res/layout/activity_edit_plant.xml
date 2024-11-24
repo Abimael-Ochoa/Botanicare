@@ -38,16 +38,6 @@
             android:focusable="true"/>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Edición"
-            android:paddingStart="16dp"
-            android:paddingTop="16dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/coustard"
-            android:textSize="18sp"
-            android:textColor="#333333" />
     <!-- Imagen de la planta -->
 
 
@@ -179,6 +169,19 @@
             android:background="@drawable/background_cantidad"
             android:padding="10dp"
             android:minHeight="100dp" />
+
+        <!-- Texto para mostrar mensajes de error -->
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/my_custom_font"
+            android:textColor="#FF0000"
+            android:textSize="18sp"
+            android:visibility="gone"
+            android:text="Mensaje de error prueba"
+            android:gravity="center"
+            android:layout_marginTop="16dp"/>
 
         <!-- Botón para guardar -->
         <Button

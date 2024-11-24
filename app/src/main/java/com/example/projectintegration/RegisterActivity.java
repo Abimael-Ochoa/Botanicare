@@ -2,13 +2,16 @@ package com.example.projectintegration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,23 +20,24 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private TextView errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
         // Inicializa Firebase Auth y Firestore
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Obtiene las referencias a los EditText
+        // Obtiene las referencias a los EditText y TextView de error
         EditText nameField = findViewById(R.id.nameField);
         EditText phoneField = findViewById(R.id.phoneField);
         EditText addressField = findViewById(R.id.addressField);
         EditText usernameField = findViewById(R.id.usernameField);
         EditText passwordField = findViewById(R.id.passwordField);
+        errorMessage = findViewById(R.id.errorMessage);
 
         // Botón de registrarse
         Button registerButton = findViewById(R.id.registerButton);
@@ -46,13 +50,106 @@ public class RegisterActivity extends AppCompatActivity {
             String email = usernameField.getText().toString().trim();
             String password = passwordField.getText().toString().trim();
 
-            // Verifica si algún campo está vacío
+            // Validación de campos
             if (name.isEmpty() || phone.isEmpty() || address.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(RegisterActivity.this, "Por favor, llena todos los campos.", Toast.LENGTH_SHORT).show();
+                ErrorHandler.showErrorMessage(errorMessage, "Por favor, llena todos los campos.");
+                if (name.isEmpty()) {
+                    ErrorHandler.setFieldErrorStyle(nameField, RegisterActivity.this);
+                }
+                if (phone.isEmpty()) {
+                    ErrorHandler.setFieldErrorStyle(phoneField, RegisterActivity.this);
+                }
+                if (address.isEmpty()) {
+                    ErrorHandler.setFieldErrorStyle(addressField, RegisterActivity.this);
+                }
+                if (email.isEmpty()) {
+                    ErrorHandler.setFieldErrorStyle(usernameField, RegisterActivity.this);
+                }
+                if (password.isEmpty()) {
+                    ErrorHandler.setFieldErrorStyle(passwordField, RegisterActivity.this);
+                }
             } else {
                 // Llama a la función para registrar al usuario
                 registerUser(email, password, name, phone, address);
+                // Resetea los estilos si no hay errores
+                ErrorHandler.resetFieldStyles(RegisterActivity.this, nameField, phoneField, addressField, usernameField, passwordField);
+                ErrorHandler.hideErrorMessage(errorMessage);
             }
+        });
+
+        nameField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Limpia el estilo de error cuando el usuario comienza a escribir
+                ErrorHandler.resetFieldStyles(RegisterActivity.this,nameField);
+                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        phoneField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Limpia el estilo de error cuando el usuario comienza a escribir
+                ErrorHandler.resetFieldStyles(RegisterActivity.this,phoneField);
+                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        addressField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Limpia el estilo de error cuando el usuario comienza a escribir
+                ErrorHandler.resetFieldStyles(RegisterActivity.this,addressField);
+                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        usernameField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Limpia el estilo de error cuando el usuario comienza a escribir
+                ErrorHandler.resetFieldStyles(RegisterActivity.this,usernameField);
+                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        passwordField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Limpia el estilo de error cuando el usuario comienza a escribir
+                ErrorHandler.resetFieldStyles(RegisterActivity.this,passwordField);
+                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
 
         // Configura el OnClickListener para el texto de inicio de sesión
@@ -84,12 +181,11 @@ public class RegisterActivity extends AppCompatActivity {
                                         finish(); // Finaliza la actividad actual
                                     })
                                     .addOnFailureListener(e -> {
-                                        Toast.makeText(RegisterActivity.this, "Error al guardar los datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        ErrorHandler.showErrorMessage(errorMessage, "Error al guardar datos");
                                     });
                         }
                     } else {
-                        // Muestra el mensaje de error
-                        Toast.makeText(RegisterActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        ErrorHandler.showErrorMessage(errorMessage, "El email o la contrasena son incorrectos");
                     }
                 });
     }
