@@ -1,4 +1,6 @@
 package com.example.projectintegration;
 
-public class CustomAlert {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class CustomAlert extends AppCompatActivity {
 }

@@ -6,12 +6,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -19,20 +22,27 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.TypefaceSpan;
+import android.widget.Toast;
 
 public class Pantalla_Catalogo extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     ImageView logOutButton;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
+
+        // Inicializa FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
 
         // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -113,9 +123,52 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
                         } else if (id == R.id.nav_chat){
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
-                        } else{
-                            toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
                         }
+                        } else if (item.getItemId() == R.id.nav_logout) {
+                        // Mostrar el dialogo de confirmación antes de cerrar sesión
+                        // Inflar el layout personalizado
+                        LayoutInflater inflater = getLayoutInflater();
+                        View dialogView = inflater.inflate(R.layout.custom_alert, null);
+
+                        // Crear el AlertDialog
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Pantalla_Catalogo.this);
+                        builder.setView(dialogView);
+
+                        // Obtener los botones y otros elementos del layout
+                        Button btnConfirmar = dialogView.findViewById(R.id.btnconfirmar);
+                        Button btnCancelar = dialogView.findViewById(R.id.btncancelar);
+
+                        // Crear el dialogo
+                        AlertDialog alertDialog = builder.create();
+
+                        // Configurar el botón "Cerrar Sesión"
+                        btnConfirmar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Cerrar sesión en Firebase
+                                mAuth.signOut();
+
+                                // Redirigir a la actividad de login
+                                Intent intent = new Intent(Pantalla_Catalogo.this, MainActivity.class);
+                                startActivity(intent);
+                                finish(); // Finalizar la actividad actual
+                                alertDialog.dismiss(); // Cerrar el dialogo
+                            }
+                        });
+
+                        // Configurar el botón "Cancelar"
+                        btnCancelar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss(); // Solo cerrar el dialogo, no hacer nada más
+                            }
+                        });
+
+                        // Mostrar el dialogo
+                        alertDialog.show();
+                    }
+                    else{
+                        toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
 
                         // Reemplazar el contenido del frame con el fragmento seleccionado
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
