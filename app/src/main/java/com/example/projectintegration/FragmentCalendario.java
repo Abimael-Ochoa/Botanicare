@@ -17,10 +17,17 @@ public class FragmentCalendario extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendario, container, false);
 
-        // Botón de regreso
+        // Obtén el ImageView y verifica que no sea nulo
         ImageView backButton = view.findViewById(R.id.regreso_button);
         if (backButton != null) {
-            backButton.setOnClickListener(v -> getActivity().onBackPressed());
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // Llamar a onBackPressed para regresar a la MainActivity
+                    getActivity().onBackPressed();  // Llama al método onBackPressed() de la actividad
+                }
+            });
         }
 
         return view;

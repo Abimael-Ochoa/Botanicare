@@ -124,11 +124,12 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                         } else if (id == R.id.nav_chat){
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
                         }
-                        } else if (item.getItemId() == R.id.nav_logout) {
+                        } else if (id == R.id.nav_logout) {
                         // Mostrar el dialogo de confirmación antes de cerrar sesión
                         // Inflar el layout personalizado
                         LayoutInflater inflater = getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.custom_alert, null);
+
 
                         // Crear el AlertDialog
                         AlertDialog.Builder builder = new AlertDialog.Builder(Pantalla_Catalogo.this);
@@ -167,15 +168,16 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                         // Mostrar el dialogo
                         alertDialog.show();
                     }
-                    else{
+                    else {
                         toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
+                    }
 
                         // Reemplazar el contenido del frame con el fragmento seleccionado
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.content_frame, fragment); // Reemplaza solo el contenido en content_frame
                         transaction.addToBackStack(null);  // Agregar la transacción al back stack para poder regresar
                         transaction.commit();
-                    }
+
 
                     // Cerrar el drawer después de seleccionar
                     if (drawerLayout != null) {
