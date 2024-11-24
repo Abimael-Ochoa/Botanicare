@@ -2,13 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.projectintegration">
 
-    <!-- Permisos necesarios -->
+    <!-- Permiso para acceder al almacenamiento externo -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+
+    <!-- Para Android 12 y versiones posteriores -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" android:requestLegacyExternalStorage="true"/>
+
     <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
+
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,14 +30,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectIntegration"
-        tools:targetApi="31">
+        tools:targetApi="31" >
 
-        <!-- Registro del receptor de notificaciones -->
-        <receiver
-            android:name=".EventNotificationReceiver"
-            android:exported="true" />
+        <receiver android:name=".NotificationReceiver" /><!-- Esto es para asegurar que estás apuntando a la API 31 -->
 
-        <!-- Declaración de actividades -->
         <activity
             android:name=".Pantalla_Catalogo"
             android:exported="false" />
@@ -34,13 +43,9 @@
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
-
-        <activity
-            android:name=".CustomAlert"
-            android:exported="false" />
         <activity
             android:name=".SplashScreen"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -48,6 +53,12 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>

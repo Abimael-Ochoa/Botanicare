@@ -47,15 +47,33 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+       android:layout_marginTop="150dp">
 
-        <android.widget.CalendarView
+        <CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:dateTextAppearance="@android:style/TextAppearance.Medium"
+            android:showWeekNumber="false"
+            android:firstDayOfWeek="1" />
 
-        <!-- Botón para seleccionar la hora -->
+        <Button
+            android:id="@+id/addReminderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendarView"
+            android:layout_centerHorizontal="true"
+            android:text="Agregar Recordatorio" />
+
 
     </RelativeLayout>
+    <Button
+        android:id="@+id/btn_notificacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Probar Notificación"
+        android:layout_marginTop="150dp"
+        android:layout_gravity="center" />
+
 </FrameLayout>
