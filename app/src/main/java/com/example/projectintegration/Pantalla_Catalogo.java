@@ -53,7 +53,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-// Inicializa el ImageView como botón de logout
+        // Inicializa el ImageView como botón de logout
         logOutButton = findViewById(R.id.addButton); // Asegúrate de que el ID coincide con el de tu XML
 
         logOutButton.setOnClickListener(new View.OnClickListener() {
@@ -124,14 +124,14 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                         } else if (id == R.id.nav_chat){
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
                         }
-                        } else if (item.getItemId() == R.id.nav_logout) {
+                    } else if (item.getItemId() == R.id.nav_logout) {
                         // Mostrar el dialogo de confirmación antes de cerrar sesión
                         // Inflar el layout personalizado
                         LayoutInflater inflater = getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.custom_alert, null);
 
-                        // Crear el AlertDialog
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Pantalla_Catalogo.this);
+                        // Crear el AlertDialog con el tema personalizado
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Pantalla_Catalogo.this, R.style.TransparentDialogTheme);
                         builder.setView(dialogView);
 
                         // Obtener los botones y otros elementos del layout
