@@ -17,8 +17,8 @@ import java.util.List;
 
 public class PlantsGridFragment extends Fragment {
     private GridView plantsGridView;
-    private PlantAdapter plantAdapter;
-    private List<Plant> plantList;
+    private static PlantAdapter plantAdapter;
+    private static List<Plant> plantList;
     private FirebaseFirestore db;
 
     @Override
@@ -39,6 +39,25 @@ public class PlantsGridFragment extends Fragment {
 
         return view;
     }
+    public void filterPlants(String query) {
+        String searchQuery = query;
+        db.collection("plants")
+                .whereGreaterThanOrEqualTo("name", searchQuery)
+                .whereLessThanOrEqualTo("name", searchQuery + "\uf8ff")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    plantList.clear();
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        Plant plant = document.toObject(Plant.class);
+                        plantList.add(plant);
+                    }
+                    plantAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), "Error al buscar plantas", Toast.LENGTH_SHORT).show();
+                });
+    }
+
 
     // Cargar plantas desde Firebase
     private void loadPlantsFromFirebase() {
