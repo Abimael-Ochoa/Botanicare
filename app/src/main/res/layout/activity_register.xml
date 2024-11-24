@@ -8,9 +8,6 @@
     tools:context=".RegisterActivity">
 
     <!-- Imagen de la planta -->
-
-    <!-- Título de la aplicación "Botanicare" -->
-
     <ImageView
         android:id="@+id/imagePlant"
         android:layout_width="250dp"
@@ -31,7 +28,7 @@
         android:layout_height="wrap_content"
         android:text="Botanicare"
         android:textColor="#353835"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:fontFamily="@font/my_custom_font"
         app:layout_constraintTop_toBottomOf="@id/imagePlant"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +44,7 @@
         android:background="@drawable/fondo_registro"
         android:textColor="#7B8A7B"
         android:fontFamily="@font/my_custom_font"
-        android:textSize="23dp"
+        android:textSize="23sp"
         android:padding="12dp"
         app:layout_constraintTop_toBottomOf="@id/appTitle"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +62,7 @@
         android:background="@drawable/fondo_registro"
         android:textColor="#7B8A7B"
         android:fontFamily="@font/my_custom_font"
-        android:textSize="23dp"
+        android:textSize="23sp"
         android:padding="12dp"
         android:inputType="phone"
         app:layout_constraintTop_toBottomOf="@id/nameField"
@@ -84,7 +81,7 @@
         android:background="@drawable/fondo_registro"
         android:textColor="#7B8A7B"
         android:fontFamily="@font/my_custom_font"
-        android:textSize="23dp"
+        android:textSize="23sp"
         android:padding="12dp"
         app:layout_constraintTop_toBottomOf="@id/phoneField"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +99,7 @@
         android:background="@drawable/fondo_registro"
         android:textColor="#7B8A7B"
         android:fontFamily="@font/my_custom_font"
-        android:textSize="23dp"
+        android:textSize="23sp"
         android:padding="12dp"
         app:layout_constraintTop_toBottomOf="@id/addressField"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +117,7 @@
         android:background="@drawable/fondo_registro"
         android:textColor="#7B8A7B"
         android:fontFamily="@font/my_custom_font"
-        android:textSize="23dp"
+        android:textSize="23sp"
         android:padding="12dp"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/usernameField"
@@ -130,8 +127,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 
-
-
     <!-- Botón de Registrarme -->
     <Button
         android:id="@+id/registerButton"
@@ -139,7 +134,7 @@
         android:layout_height="wrap_content"
         android:text="Registrarme"
         android:backgroundTint="#4CBA43"
-        android:textSize="27dp"
+        android:textSize="27sp"
         android:textColor="#FFFFFF"
         android:fontFamily="@font/my_custom_font"
         app:layout_constraintTop_toBottomOf="@id/passwordField"
@@ -150,18 +145,20 @@
     <!-- Texto para mostrar mensajes de error -->
     <TextView
         android:id="@+id/errorMessage"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/my_custom_font"
         android:textColor="#FF0000"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:visibility="gone"
-        android:text="Mensaje de error prueba"
+        android:text="Mensaje de error"
         android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintTop_toBottomOf="@id/registerButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Texto de inicio de sesión -->
     <TextView
@@ -177,7 +174,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/registerButton" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
