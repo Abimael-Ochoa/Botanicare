@@ -7,4 +7,7 @@
     <color name="nav_item_text_color">#FFFFFF</color> <!-- White for text -->
     <color name="tu_color_verde">#225E1D</color> <!-- Cambia el valor por el color verde deseado -->
 
+    <color name="normalHintColor">#808080</color> <!-- Gris -->
+    <color name="errorHintColor">#FF0000</color> <!-- Rojo -->
+
 </resources>

@@ -7,4 +7,9 @@
     <style name="NavDrawerItemStyle">
         <item name="android:textSize">25dp</item> <!-- Aumenta el tamaño del texto -->
     </style>
+    <style name="TransparentDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 </resources>

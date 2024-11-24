@@ -1,7 +1,10 @@
 package com.example.projectintegration;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -19,17 +21,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.projectintegration.R;
+import android.text.TextWatcher;
+import android.text.Editable;
 
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     private FirebaseAuth mAuth;  // Instancia de FirebaseAuth
+    TextView errorMessage;
+    EditText emailField;
+    EditText passwordField;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,9 +48,12 @@ public class MainActivity extends AppCompatActivity {
         // Inicializar FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
+        // Referencia al TextView para mostrar los mensajes de error
+         errorMessage = findViewById(R.id.errorMessage);
+
         // Referencias a los campos de entrada de texto (correo y contraseña)
-        EditText emailField = findViewById(R.id.usernameField);
-        EditText passwordField = findViewById(R.id.passwordField);
+         emailField = findViewById(R.id.usernameField);
+         passwordField = findViewById(R.id.passwordField);
 
         // Referencia al botón de login
         Button enterButton = findViewById(R.id.enterButton);
@@ -52,14 +61,58 @@ public class MainActivity extends AppCompatActivity {
             String email = emailField.getText().toString().trim();
             String password = passwordField.getText().toString().trim();
 
+            // Restablece el estado inicial de los campos
+            ErrorHandler.resetFieldStyles(MainActivity.this,passwordField,emailField);
+
             // Verifica que los campos no estén vacíos
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(MainActivity.this, "Por favor, ingresa correo y contraseña.", Toast.LENGTH_SHORT).show();
+                errorMessage.setText("Por favor, ingresa correo y contraseña.");
+                errorMessage.setVisibility(View.VISIBLE);
+
+                if (email.isEmpty()) {
+                    ErrorHandler.setFieldErrorStyle(emailField,this);
+
+                }
+                if (password.isEmpty()) {
+                    ErrorHandler.setFieldErrorStyle(passwordField,this);
+                }
             } else {
+                errorMessage.setVisibility(View.GONE);
                 // Llama al método de login
                 loginUser(email, password);
             }
         });
+
+        emailField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Limpia el estilo de error cuando el usuario comienza a escribir
+                ErrorHandler.resetFieldStyles(MainActivity.this,emailField);
+                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        passwordField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Limpia el estilo de error cuando el usuario comienza a escribir
+                ErrorHandler.resetFieldStyles(MainActivity.this,passwordField);
+                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
 
         // Configura el OnClickListener para el texto de registro (si el usuario no tiene cuenta)
         TextView registerText = findViewById(R.id.registerText);
@@ -67,9 +120,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
+
+        TextView forgotPassword = findViewById(R.id.forgotPasswordText);
+        forgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
     }
-
-
 
     // Método para iniciar sesión
     private void loginUser(String email, String password) {
@@ -85,8 +142,12 @@ public class MainActivity extends AppCompatActivity {
                             finish(); // Cierra la actividad de login
                         }
                     } else {
-                        // Si falla la autenticación, muestra un mensaje de error
-                        Toast.makeText(MainActivity.this, "Error de autenticación: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            ErrorHandler.setFieldErrorStyle(emailField,this);
+                            ErrorHandler.setFieldErrorStyle(passwordField,this);
+                        // Muestra el error en el TextView
+                        String error = "Tu email o contrasena son incorrectos";
+                        errorMessage.setText(error);
+                        errorMessage.setVisibility(View.VISIBLE);
                     }
                 });
     }
@@ -103,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
             finish(); // Cierra la actividad de login
         }
     }
+
+
 
 
 }

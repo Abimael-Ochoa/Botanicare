@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".FragmentCalendario">
 
     <!-- Encabezado con botón de regreso y título -->
@@ -30,7 +31,49 @@
             android:text="Botanicare"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
-    </LinearLayout>
 
+    </LinearLayout>
+    <!-- Título del Calendario -->
+    <TextView
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="7dp"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calendario"
+        android:fontFamily="@font/my_custom_font"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       android:layout_marginTop="150dp">
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dateTextAppearance="@android:style/TextAppearance.Medium"
+            android:showWeekNumber="false"
+            android:firstDayOfWeek="1" />
+
+        <Button
+            android:id="@+id/addReminderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendarView"
+            android:layout_centerHorizontal="true"
+            android:text="Agregar Recordatorio" />
+
+
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btn_notificacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Probar Notificación"
+        android:layout_marginTop="150dp"
+        android:layout_gravity="center" />
 
 </FrameLayout>
