@@ -40,10 +40,11 @@ public class PlantsGridFragment extends Fragment {
         return view;
     }
     public void filterPlants(String query) {
-        String searchQuery = query;
+        // Aquí puedes usar el método de Firestore para filtrar las plantas por nombre.
+        // Por ejemplo:
         db.collection("plants")
-                .whereGreaterThanOrEqualTo("name", searchQuery)
-                .whereLessThanOrEqualTo("name", searchQuery + "\uf8ff")
+                .whereGreaterThanOrEqualTo("name", query)
+                .whereLessThanOrEqualTo("name", query + "\uf8ff")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     plantList.clear();
@@ -57,6 +58,8 @@ public class PlantsGridFragment extends Fragment {
                     Toast.makeText(getActivity(), "Error al buscar plantas", Toast.LENGTH_SHORT).show();
                 });
     }
+
+
 
 
     // Cargar plantas desde Firebase

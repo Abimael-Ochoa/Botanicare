@@ -18,21 +18,36 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.projectintegration.utilities.SearchBarCatalogo;
 import com.google.android.material.navigation.NavigationView;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.TypefaceSpan;
+import android.widget.Toast;
 
 public class Pantalla_Catalogo extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    ImageView logOutButton;
+    ImageView addButton;
+    TextView toolBarTitle;
+    ImageView searchButton;
+    private SearchBarCatalogo searchBarCatalogo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
+
+        toolbar = findViewById(R.id.toolbar);
+        // Inicializa el ImageView como botón de logout
+        addButton = findViewById(R.id.addButton);
+        toolBarTitle = findViewById(R.id.toolbar_title);
+        // Configuración del DrawerLayout
+        drawerLayout = findViewById(R.id.drawer_layout);
+        searchButton = findViewById(R.id.searchButton);
 
         // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -40,13 +55,28 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         }
 
         // Configuración del Toolbar
-        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-// Inicializa el ImageView como botón de logout
-        logOutButton = findViewById(R.id.addButton); // Asegúrate de que el ID coincide con el de tu XML
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear el Intent para abrir otra actividad (página)
+                Intent intent = new Intent(Pantalla_Catalogo.this, EdicionPlantaActivity.class);
 
-        logOutButton.setOnClickListener(new View.OnClickListener() {
+                // Iniciar la actividad
+                startActivity(intent);
+            }
+        });
+        // Configura la barra de búsqueda
+        searchBarCatalogo = new SearchBarCatalogo(toolbar, searchButton, addButton, toolBarTitle);
+
+        // Escucha la barra de búsqueda para realizar búsquedas
+        searchBarCatalogo.setOnSearchListener(query -> {
+
+            filterPlants(query);
+        });
+// Inicializa el ImageView como botón de logout
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Crear el Intent para abrir otra actividad (página)
@@ -63,8 +93,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         }
 
         // Configura el TextView como título
-        TextView toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("Botanicare");  // Título centrado
+        toolBarTitle.setText("Botanicare");  // Título centrado
 
         // Configuración del DrawerLayout
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -153,6 +182,21 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                     .commit();
         }
     }
+
+    private void filterPlants(String query) {
+        // Buscar en el fragmento PlantsGridFragment
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+
+        if (fragment instanceof PlantsGridFragment) {
+            PlantsGridFragment plantsGridFragment = (PlantsGridFragment) fragment;
+            plantsGridFragment.filterPlants(query); // Filtrar las plantas desde el fragmento
+        } else {
+            // Si no se encuentra el fragmento, puedes realizar la búsqueda de otra manera
+            Toast.makeText(this, "Fragmento no encontrado", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     @Override
     public void onBackPressed() {
