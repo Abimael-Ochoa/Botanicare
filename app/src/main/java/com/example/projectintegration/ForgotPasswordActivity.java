@@ -1,5 +1,6 @@
 package com.example.projectintegration;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.tu_color_verde)); // Reemplaza 'tu_color_verde' con el color que desees
+        }
+
+        // Referencia al botón Regresar
+        Button backButton = findViewById(R.id.backButton);
+
+        // Configurar el OnClickListener para el botón Regresar
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Este código cierra la actividad actual y regresa a la anterior
+                finish();
+            }
+        });
 
         emailField = findViewById(R.id.emailField);
         sendButton = findViewById(R.id.sendButton);
