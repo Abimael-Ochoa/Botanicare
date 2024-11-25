@@ -16,7 +16,6 @@
         android:layout_height="80dp"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
-        android:src="@drawable/ic_plant"
         />
 
     <TextView

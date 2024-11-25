@@ -1,6 +1,7 @@
 package com.example.projectintegration;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
@@ -16,10 +20,12 @@ public class PlantAdapter extends BaseAdapter {
 
     private Context context;
     private List<Plant> plantList;
+    private com.android.volley.RequestQueue requestQueue;
 
     public PlantAdapter(Context context, List<Plant> plantList) {
         this.context = context;
         this.plantList = plantList;
+        this.requestQueue = Volley.newRequestQueue(context); // Inicializa la cola de solicitudes
     }
 
     @Override
@@ -68,14 +74,33 @@ public class PlantAdapter extends BaseAdapter {
             // Si la URL es null o vacía, usa una imagen predeterminada
             imageView.setImageResource(R.drawable.ic_plant);
         } else {
-            // Si la URL es válida, carga la imagen con Glide
-            Glide.with(context)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.ic_plant)
-                    .error(R.drawable.ic_plant)
-                    .into(imageView);
+            // Si la URL es válida, carga la imagen con Volley
+            loadImageWithVolley(imageUrl, imageView);
         }
 
         return convertView;
+    }
+
+    // Método para cargar la imagen con Volley
+    private void loadImageWithVolley(String url, final ImageView imageView) {
+        ImageRequest imageRequest = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap response) {
+                        // Si la imagen se carga correctamente, la colocamos en el ImageView
+                        imageView.setImageBitmap(response);
+                    }
+                },
+                0, 0, null, null,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(com.android.volley.VolleyError error) {
+                        // Si hay un error al cargar la imagen, mostramos una imagen predeterminada
+                        imageView.setImageResource(R.drawable.ic_plant);
+                    }
+                });
+
+        // Agrega la solicitud a la cola de solicitudes de Volley
+        requestQueue.add(imageRequest);
     }
 }
