@@ -2,6 +2,7 @@ package com.example.projectintegration.utilities;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,13 +76,25 @@ public class SearchBarCatalogo {
             // Ocultar el título y el botón de agregar
             toolBarTitle.setVisibility(View.GONE);
             addButton.setVisibility(View.GONE);
-        } else {
-            // Si ya existe, realiza la búsqueda
-            String query = searchInput.getText().toString().trim();
-            if (!query.isEmpty() && onSearchListener != null) {
-                onSearchListener.onSearch(query);  // Ejecuta la búsqueda
-            }
 
+            searchInput.addTextChangedListener(new android.text.TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(onSearchListener != null) {
+                        onSearchListener.onSearch(s.toString().trim());  // Ejecuta la búsqueda cuando se cambia el texto ingresado
+                    }
+                }
+                @Override
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+
+        } else {
             // Restaurar el estado original
             toolbar.removeView(searchBar);
             searchInput = null;

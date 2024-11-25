@@ -1,6 +1,7 @@
 package com.example.projectintegration;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ public class PlantsGridFragment extends Fragment {
     private static PlantAdapter plantAdapter;
     private static List<Plant> plantList;
     private FirebaseFirestore db;
+    private final Handler searchHandler = new Handler();  // Handler para manejar el debounce
+    private Runnable searchRunnable;               // Runnable para la búsqueda
+
 
     @Override
     public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,46 +43,68 @@ public class PlantsGridFragment extends Fragment {
 
         return view;
     }
+
+
     public void filterPlants(String query) {
-        // Aquí puedes usar el método de Firestore para filtrar las plantas por nombre.
-        // Por ejemplo:
-        db.collection("plants")
-                .whereGreaterThanOrEqualTo("name", query)
-                .whereLessThanOrEqualTo("name", query + "\uf8ff")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    plantList.clear();
-                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        Plant plant = document.toObject(Plant.class);
-                        plantList.add(plant);
-                    }
-                    plantAdapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getActivity(), "Error al buscar plantas", Toast.LENGTH_SHORT).show();
-                });
+        if (searchRunnable != null) {
+            searchHandler.removeCallbacks(searchRunnable);
+        }
+        searchRunnable = () -> {
+            if (query.isEmpty()) {
+                db.collection("plants")
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            plantList.clear();
+                            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                Plant plant = document.toObject(Plant.class);
+                                plantList.add(plant);
+                            }
+                            plantAdapter.notifyDataSetChanged();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(getActivity(), "Error al buscar plantas", Toast.LENGTH_SHORT).show();
+                        });
+
+            } else {
+                db.collection("plants")
+                        .whereGreaterThanOrEqualTo("name", query)
+                        .whereLessThanOrEqualTo("name", query + "\uf8ff")
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            plantList.clear();
+                            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                Plant plant = document.toObject(Plant.class);
+                                plantList.add(plant);
+                            }
+                            plantAdapter.notifyDataSetChanged();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(getActivity(), "Error al buscar plantas", Toast.LENGTH_SHORT).show();
+                        });
+            }
+        };
+        searchHandler.postDelayed(searchRunnable, 300);
+
     }
 
 
-
-
-    // Cargar plantas desde Firebase
-    private void loadPlantsFromFirebase() {
-        db.collection("plants")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    plantList.clear();
-                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        // Convierte el documento de Firestore a un objeto Plant
-                        Plant plant = document.toObject(Plant.class);
-                        plantList.add(plant);
-                    }
-                    // Notificar al adaptador que los datos han cambiado
-                    plantAdapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Error al cargar plantas", Toast.LENGTH_SHORT).show();
-                });
+        // Cargar plantas desde Firebase
+        private void loadPlantsFromFirebase () {
+            db.collection("plants")
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        plantList.clear();
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            // Convierte el documento de Firestore a un objeto Plant
+                            Plant plant = document.toObject(Plant.class);
+                            plantList.add(plant);
+                        }
+                        // Notificar al adaptador que los datos han cambiado
+                        plantAdapter.notifyDataSetChanged();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getContext(), "Error al cargar plantas", Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
-}
 
