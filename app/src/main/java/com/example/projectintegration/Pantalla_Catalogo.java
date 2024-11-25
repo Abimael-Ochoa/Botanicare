@@ -21,14 +21,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.projectintegration.utilities.SearchBarCatalogo;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.TypefaceSpan;
 import android.widget.Toast;
 
 public class Pantalla_Catalogo extends AppCompatActivity {
-
+    private FirebaseAuth mAuth;
     private DrawerLayout drawerLayout;
+    ImageView logOutButton;
     private Toolbar toolbar;
     ImageView addButton;
     TextView toolBarTitle;
@@ -41,6 +44,8 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
 
+
+
         toolbar = findViewById(R.id.toolbar);
         // Inicializa el ImageView como botón de logout
         addButton = findViewById(R.id.addButton);
@@ -48,6 +53,8 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         // Configuración del DrawerLayout
         drawerLayout = findViewById(R.id.drawer_layout);
         searchButton = findViewById(R.id.searchButton);
+
+        mAuth = FirebaseAuth.getInstance();
 
         // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -145,6 +152,15 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                         } else{
                             toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
                         }
+                    } else if (item.getItemId() == R.id.nav_logout) {
+                        // Cierra la sesión en Firebase
+                        mAuth.signOut();
+                        // Puedes redirigir al usuario a una pantalla de inicio de sesión
+                        Intent intent = new Intent(Pantalla_Catalogo.this, MainActivity.class); // Reemplaza con tu actividad de login
+                        startActivity(intent);
+                        finish(); // Finaliza la actividad actual si es necesario
+                    } else{
+                        toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
 
                         // Reemplazar el contenido del frame con el fragmento seleccionado
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
