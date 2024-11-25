@@ -6,12 +6,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -126,6 +129,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
             }
         });
 
+
         // Configuración del NavigationView
         NavigationView navView = findViewById(R.id.nav_view);
         if (navView != null) {
@@ -149,25 +153,67 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
                         } else if (id == R.id.nav_chat){
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
-                        } else{
-                            toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
                         }
                     } else if (item.getItemId() == R.id.nav_logout) {
-                        // Cierra la sesión en Firebase
-                        mAuth.signOut();
-                        // Puedes redirigir al usuario a una pantalla de inicio de sesión
-                        Intent intent = new Intent(Pantalla_Catalogo.this, MainActivity.class); // Reemplaza con tu actividad de login
-                        startActivity(intent);
-                        finish(); // Finaliza la actividad actual si es necesario
-                    } else{
-                        toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
 
+                        // Mostrar el dialogo de confirmación antes de cerrar sesión
+                        // Inflar el layout personalizado
+                        LayoutInflater inflater = getLayoutInflater();
+                        View dialogView = inflater.inflate(R.layout.custom_alert, null);
+
+
+
+                        // Crear el AlertDialog con el tema personalizado
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Pantalla_Catalogo.this, R.style.TransparentDialogTheme);
+
+                        builder.setView(dialogView);
+
+                        // Obtener los botones y otros elementos del layout
+                        Button btnConfirmar = dialogView.findViewById(R.id.btnconfirmar);
+                        Button btnCancelar = dialogView.findViewById(R.id.btncancelar);
+
+                        // Crear el dialogo
+                        AlertDialog alertDialog = builder.create();
+
+                        // Configurar el botón "Cerrar Sesión"
+                        btnConfirmar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Cerrar sesión en Firebase
+                                mAuth.signOut();
+
+                                // Redirigir a la actividad de login
+                                Intent intent = new Intent(Pantalla_Catalogo.this, MainActivity.class);
+                                startActivity(intent);
+                                finish(); // Finalizar la actividad actual
+                                alertDialog.dismiss(); // Cerrar el dialogo
+                            }
+                        });
+
+                        // Configurar el botón "Cancelar"
+                        btnCancelar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss(); // Solo cerrar el dialogo, no hacer nada más
+                            }
+                        });
+
+                        // Mostrar el dialogo
+                        alertDialog.show();
+                    }
+                    else {
+                        toolbar.setVisibility(View.VISIBLE); // Muestra el Toolbar
+                    }
+
+                    if(fragment!= null){
                         // Reemplazar el contenido del frame con el fragmento seleccionado
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.content_frame, fragment); // Reemplaza solo el contenido en content_frame
                         transaction.addToBackStack(null);  // Agregar la transacción al back stack para poder regresar
                         transaction.commit();
                     }
+
+
 
                     // Cerrar el drawer después de seleccionar
                     if (drawerLayout != null) {
@@ -176,6 +222,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                     return true;
                 }
             });
+
 
             // Cambiar la tipografía de los elementos del menú
             Menu menu = navView.getMenu();
