@@ -30,6 +30,9 @@
             android:name=".Activity_users_chat"
             android:exported="false" />
         <activity
+            android:name=".Ticket_Pedido"
+            android:exported="false" />
+        <activity
             android:name=".inicio_sesion.ForgotPasswordActivity"
             android:exported="false" />
 
