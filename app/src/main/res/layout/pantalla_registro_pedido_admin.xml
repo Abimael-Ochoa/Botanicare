@@ -93,7 +93,7 @@
             <Button
                 android:backgroundTint="#4CBA43"
                 android:fontFamily="@font/my_custom_font"
-                android:id="@+id/btn_agregar_planta"
+                android:id="@+id/btn_add_plant"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
