@@ -1,7 +1,6 @@
 package com.example.projectintegration;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,17 +9,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private FirebaseDatabase realTimeDb;  // Instancia para Realtime Database
+    private DatabaseReference realTimeDbRef; // Referencia para Realtime Database
     private TextView errorMessage;
 
     @Override
@@ -28,11 +32,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
-
-        // Inicializa Firebase Auth y Firestore
+        // Inicializa Firebase Auth, Firestore y Realtime Database
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        realTimeDb = FirebaseDatabase.getInstance();  // Inicializa la instancia de Realtime Database
+        realTimeDbRef = realTimeDb.getReference("users"); // Ruta donde se almacenarán los usuarios en Realtime Database
 
         // Obtiene las referencias a los EditText y TextView de error
         EditText nameField = findViewById(R.id.nameField);
@@ -80,80 +84,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        nameField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Limpia el estilo de error cuando el usuario comienza a escribir
-                ErrorHandler.resetFieldStyles(RegisterActivity.this,nameField);
-                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        phoneField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Limpia el estilo de error cuando el usuario comienza a escribir
-                ErrorHandler.resetFieldStyles(RegisterActivity.this,phoneField);
-                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        addressField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Limpia el estilo de error cuando el usuario comienza a escribir
-                ErrorHandler.resetFieldStyles(RegisterActivity.this,addressField);
-                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        usernameField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Limpia el estilo de error cuando el usuario comienza a escribir
-                ErrorHandler.resetFieldStyles(RegisterActivity.this,usernameField);
-                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        passwordField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Limpia el estilo de error cuando el usuario comienza a escribir
-                ErrorHandler.resetFieldStyles(RegisterActivity.this,passwordField);
-                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
+        // Configura los TextWatcher para los campos
+        setTextWatcher(nameField);
+        setTextWatcher(phoneField);
+        setTextWatcher(addressField);
+        setTextWatcher(usernameField);
+        setTextWatcher(passwordField);
 
         // Configura el OnClickListener para el texto de inicio de sesión
         TextView registerText = findViewById(R.id.loginText);
@@ -163,7 +99,24 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    // Método para registrar al usuario usando Firebase Authentication y guardar datos en Firestore
+    private void setTextWatcher(EditText field) {
+        field.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Limpia el estilo de error cuando el usuario comienza a escribir
+                ErrorHandler.resetFieldStyles(RegisterActivity.this, field);
+                errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    // Método para registrar al usuario usando Firebase Authentication, Firestore y Realtime Database
     private void registerUser(String email, String password, String name, String phone, String address) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
@@ -172,23 +125,31 @@ public class RegisterActivity extends AppCompatActivity {
                         if (user != null) {
                             // Crea un objeto User con los datos del registro
                             User newUser = new User(name, phone, address, email);
+                            UserChat newUserChat = new UserChat(name,0);
 
                             // Guarda el objeto User en Firestore bajo la colección "users"
                             db.collection("users").document(user.getUid())
                                     .set(newUser)
                                     .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(RegisterActivity.this, "Registro y guardado exitoso", Toast.LENGTH_SHORT).show();
-                                        // Redirige al usuario a la actividad principal
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish(); // Finaliza la actividad actual
+                                        // Guarda también el mismo objeto en Realtime Database
+                                        realTimeDbRef.child(user.getUid()).setValue(newUserChat)
+                                                .addOnSuccessListener(aVoid1 -> {
+                                                    Toast.makeText(RegisterActivity.this, "Registro y guardado exitoso", Toast.LENGTH_SHORT).show();
+                                                    // Redirige al usuario a la actividad principal
+                                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish(); // Finaliza la actividad actual
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    ErrorHandler.showErrorMessage(errorMessage, "Error al guardar en Realtime Database");
+                                                });
                                     })
                                     .addOnFailureListener(e -> {
-                                        ErrorHandler.showErrorMessage(errorMessage, "Error al guardar datos");
+                                        ErrorHandler.showErrorMessage(errorMessage, "Error al guardar en Firestore");
                                     });
                         }
                     } else {
-                        ErrorHandler.showErrorMessage(errorMessage, "El email o la contrasena son incorrectos");
+                        ErrorHandler.showErrorMessage(errorMessage, "El email o la contraseña son incorrectos");
                     }
                 });
     }
