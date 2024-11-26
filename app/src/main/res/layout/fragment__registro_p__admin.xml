@@ -100,7 +100,6 @@
                 android:text="Agregar Otra Planta"
                 android:layout_marginTop="8dp" />
 
-
             <Button
                 android:fontFamily="@font/my_custom_font"
                 android:id="@+id/btn_registrar"
@@ -109,6 +108,16 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="Registrar"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:fontFamily="@font/my_custom_font"
+                android:id="@+id/btn_historial"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="#4CBA43"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Historial de registros"
                 android:layout_marginTop="16dp" />
 
         </LinearLayout>
