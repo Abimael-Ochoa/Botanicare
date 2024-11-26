@@ -27,6 +27,9 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
+            android:name=".Activity_users_chat"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
 
