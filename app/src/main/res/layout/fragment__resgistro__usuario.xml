@@ -1,0 +1,62 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registro"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+
+        <!-- Campo para ingresar el ID proporcionado por el administrador -->
+        <EditText
+            android:id="@+id/et_id_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ingresa tu ID proporcionado por el admin"
+            android:inputType="text" />
+
+        <!-- Botón para buscar las plantas asociadas con el ID -->
+        <Button
+            android:id="@+id/btn_buscar_pedido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar Pedido" />
+
+        <!-- Información del pedido -->
+        <TextView
+            android:id="@+id/tv_info_pedido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pedido Seleccionado:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+        <!-- Espacio para mostrar el pedido con las plantas -->
+        <LinearLayout
+            android:id="@+id/layout_pedido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="8dp">
+            <!-- Lista de plantas asociadas al pedido -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_pedido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

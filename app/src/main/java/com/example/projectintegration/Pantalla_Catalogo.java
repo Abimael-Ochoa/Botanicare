@@ -143,7 +143,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                     if (id == R.id.nav_calendario) {
                         fragment = new FragmentCalendario(); // Fragmento de calendario
                     }else if (id == R.id.nav_chat) {
-                        fragment = new Fragment_Usuarios_Chat();
+                        fragment = new Fragment_Mensajes();
                     }
 
                     // Si el fragmento es válido

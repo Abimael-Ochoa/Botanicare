@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_Usuarios_Chat#newInstance} factory method to
+ * Use the {@link Fragment_NotiUsuario#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Usuarios_Chat extends Fragment {
+public class Fragment_NotiUsuario extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class Fragment_Usuarios_Chat extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Fragment_Usuarios_Chat() {
+    public Fragment_NotiUsuario() {
         // Required empty public constructor
     }
 
@@ -34,11 +34,11 @@ public class Fragment_Usuarios_Chat extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_Usuarios_Chat.
+     * @return A new instance of fragment Fragment_NotiUsuario.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_Usuarios_Chat newInstance(String param1, String param2) {
-        Fragment_Usuarios_Chat fragment = new Fragment_Usuarios_Chat();
+    public static Fragment_NotiUsuario newInstance(String param1, String param2) {
+        Fragment_NotiUsuario fragment = new Fragment_NotiUsuario();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +59,6 @@ public class Fragment_Usuarios_Chat extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__usuarios__chat, container, false);
+        return inflater.inflate(R.layout.fragment__noti_usuario, container, false);
     }
 }

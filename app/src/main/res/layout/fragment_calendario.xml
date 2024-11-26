@@ -43,7 +43,7 @@
         android:text="Calendario"
         android:fontFamily="@font/my_custom_font"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
