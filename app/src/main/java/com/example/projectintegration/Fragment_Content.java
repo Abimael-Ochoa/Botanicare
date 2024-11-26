@@ -9,6 +9,9 @@ import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.projectintegration.models.Plant;
+import com.example.projectintegration.adapter.PlantAdapter;
+
 import java.util.List;
 
 public class Fragment_Content extends Fragment {

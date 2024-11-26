@@ -5,9 +5,8 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.projectintegration.inicio_sesion.LoginScreen;
 
 // Clase que representa la pantalla de inicio (Splash Screen) de la aplicación
 public class SplashScreen extends AppCompatActivity {
@@ -39,7 +38,7 @@ public class SplashScreen extends AppCompatActivity {
                 } finally {
                     // Código que se ejecuta después de la espera
                     // Crea un nuevo Intent para iniciar la actividad MainActivity
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    Intent intent = new Intent(SplashScreen.this, LoginScreen.class);
                     startActivity(intent); // Inicia la nueva actividad
                     finish(); // Cierra la actividad actual para que no se pueda volver a ella
                 }

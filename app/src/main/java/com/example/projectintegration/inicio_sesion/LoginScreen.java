@@ -1,36 +1,27 @@
-package com.example.projectintegration;
+package com.example.projectintegration.inicio_sesion;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.projectintegration.R;
+import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
 import com.example.projectintegration.utilities.ErrorHandler;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.projectintegration.R;
+
 import android.text.TextWatcher;
 import android.text.Editable;
 
 
-public class MainActivity extends AppCompatActivity {
+public class LoginScreen extends AppCompatActivity {
 
     private FirebaseAuth mAuth;  // Instancia de FirebaseAuth
     TextView errorMessage;
@@ -62,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             String password = passwordField.getText().toString().trim();
 
             // Restablece el estado inicial de los campos
-            ErrorHandler.resetFieldStyles(MainActivity.this,passwordField,emailField);
+            ErrorHandler.resetFieldStyles(LoginScreen.this,passwordField,emailField);
 
             // Verifica que los campos no estén vacíos
             if (email.isEmpty() || password.isEmpty()) {
@@ -90,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Limpia el estilo de error cuando el usuario comienza a escribir
-                ErrorHandler.resetFieldStyles(MainActivity.this,emailField);
+                ErrorHandler.resetFieldStyles(LoginScreen.this,emailField);
                 errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
             }
 
@@ -105,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Limpia el estilo de error cuando el usuario comienza a escribir
-                ErrorHandler.resetFieldStyles(MainActivity.this,passwordField);
+                ErrorHandler.resetFieldStyles(LoginScreen.this,passwordField);
                 errorMessage.setVisibility(View.GONE); // Oculta el mensaje de error
             }
 
@@ -117,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
         // Configura el OnClickListener para el texto de registro (si el usuario no tiene cuenta)
         TextView registerText = findViewById(R.id.registerText);
         registerText.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            Intent intent = new Intent(LoginScreen.this, RegisterActivity.class);
             startActivity(intent);
         });
 
         TextView forgotPassword = findViewById(R.id.forgotPasswordText);
         forgotPassword.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
+            Intent intent = new Intent(LoginScreen.this, ForgotPasswordActivity.class);
             startActivity(intent);
         });
     }
@@ -137,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
                             // Si el usuario está autenticado, redirige a la pantalla del catálogo
-                            Intent catalogIntent = new Intent(MainActivity.this, Pantalla_Catalogo.class);
+                            Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
                             startActivity(catalogIntent);
                             finish(); // Cierra la actividad de login
                         }
@@ -159,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             // Si el usuario ya está autenticado, redirige directamente al catálogo
-            Intent catalogIntent = new Intent(MainActivity.this, Pantalla_Catalogo.class);
+            Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
             startActivity(catalogIntent);
             finish(); // Cierra la actividad de login
         }

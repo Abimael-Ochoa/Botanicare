@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.inicio_sesion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projectintegration.R;
+import com.example.projectintegration.models.User;
+import com.example.projectintegration.models.UserChat;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -94,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Configura el OnClickListener para el texto de inicio de sesión
         TextView registerText = findViewById(R.id.loginText);
         registerText.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+            Intent intent = new Intent(RegisterActivity.this, LoginScreen.class);
             startActivity(intent);
         });
     }
@@ -136,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                 .addOnSuccessListener(aVoid1 -> {
                                                     Toast.makeText(RegisterActivity.this, "Registro y guardado exitoso", Toast.LENGTH_SHORT).show();
                                                     // Redirige al usuario a la actividad principal
-                                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                    Intent intent = new Intent(RegisterActivity.this, LoginScreen.class);
                                                     startActivity(intent);
                                                     finish(); // Finaliza la actividad actual
                                                 })

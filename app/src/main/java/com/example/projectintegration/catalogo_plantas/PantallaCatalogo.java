@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.catalogo_plantas;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -22,6 +22,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.projectintegration.EdicionPlantaActivity;
+import com.example.projectintegration.FragmentCalendario;
+import com.example.projectintegration.Fragment_Content;
+import com.example.projectintegration.Fragment_NotiUsuario;
+import com.example.projectintegration.inicio_sesion.LoginScreen;
+import com.example.projectintegration.R;
 import com.example.projectintegration.utilities.SearchBarCatalogo;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +37,7 @@ import android.text.TextPaint;
 import android.text.style.TypefaceSpan;
 import android.widget.Toast;
 
-public class Pantalla_Catalogo extends AppCompatActivity {
+public class PantallaCatalogo extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DrawerLayout drawerLayout;
     ImageView logOutButton;
@@ -71,7 +77,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Crear el Intent para abrir otra actividad (página)
-                Intent intent = new Intent(Pantalla_Catalogo.this, EdicionPlantaActivity.class);
+                Intent intent = new Intent(PantallaCatalogo.this, EdicionPlantaActivity.class);
 
                 // Iniciar la actividad
                 startActivity(intent);
@@ -90,7 +96,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Crear el Intent para abrir otra actividad (página)
-                Intent intent = new Intent(Pantalla_Catalogo.this, EdicionPlantaActivity.class);
+                Intent intent = new Intent(PantallaCatalogo.this, EdicionPlantaActivity.class);
 
                 // Iniciar la actividad
                 startActivity(intent);
@@ -164,7 +170,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
 
 
                         // Crear el AlertDialog con el tema personalizado
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Pantalla_Catalogo.this, R.style.TransparentDialogTheme);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(PantallaCatalogo.this, R.style.TransparentDialogTheme);
 
                         builder.setView(dialogView);
 
@@ -183,7 +189,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
                                 mAuth.signOut();
 
                                 // Redirigir a la actividad de login
-                                Intent intent = new Intent(Pantalla_Catalogo.this, MainActivity.class);
+                                Intent intent = new Intent(PantallaCatalogo.this, LoginScreen.class);
                                 startActivity(intent);
                                 finish(); // Finalizar la actividad actual
                                 alertDialog.dismiss(); // Cerrar el dialogo
@@ -241,7 +247,7 @@ public class Pantalla_Catalogo extends AppCompatActivity {
             // Si la app se inicia por primera vez, carga el fragmento por defecto
             Fragment defaultFragment = new Fragment_Content(); // Asegúrate de que el fragmento por defecto sea cargado
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame,  new PlantsGridFragment())
+                    .replace(R.id.content_frame,  new CargarPlantasCatalogo())
                     .commit();
         }
     }
@@ -250,8 +256,8 @@ public class Pantalla_Catalogo extends AppCompatActivity {
         // Buscar en el fragmento PlantsGridFragment
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
 
-        if (fragment instanceof PlantsGridFragment) {
-            PlantsGridFragment plantsGridFragment = (PlantsGridFragment) fragment;
+        if (fragment instanceof CargarPlantasCatalogo) {
+            CargarPlantasCatalogo plantsGridFragment = (CargarPlantasCatalogo) fragment;
             plantsGridFragment.filterPlants(query); // Filtrar las plantas desde el fragmento
         } else {
             // Si no se encuentra el fragmento, puedes realizar la búsqueda de otra manera
