@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/background_plantas"
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp">
+
+    <!-- ID del Pedido -->
+    <TextView
+        android:id="@+id/tv_id_pedido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="ID: 123"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#225E1D"
+        android:fontFamily="@font/coustard" />
+
+    <!-- Nombre del Usuario -->
+    <TextView
+        android:id="@+id/tv_nombre_usuario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Juan Pérez"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:fontFamily="@font/my_custom_font" />
+</LinearLayout>
