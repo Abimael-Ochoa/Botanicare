@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projectintegration.inicio_sesion.LoginScreen;
+import com.example.projectintegration.models.Plant;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -121,7 +122,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
                     .set(plant)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(EdicionPlantaActivity.this, "Planta guardada con éxito", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(EdicionPlantaActivity.this, MainActivity.class);
+                        Intent intent = new Intent(EdicionPlantaActivity.this, LoginScreen.class);
                         startActivity(intent);
                         finish();
                     })

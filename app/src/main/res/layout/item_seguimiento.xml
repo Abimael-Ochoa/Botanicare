@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="#FFFFFF"
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp">
+    <!-- Fecha del seguimiento -->
+    <TextView
+        android:id="@+id/tv_fecha_seguimiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12/11/2024"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        android:fontFamily="@font/coustard" />
+
+    <!-- Descripción del progreso -->
+    <TextView
+        android:id="@+id/tv_descripcion_seguimiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="La planta ha crecido 5 cm."
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:fontFamily="@font/coustard"
+        android:layout_marginTop="8dp" />
+
+    <!-- Foto del progreso -->
+    <ImageView
+        android:id="@+id/ic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/plant_icon" />
+</LinearLayout>

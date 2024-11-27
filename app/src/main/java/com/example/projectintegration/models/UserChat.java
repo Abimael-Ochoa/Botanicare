@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.models;
 
 public class UserChat {
     private String name;

@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,10 +9,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.projectintegration.R;
+import com.example.projectintegration.models.Plant;
 
 import java.util.List;
 

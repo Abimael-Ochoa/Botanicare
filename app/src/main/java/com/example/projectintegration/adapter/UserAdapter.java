@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.R;
+
+import com.example.projectintegration.models.UserChat;
+
 
 import java.util.ArrayList;
 

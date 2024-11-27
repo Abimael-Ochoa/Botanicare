@@ -31,4 +31,5 @@
         android:textSize="20sp"
         android:textColor="#000000"
         android:fontFamily="@font/my_custom_font" />
+
 </LinearLayout>

@@ -36,18 +36,18 @@
             android:name=".Ticket_Pedido"
             android:exported="false" />
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".inicio_sesion.ForgotPasswordActivity"
             android:exported="false" />
 
         <receiver android:name=".NotificationReceiver" /> <!-- Esto es para asegurar que estás apuntando a la API 31 -->
         <activity
-            android:name=".Pantalla_Catalogo"
+            android:name=".catalogo_plantas.PantallaCatalogo"
             android:exported="false" />
         <activity
             android:name=".EdicionPlantaActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".inicio_sesion.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".inicio_sesion.LoginScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

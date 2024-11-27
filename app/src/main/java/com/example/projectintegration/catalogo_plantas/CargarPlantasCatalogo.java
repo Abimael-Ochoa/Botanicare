@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.catalogo_plantas;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,13 +10,16 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.projectintegration.R;
+import com.example.projectintegration.models.Plant;
+import com.example.projectintegration.adapter.PlantAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlantsGridFragment extends Fragment {
+public class CargarPlantasCatalogo extends Fragment {
     private GridView plantsGridView;
     private static PlantAdapter plantAdapter;
     private static List<Plant> plantList;
