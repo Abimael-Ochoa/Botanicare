@@ -28,6 +28,7 @@ import com.example.projectintegration.Fragment_Content;
 import com.example.projectintegration.Fragment_NotiUsuario;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.R;
+import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoAdminFragment;
 import com.example.projectintegration.utilities.SearchBarCatalogo;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -150,6 +151,8 @@ public class PantallaCatalogo extends AppCompatActivity {
                         fragment = new FragmentCalendario(); // Fragmento de calendario
                     }else if (id == R.id.nav_chat) {
                         fragment = new Fragment_NotiUsuario();
+                    }else if (id == R.id.nav_registrarP){
+                        fragment = new RegistroPedidoAdminFragment();
                     }
 
                     // Si el fragmento es válido
