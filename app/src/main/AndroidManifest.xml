@@ -27,6 +27,9 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
+            android:name=".CatalogoAdmin"
+            android:exported="false" />
+        <activity
             android:name=".NotiUsuario"
             android:exported="false" />
         <activity
