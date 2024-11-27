@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#94E38E"
-    android:id="@+id/fragment_mensajes"
-    tools:context=".Chat">
+    android:id="@+id/fragment_mensajes">
 
     <!-- Botón para regresar -->
     <ImageView
