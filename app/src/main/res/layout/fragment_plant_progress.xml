@@ -23,7 +23,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/arrow_back"
+                android:src="@drawable/ic_regreso"
                 android:contentDescription="Back" />
 
             <TextView
@@ -48,55 +48,17 @@
             android:textSize="18sp"
             android:textColor="#333333" />
         <!-- Imagen de la planta -->
-
-        <LinearLayout
+        <GridView
+            android:id="@+id/plantsGridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@drawable/background_plantas_disponibles">
-            <!-- item_plant_list.xml -->
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:background="@drawable/background_cantidad"
-                android:layout_margin="8dp">
-
-                <ImageView
-                    android:id="@+id/plant_image"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_plant"
-                    android:contentDescription="Plant Image"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:paddingStart="10dp">
-
-                    <TextView
-                        android:id="@+id/plant_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Planta araña"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/my_custom_font" />
-
-                    <TextView
-                        android:id="@+id/plant_acquisition_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Adquirida el 26/08/2023"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/coustard"
-                        android:textColor="#757575" />
-                </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
+            android:numColumns="1"
+            android:horizontalSpacing="8dp"
+            android:paddingTop="16dp"
+            android:verticalSpacing="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clipToPadding="false"
+            android:background="@drawable/background_plantas_disponibles" />
     </LinearLayout>
 </FrameLayout>
