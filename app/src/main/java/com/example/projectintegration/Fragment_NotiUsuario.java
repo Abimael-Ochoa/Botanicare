@@ -1,5 +1,6 @@
 package com.example.projectintegration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -55,9 +56,15 @@ public class Fragment_NotiUsuario extends Fragment {
         rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
         userList = new ArrayList<>();
         userAdapter = new UserAdapter(userList);
+
+        userAdapter.setOnUserClickListener(new UserAdapter.OnUserClickListener() {
+            @Override
+            public void onUserClick(UserChat user) {
+                openChatActivity(user); // Abre la actividad del chat
+            }
+        });
+
         rvUsers.setAdapter(userAdapter);
-
-
 
         loadUsersFromFirebase();
 
@@ -65,21 +72,19 @@ public class Fragment_NotiUsuario extends Fragment {
     }
 
 
-    private void openChatFragment(UserChat user) {
-        Fragment_Mensajes chatFragment = new Fragment_Mensajes();
 
-        // Pasar datos al fragmento de chat
-        Bundle bundle = new Bundle();
-        bundle.putString("userName", user.getName());
-        chatFragment.setArguments(bundle);
+    private void openChatActivity(UserChat user) {
+        // Crear un Intent para iniciar la actividad del chat
+        Intent intent = new Intent(requireContext(), Chat.class);
 
-        // Reemplazar el fragmento
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_mensajes, chatFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        // Pasar datos del usuario seleccionado
+        intent.putExtra("userName", user.getName());
+        intent.putExtra("unreadMessages", user.getUnreadMessages());
+
+        // Iniciar la actividad del chat
+        startActivity(intent);
     }
+
 
     private void loadUsersFromFirebase() {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
