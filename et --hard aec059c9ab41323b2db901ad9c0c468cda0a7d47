@@ -1,0 +1,511 @@
+[33mcommit aec059c9ab41323b2db901ad9c0c468cda0a7d47[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Merge: 6947f38 48a8269
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Mon Nov 25 19:25:06 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 6947f38f613c4ac43af49e0a4ad59bf4730344c1[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Mon Nov 25 19:23:24 2024 -0600
+
+    Creacion del item de mensajes y sus respectivas burbujas
+
+[33mcommit 48a8269b42c478647a972af0dfb00661c1ab0fb2[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Mon Nov 25 19:23:09 2024 -0600
+
+    ya jala lo usuarios del admin para chatear, implementa la otra base de datos la cual es la de tiempo real
+
+[33mcommit 7cf22214b1d29912b402999c6d095a52cf1c2cd6[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Mon Nov 25 18:44:59 2024 -0600
+
+    Creacion de la pantalla de notificacion de usuarios
+
+[33mcommit db5794c0e8391513ea172ddd93a4d5f17a812e63[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sun Nov 24 23:41:49 2024 -0600
+
+    Modificacion layout de forgot password y cree la pantalla de consejos
+
+[33mcommit 66f57cc20a02856fb6d2ea147c09a84a2ca83022[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Sun Nov 24 23:26:43 2024 -0600
+
+    modificaciones por el merge
+
+[33mcommit 45f4f0fb0e6293373c04fc4db7578ee53d7a9981[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sun Nov 24 22:44:39 2024 -0600
+
+    arreglando lo de 3 milks
+
+[33mcommit 1c5f59b0acced4bb27ff0208968f568f976121fe[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Sun Nov 24 22:29:46 2024 -0600
+
+    modificaciones por el merge
+
+[33mcommit 5790783b36d192b8fc55aab2bd5dc389203e13cc[m
+Merge: c20bb3e 730de1c
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sun Nov 24 21:09:29 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 730de1c4a47ebdcdaaf3b9ae08dd3f9d579346e2[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Sun Nov 24 21:00:48 2024 -0600
+
+    modificaciones por el merge
+
+[33mcommit c20bb3e4c11b9aa5d2c630311c10f73fb0a58795[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sun Nov 24 20:55:52 2024 -0600
+
+    Pantalla de chat creada
+
+[33mcommit 60921e176435c8bc366f6aea09db321e5c6e7710[m
+Merge: 403458b 8e85e19
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Sun Nov 24 20:54:28 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 403458b670ec4b2b712917f8f8cab254ec8de4ad[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Sun Nov 24 20:54:17 2024 -0600
+
+    total funcionalidad del boton de busqueda
+
+[33mcommit 8e85e19b5d38c64497d360b7efb19f6c046ff4cf[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sun Nov 24 20:05:45 2024 -0600
+
+    Agregue las pantallas que hizo ximena
+
+[33mcommit ef73a569b3de2ac08f558f2f9ea54cdd29f6fa75[m
+Merge: c0efbda aa75c33
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Sun Nov 24 15:10:47 2024 -0600
+
+    Merge branch 'master' of https://github.com/Abimael-Ochoa/Botanicare
+    
+    # Conflicts:
+    #       app/src/main/java/com/example/projectintegration/Pantalla_Catalogo.java
+
+[33mcommit c0efbda91a510522837e53258a272a3b9578e013[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Sun Nov 24 14:46:49 2024 -0600
+
+    icono add para activity_pantalla_catalogo
+
+[33mcommit aa75c3359fefce420054e62bdfbf1b2ce911fc31[m
+Merge: 01f9fdb 9dfb77a
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sun Nov 24 14:39:31 2024 -0600
+
+    Merge branch 'master' of https://github.com/Abimael-Ochoa/Botanicare
+
+[33mcommit 01f9fdb395c3ee06853d15e60c8bee8002b15498[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sun Nov 24 14:39:18 2024 -0600
+
+    terminado el restablecer contra
+
+[33mcommit 9dfb77a87d79c49135f2fd8ac922605837143052[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sun Nov 24 14:32:53 2024 -0600
+
+    Creacion registro planta-admin
+
+[33mcommit f7e1c6a3efaf2545b4400fd05d5bcee37f59cc77[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sun Nov 24 13:33:58 2024 -0600
+
+    realizado lo de el mensaje de error en login, registro y anadir planta
+
+[33mcommit 4fb47d80f30dcb6536f8e4db41427b0da4c61386[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sat Nov 23 22:56:09 2024 -0600
+
+    Modifique el layout del fragmento de calendario y estoy trabajando en el java, cree un boton de prueba para probar la notificacion en la aplicacion
+
+[33mcommit c7d1511017ef096107fe4fc5022e3a5b424d8a36[m
+Merge: 7c70716 d4d7a4d
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sat Nov 23 21:04:00 2024 -0600
+
+    ahora si corregido el calendario
+
+[33mcommit 7c707165a3ed4699862f7900ed0fab15e26bfc80[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sat Nov 23 20:53:48 2024 -0600
+
+    arreglado error de que no abria el calendario
+
+[33mcommit d4d7a4daf45bb8b37ea33f584f4197a9ebddb8f6[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sat Nov 23 20:41:45 2024 -0600
+
+    se modifico el diseño de la alerta para cerrar sesion
+
+[33mcommit d5630864aa344ac8c0a1017ee106484fb7a79395[m
+Merge: 9a19728 ebffde5
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sat Nov 23 20:10:09 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 9a19728f09c51ea41626e0b5ad6dba830110362f[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sat Nov 23 20:09:52 2024 -0600
+
+    commit nomas para hacer pull, no hice nada
+
+[33mcommit ebffde5951ea08ec3b84e21874fdc8842e979a28[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sat Nov 23 18:24:09 2024 -0600
+
+    agregada la ventana de confirmacion
+
+[33mcommit ab951e366670bb25270a5fec40ce797cca6d8581[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sat Nov 23 18:18:45 2024 -0600
+
+    boton de login funcional
+
+[33mcommit 9d6820c7f8e6cfb5ebcbfb93489deb4b53ede50c[m
+Merge: bb534ff 95d2e30
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sat Nov 23 00:51:16 2024 -0600
+
+    Merge branch 'master' of https://github.com/Abimael-Ochoa/Botanicare
+
+[33mcommit bb534ff82fd6b1aa62af9a7507b49ddad0fecb7d[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sat Nov 23 00:51:05 2024 -0600
+
+    corregido problema de la cantidad en subir planta
+
+[33mcommit 95d2e30c0b9d233ef79400ce57cc2c4ada363c05[m
+Merge: 0c5b71a 066e5c8
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 20 14:51:52 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 0c5b71ab6e183cf3f7650767e0db43ba62cce4f4[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 20 14:51:30 2024 -0600
+
+    cree el fragmento usuario progreso
+
+[33mcommit 066e5c8fa89b392d8804f6bdc95816a35b03ad59[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Tue Nov 19 19:33:21 2024 -0600
+
+    lista la subida de imagenes a imgbb y la guardada de la url en base de datos
+
+[33mcommit 6440325e78acfcf9b4eae277ee3d21a2f16c346b[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Tue Nov 19 18:40:29 2024 -0600
+
+    configurando el imgbb
+
+[33mcommit b3667ba4c0575dd16cfc943a7b32233f05418f3d[m
+Merge: 8fce904 c0ae16e
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Tue Nov 19 17:54:29 2024 -0600
+
+    arreglando merging
+
+[33mcommit 8fce9046f4dd9c094ed15faf3009df57b8152846[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Tue Nov 19 17:52:17 2024 -0600
+
+    implementando imgbb(en proceso) y jalando cambios de alexis
+
+[33mcommit c0ae16e66aa13b6639d313bf85f6970282441160[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Tue Nov 19 17:15:43 2024 -0600
+
+    icono add para activity_pantalla_catalogo
+
+[33mcommit 37631f69a9db86ad37bb66a953185fb006cebd3b[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Tue Nov 19 17:14:06 2024 -0600
+
+    adición y configuración para el boton de añadir planta
+
+[33mcommit 362bd4ddea0707f04ac438377d512d3966f9bb4b[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Tue Nov 19 16:46:44 2024 -0600
+
+    update
+
+[33mcommit 484d076832bf74548b61e3a73df9d28c03fae9b8[m
+Merge: 90d5bae 19afbb8
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Fri Nov 15 21:37:40 2024 -0600
+
+    Merge branch 'master' of https://github.com/Abimael-Ochoa/Botanicare
+
+[33mcommit 90d5bae8135b93e832100294d56e2f4c8d6605ae[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Fri Nov 15 21:37:32 2024 -0600
+
+    sigo con las imagenes aaaah
+
+[33mcommit 19afbb873402371b0a0624493b094b50cba29eda[m
+Merge: 97007d9 c89fd4e
+Author: Ximena Capitaine <202160177@ucc.mx>
+Date:   Fri Nov 15 00:34:06 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 97007d9684d7151bd89b45deec4d1ac0747dbb4a[m
+Author: Ximena Capitaine <202160177@ucc.mx>
+Date:   Fri Nov 15 00:33:46 2024 -0600
+
+    Pantalla de detalles de plantas, plantas adquiridas y cambio de la barra superior con una flecha de volver
+
+[33mcommit c89fd4e20dca3a65797ef2209739aef16508b089[m
+Merge: 4f2556a 4952535
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Fri Nov 15 00:22:49 2024 -0600
+
+    Merge branch 'master' of https://github.com/Abimael-Ochoa/Botanicare
+
+[33mcommit 4f2556ae93ea3f10e8ea4f593d7ac38638b567d2[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Fri Nov 15 00:22:38 2024 -0600
+
+    avanzada la integracion con supabaser
+
+[33mcommit 495253570b4da8e093f39d4ad0170636134cdd20[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Thu Nov 14 23:23:07 2024 -0600
+
+    Agregue el Scroll view al apartado de mis plantas
+
+[33mcommit 7fca43d60ffaf7800d3031367e3f03e2f1e79dbc[m
+Merge: afe965c 0ed97eb
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Thu Nov 14 23:12:35 2024 -0600
+
+    Merge branch 'master' of https://github.com/Abimael-Ochoa/Botanicare
+
+[33mcommit afe965c11e0f063f81d26206bb8607ab781006fa[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Thu Nov 14 23:12:17 2024 -0600
+
+    Eliminado lo de github
+
+[33mcommit 0ed97eb734a7af84c6b16de5bf45f5a4a7bd6b73[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Thu Nov 14 22:56:30 2024 -0600
+
+    Layout de la pantalla de catalogo corregida
+
+[33mcommit a7e80de27d595e8906a3c6d28655786efe76b176[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Thu Nov 14 21:43:11 2024 -0600
+
+    adicion de la consulta para mostrar las plantas dle catalogo
+
+[33mcommit 76d498e0369dcc3b75fb06d11f5d843c8c1d17b6[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Thu Nov 14 21:16:41 2024 -0600
+
+    pequeño cambio en el layout
+
+[33mcommit 15223204e13c4d19cf16423f94e6f4298b05c0a7[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Thu Nov 14 21:11:33 2024 -0600
+
+    Cree el fragmento de progreso de plantas de administrador utilizando recycler view y cree el item de los usuarios y agregue imagenes
+
+[33mcommit 9c6ffe8fbbaba0e5fccad83e215749d094667d41[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 13 19:58:52 2024 -0600
+
+    Cambio de imagebutton a imageview
+
+[33mcommit fe6143b8278c40645ff7ec05585d067740350ac1[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 13 19:55:21 2024 -0600
+
+    Elimine tu PlantAdapter.java alexis. Cree el fragmento de usuarios para el chat y un item de usuario. para que con recycler view puedas jalar informacion de la base de datos
+
+[33mcommit 144567af67e9f02cb53b2d91739404cab8db8de4[m
+Merge: dc0717c 59d31e8
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 13 16:15:49 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit dc0717cf4f22154c1a42396b1414c8a5e099d6a6[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 13 16:14:58 2024 -0600
+
+    Creacion del archivo Java de CustomAlert
+
+[33mcommit 59d31e8ffe5aea95ffa6d90083382886642c3616[m
+Author: Alexis_Reyes <202160062@ucc.mx>
+Date:   Tue Nov 12 23:55:38 2024 -0600
+
+    adición de la dependencia de Glide y adaptador provisional de plants
+
+[33mcommit 6da13d9b3c956ab9ca66476f420b0b1eb7aee949[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Tue Nov 12 20:38:17 2024 -0600
+
+    Alerta de logout estilizado
+
+[33mcommit 675bfe4c960e25c7d02081688ff20ff9ddb66925[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Tue Nov 12 18:33:47 2024 -0600
+
+    Creacion de una alerta personalizada para el cierre de sesión
+
+[33mcommit 2641f37c4c53a3fa704edab21f55769accc55bbd[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Tue Nov 12 17:30:10 2024 -0600
+
+    solucion de problema del push
+
+[33mcommit 4d70777360b15a427ab01c78a87b6f895adee0b9[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Tue Nov 12 17:27:21 2024 -0600
+
+    Cambios en el estilo del mennu, agregué la X de salida en el menu y el color de seleccion del item del menu (el color queda pendiente a cambio a uno que se vea chido)
+
+[33mcommit 96ab0c0aee0a9cead4d70f5a894470cd56f9eab3[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Tue Nov 12 17:26:17 2024 -0600
+
+    Cambios en el estilo del mennu, agregué la X de salida en el menu y el color de seleccion del item del menu (el color queda pendiente a cambio a uno que se vea chido)
+
+[33mcommit 72ab4152fdad1deedde2ff12775f5907677d1695[m
+Merge: 609ac0c 17b3405
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Mon Nov 11 16:21:09 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 609ac0cb3c330f22579c556a61d9ef6ed0ea58eb[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Mon Nov 11 16:20:45 2024 -0600
+
+    cambios
+
+[33mcommit 17b340596c2e6fcb8ee53dfc4d9cb1d4b060a7b2[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sun Nov 10 22:42:19 2024 -0600
+
+    secreto corregido
+
+[33mcommit 5fec462f6b851f1fe91b61dab08bf65581b6f3b9[m
+Merge: 8080976 75977f7
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sun Nov 10 22:34:44 2024 -0600
+
+    Merge branch 'master' of https://github.com/Abimael-Ochoa/Botanicare
+
+[33mcommit 808097669e920dc75fa244e5d961cdd27b6cceff[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sun Nov 10 22:34:30 2024 -0600
+
+    ya quedo la subida de imagenes fase 1
+
+[33mcommit 75977f70dae3be5359b843b6dcf31453f247749a[m
+Author: leonardoucc <90467259+leonardoucc@users.noreply.github.com>
+Date:   Sun Nov 10 22:33:14 2024 -0600
+
+    Subir imagen de planta
+
+[33mcommit 26ca9795d951b376df0195b996db0d5e4868080d[m
+Author: leonardoucc <90467259+leonardoucc@users.noreply.github.com>
+Date:   Sun Nov 10 21:58:31 2024 -0600
+
+    Create images
+
+[33mcommit cedb560e107035b987d7b8523d299c5fb95685d8[m
+Merge: 8785d5f e095539
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sun Nov 10 20:01:30 2024 -0600
+
+    resolviendo merging
+
+[33mcommit 8785d5f5e4e22d914ba797ae3871116d89c32ee8[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Sun Nov 10 16:32:08 2024 -0600
+
+    Implementacion del nav drawer y creacion del fragmento de calendario
+
+[33mcommit e09553958b24571205a0efd89f3dc4891a8b46bd[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Sat Nov 9 17:44:48 2024 -0600
+
+    subida imagenes
+
+[33mcommit d625830fb55cd5c7a12e55ae84c256025584f0d6[m
+Merge: f791548 da50c31
+Author: Ximena Capitaine <202160177@ucc.mx>
+Date:   Fri Nov 8 17:02:04 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit f7915485d5e22b7ffc899819c43eddaeec6f911b[m
+Author: Ximena Capitaine <202160177@ucc.mx>
+Date:   Fri Nov 8 17:01:39 2024 -0600
+
+    Pantalla de editar plantas
+
+[33mcommit da50c31835525fe648c3ae084c6525db1646151b[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Thu Nov 7 19:09:38 2024 -0600
+
+    Quite los avances del nav drawer y lo deje solo con el scroll view
+
+[33mcommit 21c9ae9cb310079b086ded71394f7ee45b05b72d[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Wed Nov 6 22:50:24 2024 -0600
+
+    corregido el merging
+
+[33mcommit 7436277c3f19aecfa2f75788259ead6eecdc5d9f[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 6 22:46:07 2024 -0600
+
+    Scroll view activado
+
+[33mcommit f1d8a14281d6183db6aeea5bd2c2006ebd1441ef[m
+Merge: 3ef25de 4e47535
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 6 22:17:49 2024 -0600
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       app/src/main/res/layout/activity_pantalla_catalogo.xml
+
+[33mcommit 3ef25deb98bc5c417eb7539f8f0bb16593819a9f[m
+Author: Abimael Ochoa <202160171@ucc.mx>
+Date:   Wed Nov 6 22:17:20 2024 -0600
+
+    Agregue el scrollview la pantalla del catalogo y adelanto del nav drawer
+
+[33mcommit 4e47535888e5d95b83dd200dc8371f1b6ad29537[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Wed Nov 6 21:13:11 2024 -0600
+
+    creada funcionalidad de logOut (usando temporalmente el botonde busqueda)
+
+[33mcommit 40aba35488bcb5a72d79408a6943bb6e4ccda7f2[m
+Author: leonardoucc <202160423@ucc.mx>
+Date:   Wed Nov 6 20:55:49 2024 -0600
+
+    login y modelo 'User' credos
