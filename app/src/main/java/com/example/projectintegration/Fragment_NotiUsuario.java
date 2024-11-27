@@ -3,6 +3,8 @@ package com.example.projectintegration;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,6 +61,23 @@ public class Fragment_NotiUsuario extends Fragment {
         loadUsersFromFirebase();
 
         return view;
+    }
+
+
+    private void openChatFragment(UserChat user) {
+        Fragment_Mensajes chatFragment = new Fragment_Mensajes();
+
+        // Pasar datos al fragmento de chat
+        Bundle bundle = new Bundle();
+        bundle.putString("userName", user.getName());
+        chatFragment.setArguments(bundle);
+
+        // Reemplazar el fragmento
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_mensajes, chatFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void loadUsersFromFirebase() {
