@@ -13,11 +13,19 @@
 
     <EditText
         android:fontFamily="@font/my_custom_font"
-        android:id="@+id/et_cantidad_planta"
+        android:id="@+id/et_plant_quantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Cantidad"
         android:inputType="number"
         android:layout_weight="1"
         android:layout_marginStart="8dp" />
+    <ImageView
+        android:id="@+id/eliminate_registered"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_eliminar"
+        android:contentDescription="Eliminar registro" />
 </LinearLayout>

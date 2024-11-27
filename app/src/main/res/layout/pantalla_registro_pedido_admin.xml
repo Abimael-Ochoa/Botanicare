@@ -57,37 +57,13 @@
                 android:inputType="text" />
 
             <!-- Contenedor para las plantas -->
+
             <LinearLayout
                 android:id="@+id/layout_lista_plantas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="16dp">
-
-                <!-- Entrada de ejemplo para una planta -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
-
-                    <Spinner
-                        android:id="@+id/spinner_nombre_planta"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2" />
-
-                    <EditText
-                        android:fontFamily="@font/my_custom_font"
-                        android:id="@+id/et_cantidad_planta"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:hint="Cantidad"
-                        android:inputType="number"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp" />
-                </LinearLayout>
-
+                android:layout_margin="16dp">
             </LinearLayout>
 
             <Button
@@ -102,7 +78,7 @@
 
             <Button
                 android:fontFamily="@font/my_custom_font"
-                android:id="@+id/btn_registrar"
+                android:id="@+id/btn_register_order"
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="#4CBA43"
                 android:layout_width="200dp"
