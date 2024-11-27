@@ -27,6 +27,9 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
             android:name=".Historial_Registros"
             android:exported="false" />
         <activity

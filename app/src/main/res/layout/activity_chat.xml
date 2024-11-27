@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#94E38E"
+    android:id="@+id/fragment_mensajes"
+    tools:context=".Chat">
+
+    <!-- Botón para regresar -->
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_regreso"
+        android:contentDescription="Botón Atrás"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent" />
+
+    <!-- Título del chat -->
+    <TextView
+        android:id="@+id/chat_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/my_custom_font"
+        android:layout_toEndOf="@id/back_button"
+        android:layout_alignTop="@id/back_button"
+        android:layout_marginStart="4dp"
+        android:text="Chat"
+        android:textSize="35sp"
+        android:textColor="@android:color/white" />
+
+    <!-- Lista de mensajes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_messages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/chat_title"
+        android:layout_above="@id/message_input_container"
+        android:layout_margin="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
+
+    <!-- Contenedor para la entrada del mensaje -->
+    <RelativeLayout
+        android:id="@+id/message_input_container"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="#38A14F"
+        android:padding="8dp">
+
+        <!-- Campo de texto para escribir el mensaje -->
+        <EditText
+            android:id="@+id/message_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/send_button"
+            android:fontFamily="@font/my_custom_font"
+            android:hint="Escribe un mensaje..."
+            android:padding="10dp"
+            android:background="@drawable/bubble_chat"
+            android:textColor="#000"
+            android:textColorHint="#555"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Botón de enviar -->
+        <ImageView
+            android:id="@+id/send_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_boton_enviar"
+            android:contentDescription="Botón Enviar"
+            android:rotation="50"/>
+    </RelativeLayout>
+
+</RelativeLayout>
