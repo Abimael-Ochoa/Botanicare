@@ -27,6 +27,9 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
+            android:name=".PlantasAdquiridasUsuario"
+            android:exported="false" />
+        <activity
             android:name=".CatalogoAdmin"
             android:exported="false" />
         <activity

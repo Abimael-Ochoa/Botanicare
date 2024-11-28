@@ -1,0 +1,42 @@
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:padding="10dp"
+android:background="@drawable/background_cantidad"
+android:layout_margin="8dp">
+
+<ImageView
+    android:id="@+id/plant_image"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:src="@drawable/ic_plant"
+    android:contentDescription="Plant Image"/>
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    android:paddingStart="10dp">
+
+    <TextView
+        android:id="@+id/plant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Planta araña"
+        android:fontFamily="@font/my_custom_font"
+        android:textSize="21sp"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvFechaAdquirida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adquirida el 26/08/2023"
+        android:fontFamily="@font/my_custom_font"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray" />
+</LinearLayout>
+</LinearLayout>

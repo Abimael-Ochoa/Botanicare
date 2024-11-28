@@ -28,6 +28,7 @@ import com.example.projectintegration.FragmentCalendario;
 import com.example.projectintegration.FragmentPlantProgress;
 import com.example.projectintegration.Fragment_Content;
 import com.example.projectintegration.Fragment_NotiUsuario;
+import com.example.projectintegration.PlantasAdquiridasUsuario;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.UserChat;
@@ -163,6 +164,10 @@ public class PantallaCatalogo extends AppCompatActivity {
                         fragment = new RegistroPedidoAdminFragment();
                     } else if (id == R.id.nav_progreso) {
                         fragment = new FragmentPlantProgress();
+                    } else if (id == R.id.nav_plantas_adquiridas) {
+                        Intent intent = new Intent(PantallaCatalogo.this, PlantasAdquiridasUsuario.class);
+                        startActivity(intent);
+                        finish(); // Finalizar la actividad actual
                     }
 
                     // Si el fragmento es válido
