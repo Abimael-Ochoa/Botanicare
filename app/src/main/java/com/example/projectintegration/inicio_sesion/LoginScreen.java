@@ -10,9 +10,18 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.projectintegration.CatalogoAdmin;
+import com.example.projectintegration.FragmentCalendario;
+import com.example.projectintegration.Fragment_NotiUsuario;
+import com.example.projectintegration.NotiUsuario;
 import com.example.projectintegration.R;
+import com.example.projectintegration.adapter.UserAdapter;
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
+import com.example.projectintegration.models.UserChat;
+import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoAdminFragment;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +43,6 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
 
         // Inicializar FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -119,29 +127,36 @@ public class LoginScreen extends AppCompatActivity {
         });
     }
 
-    // Método para iniciar sesión
     private void loginUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Si la autenticación es exitosa, obtiene el usuario actual
+                        // Autenticación exitosa
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            // Si el usuario está autenticado, redirige a la pantalla del catálogo
-                            Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
-                            startActivity(catalogIntent);
+                            if ("admin@admin.com".equalsIgnoreCase(user.getEmail())) {
+                                // Redirige al catálogo para usuarios normales
+                                Intent catalogIntent = new Intent(LoginScreen.this, NotiUsuario.class);
+                                startActivity(catalogIntent);
+
+                            } else {
+                                // Redirige al catálogo para usuarios normales
+                                Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
+                                startActivity(catalogIntent);
+                            }
                             finish(); // Cierra la actividad de login
                         }
                     } else {
-                            ErrorHandler.setFieldErrorStyle(emailField,this);
-                            ErrorHandler.setFieldErrorStyle(passwordField,this);
-                        // Muestra el error en el TextView
-                        String error = "Tu email o contrasena son incorrectos";
+                        // Manejo de errores
+                        ErrorHandler.setFieldErrorStyle(emailField, this);
+                        ErrorHandler.setFieldErrorStyle(passwordField, this);
+                        String error = "Tu email o contraseña son incorrectos";
                         errorMessage.setText(error);
                         errorMessage.setVisibility(View.VISIBLE);
                     }
                 });
     }
+
 
     // Verifica si el usuario ya está autenticado al iniciar la actividad
     @Override
@@ -149,9 +164,17 @@ public class LoginScreen extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            // Si el usuario ya está autenticado, redirige directamente al catálogo
-            Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
-            startActivity(catalogIntent);
+            if ("admin@admin.com".equalsIgnoreCase(currentUser.getEmail())) {
+
+                // Redirige al catálogo para usuarios normales
+                Intent catalogIntent = new Intent(LoginScreen.this, NotiUsuario.class);
+                startActivity(catalogIntent);
+
+            } else {
+                // Redirige al catálogo para usuarios normales
+                Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
+                startActivity(catalogIntent);
+            }
             finish(); // Cierra la actividad de login
         }
     }
