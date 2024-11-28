@@ -261,6 +261,7 @@ dialog.show(getChildFragmentManager(), "RegisterConfirmationAlert");
                     Toast.makeText(getContext(), "Error al registrar el pedido.", Toast.LENGTH_SHORT).show();
                     return;
                 });
+
     }
 
     private void updateStock(String plantName, int newStock) {
