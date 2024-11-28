@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.projectintegration.EdicionPlantaActivity;
 import com.example.projectintegration.FragmentCalendario;
+import com.example.projectintegration.FragmentPlantProgress;
 import com.example.projectintegration.Fragment_Content;
 import com.example.projectintegration.Fragment_NotiUsuario;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
@@ -153,6 +154,8 @@ public class PantallaCatalogo extends AppCompatActivity {
                         fragment = new Fragment_NotiUsuario();
                     }else if (id == R.id.nav_registrarP){
                         fragment = new RegistroPedidoAdminFragment();
+                    } else if (id == R.id.nav_progreso) {
+                        fragment = new FragmentPlantProgress();
                     }
 
                     // Si el fragmento es válido
@@ -162,6 +165,10 @@ public class PantallaCatalogo extends AppCompatActivity {
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
                         } else if (id == R.id.nav_chat){
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
+                        } else if (id == R.id.nav_registrarP) {
+                            toolbar.setVisibility(View.GONE);
+                        } else if (id == R.id.nav_progreso) {
+                            toolbar.setVisibility(View.GONE);
                         }
                     } else if (item.getItemId() == R.id.nav_logout) {
 

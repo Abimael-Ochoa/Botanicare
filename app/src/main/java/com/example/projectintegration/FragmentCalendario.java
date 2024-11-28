@@ -55,6 +55,15 @@ public class FragmentCalendario extends Fragment {
         rbRegar = view.findViewById(R.id.rb_regar);  // RadioButton para regar
         rbFertilizar = view.findViewById(R.id.rb_fertilizar);  // RadioButton para fertilizar
 
+        // Configurar botón de retroceso
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().onBackPressed(); // Llamar a la acción de retroceso
+            }
+        });
+
         // Establecer fecha
         btn_establecer_fecha.setOnClickListener(new View.OnClickListener() {
             @Override

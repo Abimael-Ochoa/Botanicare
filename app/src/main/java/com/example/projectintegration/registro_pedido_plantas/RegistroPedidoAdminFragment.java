@@ -41,6 +41,16 @@ public class RegistroPedidoAdminFragment extends Fragment {
         btnRegisterOrder = view.findViewById(R.id.btn_register_order); // Botón para registrar el pedido
 
 
+        // Configurar botón de retroceso
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().onBackPressed(); // Llamar a la acción de retroceso
+            }
+        });
+
+
         db = FirebaseFirestore.getInstance();
 
         // Añadir la primera planta al iniciar el fragmento
@@ -72,9 +82,14 @@ public class RegistroPedidoAdminFragment extends Fragment {
         Spinner spinner = nuevaPlantaView.findViewById(R.id.plantsAvailable);
         EditText cantidadEditText = nuevaPlantaView.findViewById(R.id.et_plant_quantity);
 
-        // Desactivar/eliminar el botón de eliminación para esta vista
+        // Configura el botón de eliminación para la primera planta
         ImageView eliminateRegisteredPlant = nuevaPlantaView.findViewById(R.id.eliminate_registered);
-        eliminateRegisteredPlant.setVisibility(View.GONE);
+        eliminateRegisteredPlant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                plantList.removeView(nuevaPlantaView);
+            }
+        });
 
         // Llenar el Spinner con datos de Firebase
         cargarPlantasSpinner(spinner);
@@ -82,6 +97,7 @@ public class RegistroPedidoAdminFragment extends Fragment {
         // Añade la nueva vista al contenedor principal
         plantList.addView(nuevaPlantaView);
     }
+
 
     private void agregarRegistro() {
         // Usa el LayoutInflater para inflar el diseño de la nueva fila
@@ -139,19 +155,46 @@ public class RegistroPedidoAdminFragment extends Fragment {
             Spinner spinner = plantaView.findViewById(R.id.plantsAvailable);
             EditText cantidadEditText = plantaView.findViewById(R.id.et_plant_quantity);
 
+
+
+            // Validar que se haya seleccionado una planta
+            if (spinner.getSelectedItem() == null) {
+                Toast.makeText(getContext(), "Debe seleccionar una planta en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             String plantName = spinner.getSelectedItem().toString();
             String quantityText = cantidadEditText.getText().toString();
 
-            if (!quantityText.isEmpty()) {
-                int quantity = Integer.parseInt(quantityText);
-
-                // Crear el objeto PlantOrderList
-                PlantOrderList plantOrderList = new PlantOrderList(plantName, quantity);
-                plantItems.add(plantOrderList);
-            } else {
-                Toast.makeText(getContext(), "La cantidad no puede estar vacía.", Toast.LENGTH_SHORT).show();
+            // Validar que la cantidad no esté vacía y sea un número válido
+            if (quantityText.isEmpty()) {
+                Toast.makeText(getContext(), "Debe ingresar una cantidad en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            try {
+                int quantity = Integer.parseInt(quantityText);
+                if (quantity <= 0) {
+                    Toast.makeText(getContext(), "La cantidad debe ser mayor a 0 en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+
+                // Crear el objeto PlantOrderList si las validaciones pasan
+                PlantOrderList plantOrderList = new PlantOrderList(plantName, quantity);
+                plantItems.add(plantOrderList);
+
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "La cantidad debe ser un número válido en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        // Si todas las validaciones pasan, procede a crear el pedido
+        if (plantItems.isEmpty()) {
+            Toast.makeText(getContext(), "Debe agregar al menos un registro válido.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         // Crear el objeto PlantOrder con todas las plantas
