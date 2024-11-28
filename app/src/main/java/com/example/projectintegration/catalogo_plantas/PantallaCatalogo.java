@@ -22,12 +22,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.projectintegration.Chat;
 import com.example.projectintegration.EdicionPlantaActivity;
 import com.example.projectintegration.FragmentCalendario;
 import com.example.projectintegration.Fragment_Content;
 import com.example.projectintegration.Fragment_NotiUsuario;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.R;
+import com.example.projectintegration.models.UserChat;
 import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoAdminFragment;
 import com.example.projectintegration.utilities.SearchBarCatalogo;
 import com.google.android.material.navigation.NavigationView;
@@ -150,7 +152,12 @@ public class PantallaCatalogo extends AppCompatActivity {
                     if (id == R.id.nav_calendario) {
                         fragment = new FragmentCalendario(); // Fragmento de calendario
                     }else if (id == R.id.nav_chat) {
-                        fragment = new Fragment_NotiUsuario();
+                        UserChat userchat = new UserChat();
+                        Intent intent = new Intent(PantallaCatalogo.this, Chat.class);
+                        intent.putExtra("userName", "demo");
+                        intent.putExtra("unreadMessages", 0);
+                        startActivity(intent);
+                        finish(); // Finalizar la actividad actual
                     }else if (id == R.id.nav_registrarP){
                         fragment = new RegistroPedidoAdminFragment();
                     }

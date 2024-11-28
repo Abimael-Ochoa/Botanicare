@@ -13,10 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.projectintegration.CatalogoAdmin;
 import com.example.projectintegration.FragmentCalendario;
 import com.example.projectintegration.Fragment_NotiUsuario;
+import com.example.projectintegration.NotiUsuario;
 import com.example.projectintegration.R;
+import com.example.projectintegration.adapter.UserAdapter;
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
+import com.example.projectintegration.models.UserChat;
 import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoAdminFragment;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +43,6 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
 
         // Inicializar FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -132,18 +135,10 @@ public class LoginScreen extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
                             if ("admin@admin.com".equalsIgnoreCase(user.getEmail())) {
+                                // Redirige al catálogo para usuarios normales
+                                Intent catalogIntent = new Intent(LoginScreen.this, NotiUsuario.class);
+                                startActivity(catalogIntent);
 
-                                Fragment fragment = null;
-
-                                fragment = new Fragment_NotiUsuario();
-
-                                if(fragment!= null){
-                                    // Reemplazar el contenido del frame con el fragmento seleccionado
-                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                    transaction.replace(R.id.main, fragment); // Reemplaza solo el contenido en content_frame
-                                    transaction.addToBackStack(null);  // Agregar la transacción al back stack para poder regresar
-                                    transaction.commit();
-                                }
                             } else {
                                 // Redirige al catálogo para usuarios normales
                                 Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
@@ -169,9 +164,17 @@ public class LoginScreen extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            // Si el usuario ya está autenticado, redirige directamente al catálogo
-            Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
-            startActivity(catalogIntent);
+            if ("admin@admin.com".equalsIgnoreCase(currentUser.getEmail())) {
+
+                // Redirige al catálogo para usuarios normales
+                Intent catalogIntent = new Intent(LoginScreen.this, NotiUsuario.class);
+                startActivity(catalogIntent);
+
+            } else {
+                // Redirige al catálogo para usuarios normales
+                Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
+                startActivity(catalogIntent);
+            }
             finish(); // Cierra la actividad de login
         }
     }

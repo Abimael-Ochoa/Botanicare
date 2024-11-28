@@ -1,5 +1,6 @@
 package com.example.projectintegration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.adapter.MessageAdapter;
+import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
+import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.models.Message;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,6 +61,20 @@ public class Chat extends AppCompatActivity {
 
         // Escuchar mensajes de Firebase
         loadMessages();
+
+        // Configurar botón de retroceso
+        ImageView btnBack = findViewById(R.id.back_button);
+        // Configurar el botón  back
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Redirigir a la actividad de login
+                Intent intent = new Intent(Chat.this, PantallaCatalogo.class);
+                startActivity(intent);
+                finish(); // Finalizar la actividad actual
+            }
+        });
 
         // Enviar mensaje
         sendButton.setOnClickListener(new View.OnClickListener() {
