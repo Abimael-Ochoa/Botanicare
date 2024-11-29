@@ -5,15 +5,17 @@ public class User {
     private String phone;
     private String address;
     private String email;
+    private int unreadMessages;
 
     // Constructor vacío para Firebase
     public User() {}
 
-    public User(String name, String phone, String address, String email) {
+    public User(String name, String phone, String address, String email,int unreadMessages) {
         this.name = name;
         this.phone = phone;
         this.address = address;
         this.email = email;
+        this.unreadMessages =  unreadMessages;
     }
 
     public String getName() {
@@ -46,6 +48,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getUnreadMessages() {
+        return unreadMessages;
+    }
+
+    public void setUnreadMessages(int unreadMessages) {
+        this.unreadMessages = unreadMessages;
     }
 
 }

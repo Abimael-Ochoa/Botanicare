@@ -16,11 +16,11 @@ import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.models.UserChat;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -30,17 +30,21 @@ public class NotiUsuario extends AppCompatActivity {
     private UserAdapter userAdapter;
     private ArrayList<UserChat> userList;
     private FirebaseAuth mAuth;  // Instancia de FirebaseAuth
+    private CollectionReference usersRef;  // Referencia a la colección de usuarios en Firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_noti_usuario); // Usa el archivo XML de Activity
+        setContentView(R.layout.activity_noti_usuario);
+
         // Inicializar FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
+        // Referencia a la colección "users" en Firestore
+        usersRef = FirebaseFirestore.getInstance().collection("users");
+
         // Configurar botón de retroceso
         ImageView btnBack = findViewById(R.id.btn_back);
-        // Configurar el botón  back
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +67,7 @@ public class NotiUsuario extends AppCompatActivity {
 
         rvUsers.setAdapter(userAdapter);
 
-        loadUsersFromFirebase();
+        loadUsersFromFirestore();  // Cambiado para usar Firestore
     }
 
     private void openChatActivity(UserChat user) {
@@ -73,28 +77,25 @@ public class NotiUsuario extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void loadUsersFromFirebase() {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+    private void loadUsersFromFirestore() {
+        usersRef.addSnapshotListener((QuerySnapshot snapshots, @NonNull FirebaseFirestoreException e) -> {
+            if (e != null) {
+                Toast.makeText(NotiUsuario.this, "Error loading users", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userList.clear();
-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    String name = userSnapshot.child("name").getValue(String.class);
-                    Long unreadMessages = userSnapshot.child("unreadMessages").getValue(Long.class);
+            userList.clear();
+            if (snapshots != null) {
+                snapshots.forEach(document -> {
+                    String name = document.getString("name");
+                    Long unreadMessages = document.getLong("unreadMessages");
 
                     if (name != null && unreadMessages != null) {
                         userList.add(new UserChat(name, unreadMessages.intValue()));
                     }
-                }
-                userAdapter.notifyDataSetChanged();
+                });
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(NotiUsuario.this, "Error loading users", Toast.LENGTH_SHORT).show();
-            }
+            userAdapter.notifyDataSetChanged();
         });
     }
 }

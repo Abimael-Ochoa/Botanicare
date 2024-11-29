@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.adapter.MessageAdapter;
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
-import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.models.Message;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class Chat extends AppCompatActivity {
     private ArrayList<Message> messageList;
 
     private String userName;
-    private DatabaseReference chatRef;
+    private CollectionReference chatRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class Chat extends AppCompatActivity {
 
         // Obtener datos del Intent
         userName = getIntent().getStringExtra("userName");
-        chatRef = FirebaseDatabase.getInstance().getReference("chats").child(userName);
+        chatRef = FirebaseFirestore.getInstance().collection("chats").document(userName).collection("messages");
 
         // Configurar RecyclerView
         messageList = new ArrayList<>();
@@ -59,16 +60,14 @@ public class Chat extends AppCompatActivity {
         TextView tvUserName = findViewById(R.id.chat_title);
         tvUserName.setText(userName);
 
-        // Escuchar mensajes de Firebase
+        // Escuchar mensajes de Firestore
         loadMessages();
 
         // Configurar botón de retroceso
         ImageView btnBack = findViewById(R.id.back_button);
-        // Configurar el botón  back
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Redirigir a la actividad de login
                 Intent intent = new Intent(Chat.this, PantallaCatalogo.class);
                 startActivity(intent);
@@ -90,27 +89,27 @@ public class Chat extends AppCompatActivity {
     }
 
     private void loadMessages() {
-        chatRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                messageList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Message message = dataSnapshot.getValue(Message.class);
-                    messageList.add(message);
-                }
-                messageAdapter.notifyDataSetChanged();
-                recyclerView.scrollToPosition(messageList.size() - 1);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+        chatRef.orderBy("timestamp", Query.Direction.ASCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@NonNull QuerySnapshot snapshots, @NonNull FirebaseFirestoreException e) {
+                        if (e != null) {
+                            return;  // Manejar errores si es necesario
+                        }
+                        messageList.clear();
+                        for (DocumentSnapshot document : snapshots.getDocuments()) {
+                            Message message = document.toObject(Message.class);
+                            messageList.add(message);
+                        }
+                        messageAdapter.notifyDataSetChanged();
+                        recyclerView.scrollToPosition(messageList.size() - 1);
+                    }
+                });
     }
 
     private void sendMessage(String content) {
         long timestamp = System.currentTimeMillis();
         Message message = new Message("admin", content, timestamp);
-        chatRef.push().setValue(message);
+        chatRef.add(message);  // Agrega el mensaje a la colección
     }
 }

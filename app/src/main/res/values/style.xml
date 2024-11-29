@@ -10,6 +10,19 @@
     <style name="TransparentDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:windowMinWidthMajor">80%</item> <!-- Ajusta el porcentaje si es necesario -->
+        <item name="android:windowMinWidthMinor">80%</item>
+    </style>
+
+    <style name="TransparentDialogTheme2" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:windowMinWidthMajor">65%</item> <!-- Ajusta el porcentaje si es necesario -->
+        <item name="android:windowMinWidthMinor">65%</item>
     </style>
 
         <style name="ErrorMessageStyle">

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.example.projectintegration.adapter.AdapterPlantProgress;
 import com.example.projectintegration.models.IPlantProgress;
@@ -35,6 +36,16 @@ public class FragmentPlantProgress extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_plant_progress, container, false);
+
+        // Configurar botón de retroceso
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().onBackPressed(); // Llamar a la acción de retroceso
+            }
+        });
+
 
         // Encontrar el GridView
         GridView gridView = view.findViewById(R.id.plantsGridView);
