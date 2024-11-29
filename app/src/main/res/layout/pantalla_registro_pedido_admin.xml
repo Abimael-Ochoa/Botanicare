@@ -4,7 +4,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,55 +47,68 @@
                 android:fontFamily="@font/my_custom_font"
                 android:textSize="24sp"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="10dp" />
 
-            <EditText
-                android:id="@+id/et_nombre_usuario"
-                android:fontFamily="@font/my_custom_font"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre del Usuario"
-                android:inputType="text" />
 
-            <!-- Contenedor para las plantas -->
 
+            <!-- Contenedor del EditText y los botones -->
             <LinearLayout
-                android:id="@+id/layout_lista_plantas"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_margin="16dp">
+                android:padding="16dp"
+                android:background="@drawable/fondo_mis_plantas"
+                >
+
+                <EditText
+                    android:id="@+id/et_nombre_usuario"
+                    android:fontFamily="@font/my_custom_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre del Usuario"
+                    android:background="@drawable/background_cantidad"
+                    android:inputType="text"
+                    android:layout_marginBottom="16dp" />
+
+                <LinearLayout
+                    android:id="@+id/layout_lista_plantas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="16dp">
+                </LinearLayout>
+
+                <Button
+                    android:backgroundTint="#4CBA43"
+                    android:fontFamily="@font/my_custom_font"
+                    android:id="@+id/btn_add_plant"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="Agregar Otra Planta"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:fontFamily="@font/my_custom_font"
+                    android:id="@+id/btn_register_order"
+                    android:backgroundTint="#4CBA43"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Registrar"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:fontFamily="@font/my_custom_font"
+                    android:id="@+id/btn_historial"
+                    android:backgroundTint="#4CBA43"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Historial de registros" />
             </LinearLayout>
 
-            <Button
-                android:backgroundTint="#4CBA43"
-                android:fontFamily="@font/my_custom_font"
-                android:id="@+id/btn_add_plant"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="Agregar Otra Planta"
-                android:layout_marginTop="8dp" />
 
-            <Button
-                android:fontFamily="@font/my_custom_font"
-                android:id="@+id/btn_register_order"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="#4CBA43"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="Registrar"
-                android:layout_marginTop="16dp" />
-
-            <Button
-                android:fontFamily="@font/my_custom_font"
-                android:id="@+id/btn_historial"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="#4CBA43"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="Historial de registros"
-                android:layout_marginTop="16dp" />
 
         </LinearLayout>
     </ScrollView>

@@ -90,6 +90,16 @@ public class CargarPlantasCatalogo extends Fragment {
 
     }
 
+    private void adjustGridViewColumns() {
+        plantsGridView.post(() -> {
+            int totalWidth = plantsGridView.getWidth(); // Obtiene el ancho total disponible
+            int columnWidth = getResources().getDimensionPixelSize(R.dimen.column_width); // Define un ancho base
+            int numColumns = totalWidth / columnWidth;
+
+            if (numColumns < 2) numColumns = 2; // Asegura al menos 2 columnas
+            plantsGridView.setNumColumns(numColumns);
+        });
+    }
 
         // Cargar plantas desde Firebase
         private void loadPlantsFromFirebase () {
