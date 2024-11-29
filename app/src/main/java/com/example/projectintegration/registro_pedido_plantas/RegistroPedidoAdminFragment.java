@@ -1,5 +1,6 @@
 package com.example.projectintegration.registro_pedido_plantas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.projectintegration.Historial_Registros;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.PlantOrder;
 import com.example.projectintegration.models.PlantOrderList;
@@ -33,6 +35,7 @@ public class RegistroPedidoAdminFragment extends Fragment {
     private LinearLayout plantList; // Contenedor principal
     private Button btnAddPlant; // Botón para añadir plantas
     private Button btnRegisterOrder; // Botón para registrar el pedido
+    private Button btnHistorial;
     private FirebaseFirestore db;
     private PlantStockValidator plantStockValidator;
 
@@ -47,6 +50,7 @@ public class RegistroPedidoAdminFragment extends Fragment {
         plantList = view.findViewById(R.id.layout_lista_plantas); // Asigna el contenedor correctamente
         btnAddPlant = view.findViewById(R.id.btn_add_plant);
         btnRegisterOrder = view.findViewById(R.id.btn_register_order); // Botón para registrar el pedido
+        btnHistorial = view.findViewById(R.id.btn_historial); // Botón para ver el historial de pedidos
 
         // Configurar botón de retroceso
         ImageView btnBack = view.findViewById(R.id.btn_back);
@@ -74,6 +78,16 @@ public class RegistroPedidoAdminFragment extends Fragment {
                     return; // Detener el flujo si hay errores de stock
                 }
                 registrarPedido();
+            }
+        });
+
+        btnHistorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear el Intent para abrir otra actividad (página)
+                Intent intent = new Intent(getContext(), Historial_Registros.class);
+                // Iniciar la actividad
+                startActivity(intent);
             }
         });
 

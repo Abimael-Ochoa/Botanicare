@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Registro de Plantas"
-                android:fontFamily="@font/my_custom_font"
+                android:fontFamily="@font/coustard"
                 android:textSize="24sp"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp" />
