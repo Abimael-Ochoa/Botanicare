@@ -1,5 +1,6 @@
 package com.example.projectintegration.models;
 
+import java.util.Date;
 import java.util.List;
 
 public class PlantOrder {
@@ -7,14 +8,16 @@ public class PlantOrder {
     private List<PlantOrderList> plantItems;
     private Cliente cliente; // Nuevo campo para información del cliente
     private boolean status;  // Nuevo campo para el estatus
+    private Date timestamp;
 
     public PlantOrder() {}
 
-    public PlantOrder(int orderCode, List<PlantOrderList> plantItems, Cliente cliente, boolean status) {
+    public PlantOrder(int orderCode, List<PlantOrderList> plantItems, Cliente cliente, boolean status, Date timestamp) {
         this.orderCode = orderCode;
         this.plantItems = plantItems;
         this.cliente = cliente;
         this.status = status;
+        this.timestamp = timestamp;
     }
 
     public int getOrderCode() {
@@ -49,6 +52,13 @@ public class PlantOrder {
         this.status = status;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 
     // Clase anidada para la información del cliente
     public static class Cliente {
