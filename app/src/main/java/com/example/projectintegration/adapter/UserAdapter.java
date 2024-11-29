@@ -9,18 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.R;
-
-import com.example.projectintegration.models.UserChat;
+import com.example.projectintegration.models.User;
 
 
 import java.util.ArrayList;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
-    private ArrayList<UserChat> userList;
+    private ArrayList<User> userList;
     private OnUserClickListener onUserClickListener;
 
-    public UserAdapter(ArrayList<UserChat> userList) {
+    public UserAdapter(ArrayList<User> userList) {
         this.userList = userList;
     }
 
@@ -38,7 +37,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        UserChat user = userList.get(position);
+        User user = userList.get(position);
         holder.tvName.setText(user.getName());
         holder.tvUnreadMessages.setText(String.valueOf(user.getUnreadMessages()));
 
@@ -66,6 +65,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public interface OnUserClickListener {
-        void onUserClick(UserChat user);
+        void onUserClick(User user);
     }
 }

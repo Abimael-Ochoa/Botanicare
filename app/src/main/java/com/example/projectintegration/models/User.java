@@ -1,6 +1,9 @@
 package com.example.projectintegration.models;
 
 public class User {
+
+
+    private String id;
     private String name;
     private String phone;
     private String address;
@@ -17,6 +20,20 @@ public class User {
         this.email = email;
         this.unreadMessages =  unreadMessages;
     }
+
+    // Constructor con solo nombre y mensajes
+    public User(String name, int unreadMessages) {
+        this.name = name;
+        this.unreadMessages = unreadMessages;
+    }
+
+    // Constructor con solo nombre, mensajes y id
+    public User(String name, int unreadMessages, String id) {
+        this.name = name;
+        this.unreadMessages = unreadMessages;
+        this.id = id;
+    }
+
 
     public String getName() {
         return name;
@@ -56,6 +73,13 @@ public class User {
 
     public void setUnreadMessages(int unreadMessages) {
         this.unreadMessages = unreadMessages;
+    }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

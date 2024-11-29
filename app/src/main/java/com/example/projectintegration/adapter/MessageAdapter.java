@@ -15,22 +15,24 @@ import java.util.ArrayList;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int VIEW_TYPE_SENT = 1;
-    private static final int VIEW_TYPE_RECEIVED = 2;
+    private static final int VIEW_TYPE_SENT = 1;     // Mensaje enviado por el usuario
+    private static final int VIEW_TYPE_RECEIVED = 2; // Mensaje recibido por el usuario
 
     private ArrayList<Message> messageList;
-    private String currentUser;
+    private String currentUserId; // UID del usuario actual
 
-    public MessageAdapter(ArrayList<Message> messageList, String currentUser) {
+    public MessageAdapter(ArrayList<Message> messageList, String currentUserId) {
         this.messageList = messageList;
-        this.currentUser = currentUser;
+        this.currentUserId = currentUserId;
     }
 
     @Override
     public int getItemViewType(int position) {
         Message message = messageList.get(position);
-        if (message.getSender().equals(currentUser)) {
-            return VIEW_TYPE_SENT; // Mensaje enviado por el usuario actual
+
+        // Determina si el mensaje fue enviado por el usuario actual o es recibido
+        if (message.getSender().equals(currentUserId)) {
+            return VIEW_TYPE_SENT; // Mensaje enviado
         } else {
             return VIEW_TYPE_RECEIVED; // Mensaje recibido
         }
@@ -63,6 +65,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return messageList.size();
     }
 
+    // ViewHolder para mensajes enviados por el usuario actual
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {
         private TextView messageText;
 
@@ -72,10 +75,11 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         void bind(Message message) {
-            messageText.setText(message.getContent());
+            messageText.setText(message.getContent()); // Mostrar el contenido del mensaje enviado
         }
     }
 
+    // ViewHolder para mensajes recibidos (de otros usuarios o admin)
     static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
         private TextView messageText;
 
@@ -85,7 +89,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         void bind(Message message) {
-            messageText.setText(message.getContent());
+            messageText.setText(message.getContent()); // Mostrar el contenido del mensaje recibido
         }
     }
 }

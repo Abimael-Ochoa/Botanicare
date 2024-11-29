@@ -1,16 +1,18 @@
 package com.example.projectintegration.models;
 
 public class Message {
-    private String sender; // Quién envió el mensaje (admin o usuario)
-    private String content; // Contenido del mensaje
+    private String sender;
+    private String content; // Contenido del mensaje\
+    private String receiver; // Nuevo campo
     private long timestamp; // Marca de tiempo para ordenarlo
 
     public Message() {
         // Constructor vacío requerido por Firebase
     }
 
-    public Message(String sender, String content, long timestamp) {
+    public Message(String sender, String receiver, String content, long timestamp) {
         this.sender = sender;
+        this.receiver = receiver;
         this.content = content;
         this.timestamp = timestamp;
     }
@@ -37,5 +39,13 @@ public class Message {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 }

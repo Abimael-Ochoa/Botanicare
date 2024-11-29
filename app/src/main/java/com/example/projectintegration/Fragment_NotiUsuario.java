@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.projectintegration.adapter.UserAdapter;
-import com.example.projectintegration.models.UserChat;
+import com.example.projectintegration.models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +27,7 @@ public class Fragment_NotiUsuario extends Fragment {
 
     private RecyclerView rvUsers;
     private UserAdapter userAdapter;
-    private ArrayList<UserChat> userList;
+    private ArrayList<User> userList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +57,7 @@ public class Fragment_NotiUsuario extends Fragment {
 
         userAdapter.setOnUserClickListener(new UserAdapter.OnUserClickListener() {
             @Override
-            public void onUserClick(UserChat user) {
+            public void onUserClick(User user) {
                 openChatActivity(user); // Abre la actividad del chat
             }
         });
@@ -73,7 +71,7 @@ public class Fragment_NotiUsuario extends Fragment {
 
 
 
-    private void openChatActivity(UserChat user) {
+    private void openChatActivity(User user) {
         // Crear un Intent para iniciar la actividad del chat
         Intent intent = new Intent(requireContext(), Chat.class);
 
@@ -98,9 +96,10 @@ public class Fragment_NotiUsuario extends Fragment {
                     String name = userSnapshot.child("name").getValue(String.class);
                     Long unreadMessages = userSnapshot.child("unreadMessages").getValue(Long.class);
 
+
                     // Validar datos no nulos y agregar a la lista
                     if (name != null && unreadMessages != null) {
-                        userList.add(new UserChat(name, unreadMessages.intValue()));
+                        userList.add(new User(name, unreadMessages.intValue()));
                     }
                 }
                 userAdapter.notifyDataSetChanged();

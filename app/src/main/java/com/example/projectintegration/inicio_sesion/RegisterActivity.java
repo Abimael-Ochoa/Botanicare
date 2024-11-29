@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.User;
-import com.example.projectintegration.models.UserChat;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -122,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (user != null) {
                             // Crea un objeto User con los datos del registro
                             User newUser = new User(name, phone, address, email,0);
-                            UserChat newUserChat = new UserChat(name, 0);
+
 
                             // Guarda el objeto User en Firestore bajo la colección "users"
                             db.collection("users").document(user.getUid())

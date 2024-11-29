@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,15 +28,19 @@ import com.example.projectintegration.EdicionPlantaActivity;
 import com.example.projectintegration.FragmentCalendario;
 import com.example.projectintegration.FragmentPlantProgress;
 import com.example.projectintegration.Fragment_Content;
-import com.example.projectintegration.Fragment_NotiUsuario;
 import com.example.projectintegration.PlantasAdquiridasUsuario;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.R;
-import com.example.projectintegration.models.UserChat;
+import com.example.projectintegration.models.User;
 import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoAdminFragment;
 import com.example.projectintegration.utilities.SearchBarCatalogo;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import android.graphics.Typeface;
 import android.text.TextPaint;
@@ -52,11 +57,48 @@ public class PantallaCatalogo extends AppCompatActivity {
     ImageView searchButton;
     private SearchBarCatalogo searchBarCatalogo;
 
+    User usuarioActual;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
+
+        usuarioActual = new User();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            // El usuario está autenticado
+            String email = firebaseUser.getEmail(); // Obtener el correo electrónico del usuario
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference usersRef = db.collection("users");
+
+            usersRef.whereEqualTo("email", email).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (!querySnapshot.isEmpty()) {
+                                // Se encontró un documento que coincide con el correo electrónico
+                                DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asumimos que solo hay un documento con ese email
+                                 usuarioActual = document.toObject(User.class); // Mapeamos los datos a un objeto User
+
+                                // Ahora puedes usar el objeto `user` con los datos obtenidos de Firestore
+                                Log.d("User Data", "Name: " + usuarioActual.getName() + ", Phone: " + usuarioActual.getPhone());
+                            } else {
+                                // No se encontró un usuario con ese email en Firestore
+                                Log.d("Firestore", "No such user with this email");
+                            }
+                        } else {
+                            // Error al realizar la consulta
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    });
+        } else {
+            // El usuario no está autenticado
+            // Maneja el caso donde no hay usuario autenticado
+        }
+
 
 
 
@@ -154,10 +196,10 @@ public class PantallaCatalogo extends AppCompatActivity {
                     if (id == R.id.nav_calendario) {
                         fragment = new FragmentCalendario(); // Fragmento de calendario
                     }else if (id == R.id.nav_chat) {
-                        UserChat userchat = new UserChat();
                         Intent intent = new Intent(PantallaCatalogo.this, Chat.class);
                         intent.putExtra("userName", "demo");
                         intent.putExtra("unreadMessages", 0);
+                        intent.putExtra("userId", usuarioActual.getId()); // UID del usuario receptor
                         startActivity(intent);
                         finish(); // Finalizar la actividad actual
                     }else if (id == R.id.nav_registrarP){

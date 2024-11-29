@@ -12,12 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.adapter.UserAdapter;
-import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
-import com.example.projectintegration.models.UserChat;
+import com.example.projectintegration.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,7 +26,7 @@ public class NotiUsuario extends AppCompatActivity {
 
     private RecyclerView rvUsers;
     private UserAdapter userAdapter;
-    private ArrayList<UserChat> userList;
+    private ArrayList<User> userList;
     private FirebaseAuth mAuth;  // Instancia de FirebaseAuth
     private CollectionReference usersRef;  // Referencia a la colección de usuarios en Firestore
 
@@ -70,10 +68,13 @@ public class NotiUsuario extends AppCompatActivity {
         loadUsersFromFirestore();  // Cambiado para usar Firestore
     }
 
-    private void openChatActivity(UserChat user) {
+    private void openChatActivity(User user) {
         Intent intent = new Intent(this, Chat.class);
         intent.putExtra("userName", user.getName());
         intent.putExtra("unreadMessages", user.getUnreadMessages());
+        intent.putExtra("userId", user.getId()); // UID del usuario receptor
+        startActivity(intent);
+
         startActivity(intent);
     }
 
@@ -89,9 +90,10 @@ public class NotiUsuario extends AppCompatActivity {
                 snapshots.forEach(document -> {
                     String name = document.getString("name");
                     Long unreadMessages = document.getLong("unreadMessages");
+                    String userId = document.getId(); // Obtén el ID del documento
 
                     if (name != null && unreadMessages != null) {
-                        userList.add(new UserChat(name, unreadMessages.intValue()));
+                        userList.add(new User(name, unreadMessages.intValue(), userId));
                     }
                 });
             }

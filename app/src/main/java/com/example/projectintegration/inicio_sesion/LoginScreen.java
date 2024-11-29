@@ -10,18 +10,10 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.projectintegration.CatalogoAdmin;
-import com.example.projectintegration.FragmentCalendario;
-import com.example.projectintegration.Fragment_NotiUsuario;
 import com.example.projectintegration.NotiUsuario;
 import com.example.projectintegration.R;
-import com.example.projectintegration.adapter.UserAdapter;
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
-import com.example.projectintegration.models.UserChat;
-import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoAdminFragment;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
