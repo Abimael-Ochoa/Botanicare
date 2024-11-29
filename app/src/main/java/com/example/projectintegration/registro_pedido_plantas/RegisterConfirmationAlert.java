@@ -3,11 +3,13 @@ package com.example.projectintegration.registro_pedido_plantas;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.projectintegration.R;
@@ -42,16 +44,19 @@ public class RegisterConfirmationAlert extends DialogFragment {
         btnConfirmar.setOnClickListener(v -> {
             // Al presionar "Aceptar", navega a PantallaCatalogo
             if (getActivity() != null) {
-                // Cambiar a PantallaCatalogo
                 startActivity(new Intent(getActivity(), PantallaCatalogo.class));
                 dismiss(); // Cerrar la alerta
             }
         });
 
-        // Crear el diálogo
-        Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(view);
-        dialog.setCancelable(false); // Hacer que no se pueda cancelar tocando fuera
-        return dialog;
+        // Crear el AlertDialog con el tema personalizado
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.TransparentDialogTheme2);
+        builder.setView(view);
+        builder.setCancelable(false); // Evitar que se cierre al tocar fuera del diálogo
+
+
+        // Retornar el AlertDialog
+        return builder.create();
     }
+
 }
