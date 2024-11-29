@@ -26,6 +26,7 @@ import com.example.projectintegration.Chat;
 import com.example.projectintegration.EdicionPlantaActivity;
 import com.example.projectintegration.FragmentCalendario;
 import com.example.projectintegration.FragmentPlantProgress;
+import com.example.projectintegration.Fragment_Consejos;
 import com.example.projectintegration.Fragment_Content;
 import com.example.projectintegration.Fragment_NotiUsuario;
 import com.example.projectintegration.PlantasAdquiridasUsuario;
@@ -164,7 +165,9 @@ public class PantallaCatalogo extends AppCompatActivity {
                         fragment = new RegistroPedidoAdminFragment();
                     } else if (id == R.id.nav_progreso) {
                         fragment = new FragmentPlantProgress();
-                    } else if (id == R.id.nav_plantas_adquiridas) {
+                    } else if (id == R.id.nav_consejos) {
+                        fragment = new Fragment_Consejos();
+                    }else if (id == R.id.nav_plantas_adquiridas) {
                         Intent intent = new Intent(PantallaCatalogo.this, PlantasAdquiridasUsuario.class);
                         startActivity(intent);
                         finish(); // Finalizar la actividad actual
@@ -180,6 +183,8 @@ public class PantallaCatalogo extends AppCompatActivity {
                         } else if (id == R.id.nav_registrarP) {
                             toolbar.setVisibility(View.GONE);
                         } else if (id == R.id.nav_progreso) {
+                            toolbar.setVisibility(View.GONE);
+                        } else if (id == R.id.nav_consejos) {
                             toolbar.setVisibility(View.GONE);
                         }
                     } else if (item.getItemId() == R.id.nav_logout) {

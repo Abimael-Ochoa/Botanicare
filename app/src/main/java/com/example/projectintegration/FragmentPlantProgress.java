@@ -45,8 +45,6 @@ public class FragmentPlantProgress extends Fragment {
                 requireActivity().onBackPressed(); // Llamar a la acción de retroceso
             }
         });
-
-
         // Encontrar el GridView
         GridView gridView = view.findViewById(R.id.plantsGridView);
 

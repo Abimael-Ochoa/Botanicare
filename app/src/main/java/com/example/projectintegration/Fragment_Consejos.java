@@ -3,62 +3,74 @@ package com.example.projectintegration;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_Consejos#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.projectintegration.adapter.ConsejoAdapter;
+import com.example.projectintegration.models.Consejo;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fragment_Consejos extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private EditText etEscribirConsejo;
+    private RecyclerView rvConsejos;
+    private ConsejoAdapter consejoAdapter;
+    private List<Consejo> listaConsejos;
 
     public Fragment_Consejos() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_Consejos.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Fragment_Consejos newInstance(String param1, String param2) {
-        Fragment_Consejos fragment = new Fragment_Consejos();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__consejos, container, false);
+        View view = inflater.inflate(R.layout.fragment__consejos, container, false);
+
+
+        // Configurar botón de retroceso
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().onBackPressed(); // Llamar a la acción de retroceso
+            }
+        });
+
+        etEscribirConsejo = view.findViewById(R.id.etEscribirConsejo);
+        ImageView btnEnviarConsejo = view.findViewById(R.id.btnEnviarConsejo);
+        rvConsejos = view.findViewById(R.id.rvConsejos);
+
+        // Inicializar lista y adaptador
+        listaConsejos = new ArrayList<>();
+        consejoAdapter = new ConsejoAdapter(listaConsejos);
+
+        // Configurar RecyclerView
+        rvConsejos.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvConsejos.setAdapter(consejoAdapter);
+
+        // Acción al presionar el botón de enviar
+        btnEnviarConsejo.setOnClickListener(v -> {
+            String textoConsejo = etEscribirConsejo.getText().toString().trim();
+            if (!textoConsejo.isEmpty()) {
+                // Agregar nuevo consejo a la lista
+                listaConsejos.add(new Consejo("Usuario", textoConsejo, R.drawable.usuario_icon));
+                consejoAdapter.notifyItemInserted(listaConsejos.size() - 1);
+
+                // Limpiar el campo de texto
+                etEscribirConsejo.setText("");
+            }
+        });
+
+        return view;
     }
 }
