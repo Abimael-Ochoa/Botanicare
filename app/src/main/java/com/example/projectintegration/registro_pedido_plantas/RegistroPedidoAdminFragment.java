@@ -21,8 +21,10 @@ import com.example.projectintegration.utilities.ErrorHandler;
 import com.example.projectintegration.utilities.PlantStockValidator;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -166,17 +168,25 @@ public class RegistroPedidoAdminFragment extends Fragment {
         });
     }
     private void registrarPedido() {
-        List<PlantOrderList> plantItems = new ArrayList<>(); // Lista de plantas
-        final CountDownLatch latch = new CountDownLatch(plantList.getChildCount()); // Para esperar que todas las verificaciones y actualizaciones de stock se completen
+        List<PlantOrderList> plantItems = new ArrayList<>();
 
-        // Itera sobre las plantas que el usuario ha agregado
+        EditText userName = getView().findViewById(R.id.et_nombre_usuario);
+        String clientName = userName.getText().toString();
+
+        if (clientName.isEmpty()) {
+            ErrorHandler.setFieldErrorStyle(userName, getContext());
+            Toast.makeText(getContext(), "Debe ingresar el nombre del usuario.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        PlantOrder.Cliente cliente = new PlantOrder.Cliente(clientName);
+
         for (int i = 0; i < plantList.getChildCount(); i++) {
             View plantaView = plantList.getChildAt(i);
 
             Spinner spinner = plantaView.findViewById(R.id.plantsAvailable);
             EditText cantidadEditText = plantaView.findViewById(R.id.et_plant_quantity);
 
-            // Validar que se haya seleccionado una planta
             if (spinner.getSelectedItem() == null) {
                 Toast.makeText(getContext(), "Debe seleccionar una planta en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
                 return;
@@ -185,84 +195,74 @@ public class RegistroPedidoAdminFragment extends Fragment {
             String plantName = spinner.getSelectedItem().toString();
             String quantityText = cantidadEditText.getText().toString();
 
-            // Validar que la cantidad no esté vacía y sea un número válido
-            if (quantityText.isEmpty()) {
+            if (quantityText.isEmpty() || Integer.parseInt(quantityText) <= 0) {
                 ErrorHandler.setFieldErrorStyle(cantidadEditText, getContext());
-                Toast.makeText(getContext(), "Debe ingresar una cantidad en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Debe ingresar una cantidad válida en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            try {
-                int quantity = Integer.parseInt(quantityText);
-                if (quantity <= 0) {
-                    ErrorHandler.setFieldErrorStyle(cantidadEditText, getContext());
-                    Toast.makeText(getContext(), "La cantidad debe ser mayor a 0 en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                // Llamamos al método asincrónico para obtener el stock disponible
-                getStockDisponible(plantName, new StockCallback() {
-                    @Override
-                    public void onStockRetrieved(int stockDisponible) {
-                        if (quantity > stockDisponible) {
-                            // Si la cantidad solicitada excede el stock, resaltar el campo y mostrar un mensaje de error
-                            ErrorHandler.setFieldErrorStyle(cantidadEditText, getContext());
-                            Toast.makeText(getContext(), "La cantidad solicitada excede el stock disponible (" + stockDisponible + ")", Toast.LENGTH_SHORT).show();
+            int quantity = Integer.parseInt(quantityText);
+
+            // Consulta previa para obtener el documento de la planta
+            db.collection("plants")
+                    .whereEqualTo("name", plantName)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                            DocumentSnapshot plantDoc = task.getResult().getDocuments().get(0);
+
+                            // Ahora ejecutamos la transacción
+                            db.runTransaction(transaction -> {
+                                DocumentSnapshot snapshot = transaction.get(plantDoc.getReference());
+                                int stockDisponible = snapshot.getLong("quantity").intValue();
+
+                                if (quantity > stockDisponible) {
+                                    throw new FirebaseFirestoreException(
+                                            "Stock insuficiente para la planta: " + plantName,
+                                            FirebaseFirestoreException.Code.ABORTED
+                                    );
+                                }
+
+                                // Actualizar stock
+                                int nuevoStock = stockDisponible - quantity;
+                                transaction.update(plantDoc.getReference(), "quantity", nuevoStock);
+
+                                // Agregar planta al pedido
+                                plantItems.add(new PlantOrderList(plantName, quantity));
+
+                                return null; // Retorno de la transacción
+                            }).addOnSuccessListener(aVoid -> {
+                                if (!plantItems.isEmpty()) {
+                                    // Registrar el pedido después de todas las validaciones
+                                    int orderCode = generateOrderCode();
+                                    Date timestamp = new Date();
+                                    PlantOrder plantOrder = new PlantOrder(orderCode, plantItems, cliente, false, timestamp);
+
+                                    db.collection("plantOrders")
+                                            .add(plantOrder)
+                                            .addOnSuccessListener(documentReference -> {
+                                                Toast.makeText(getContext(), "Pedido registrado con éxito.", Toast.LENGTH_SHORT).show();
+                                                RegisterConfirmationAlert dialog = RegisterConfirmationAlert.newInstance(orderCode);
+                                                dialog.show(getChildFragmentManager(), "RegisterConfirmationAlert");
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(getContext(), "Error al registrar el pedido.", Toast.LENGTH_SHORT).show();
+                                            });
+                                }
+                            }).addOnFailureListener(e -> {
+                                if (e instanceof FirebaseFirestoreException) {
+                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Error inesperado: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getContext(), "Error al buscar la planta: " + plantName, Toast.LENGTH_SHORT).show();
                         }
-
-                        // Crear el objeto PlantOrderList si las validaciones pasan
-                        PlantOrderList plantOrderList = new PlantOrderList(plantName, quantity);
-                        plantItems.add(plantOrderList);
-
-                        // Llamar a la función para actualizar el stock
-                        updateStock(plantName, stockDisponible - quantity);
-                    }
-                });
-
-                // Crear el objeto PlantOrderList si las validaciones pasan
-                PlantOrderList plantOrderList = new PlantOrderList(plantName, quantity);
-                plantItems.add(plantOrderList);
-
-
-            } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "La cantidad debe ser un número válido en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
-                return;
-            }
+                    });
         }
-
-        // Si todas las validaciones pasan, procede a crear el pedido
-        if (plantItems.isEmpty()) {
-            Toast.makeText(getContext(), "Debe agregar al menos un registro válido.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        EditText userName = getView().findViewById(R.id.et_nombre_usuario);
-        String clientName = userName.getText().toString();
-
-        if(clientName.isEmpty()){
-            ErrorHandler.setFieldErrorStyle(userName, getContext());
-            Toast.makeText(getContext(), "Debe ingresar el nombre del usuario.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        PlantOrder.Cliente cliente = new PlantOrder.Cliente(clientName);
-        // Crear el objeto PlantOrder con todas las plantas
-        int orderCode = generateOrderCode(); // Genera un código único para la orden
-        PlantOrder plantOrder = new PlantOrder(orderCode, plantItems, cliente, false);
-
-        // Guardar el objeto en Firestore
-        db.collection("plantOrders")
-                .add(plantOrder)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(getContext(), "Pedido registrado con éxito.", Toast.LENGTH_SHORT).show();
-                    RegisterConfirmationAlert dialog = RegisterConfirmationAlert.newInstance(orderCode);
-dialog.show(getChildFragmentManager(), "RegisterConfirmationAlert");
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Error al registrar el pedido.", Toast.LENGTH_SHORT).show();
-                    return;
-                });
-
     }
+
 
     private void updateStock(String plantName, int newStock) {
         db.collection("plants")

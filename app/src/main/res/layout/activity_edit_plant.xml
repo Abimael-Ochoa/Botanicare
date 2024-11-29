@@ -1,196 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <!-- Barra superior -->
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="#225E1D"
-        android:gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/ic_menu"
-            android:contentDescription="Menu" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Botanicare"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:fontFamily="@font/my_custom_font"
-            android:gravity="center" />
-
-        <ImageView
-            android:id="@+id/searchButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/ic_search"
-            android:contentDescription="Search"
-            android:clickable="true"
-            android:focusable="true"/>
-        </LinearLayout>
-
-    <!-- Imagen de la planta -->
-
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="1"
-        android:padding="16dp"
-        android:background="@drawable/background_plantas_disponibles">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/coustard"
-            android:text="Imagen"
-            android:textSize="16sp"
-            android:layout_gravity="center" />
-        <ImageView
-            android:id="@+id/plant_image"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_plant"
-            android:background="@drawable/background_cantidad"
-            android:contentDescription="Plant Image" />
-
-    <!-- Botón para subir imagen -->
-        <Button
-            android:id="@+id/upload_image_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/coustard"
-            android:text="Subir Imagen"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#225E1D"
-            android:textColor="#FFFFFF"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/coustard"
-            android:text="Nombre"
-            android:textSize="16sp"
-            android:layout_gravity="center" />
-
-    <!-- Campo para el nombre de la planta -->
-    <EditText
-        android:id="@+id/plant_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/my_custom_font"
-        android:hint="Nombre"
-        android:text="Planta araña"
-        android:padding="10dp"
-        android:background="@drawable/background_cantidad" />
-
-    <!-- Sección de cantidad con botones de incremento y decremento -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/coustard"
-        android:text="Cantidad"
-        android:textSize="16sp"
-        android:layout_gravity="center" />
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp">
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/decrement_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/button_bc_circular"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/quantity_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="45"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:fontFamily="@font/my_custom_font"
-            android:textSize="18sp"
-            android:background="@drawable/background_cantidad"
-            android:gravity="center" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/increment_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/button_bc_circular"
-            android:text="+" />
-    </LinearLayout>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/coustard"
-            android:text="Descripción"
-            android:textSize="16sp"
-            android:layout_gravity="center" />
-    <!-- Campo para la descripción -->
-        <EditText
-            android:id="@+id/plant_description"
+        <!-- Barra superior -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:hint="Escribir descripción"
-            android:gravity="top"
-            android:fontFamily="@font/my_custom_font"
-            android:background="@drawable/background_cantidad"
+            android:orientation="horizontal"
             android:padding="10dp"
-            android:minHeight="100dp" />
+            android:background="#225E1D"
+            android:gravity="center_vertical">
 
-        <!-- Texto para mostrar mensajes de error -->
-        <TextView
-            android:id="@+id/errorMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/my_custom_font"
-            android:textColor="#FF0000"
-            android:textSize="18sp"
-            android:visibility="gone"
-            android:text="Mensaje de error prueba"
-            android:gravity="center"
-            android:layout_marginTop="16dp"/>
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_menu"
+                android:contentDescription="Menu" />
 
-        <!-- Botón para guardar -->
-        <Button
-            android:id="@+id/save_button"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Botanicare"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:fontFamily="@font/my_custom_font"
+                android:gravity="center" />
+
+            <ImageView
+                android:id="@+id/searchButton"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_search"
+                android:contentDescription="Search"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+        <!-- Imagen de la planta -->
+        <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Guardar"
-            android:backgroundTint="#225E1D"
-            android:textColor="#FFFFFF" />
-    </GridLayout>
-</LinearLayout>
+            android:layout_height="match_parent"
+            android:columnCount="1"
+            android:padding="16dp"
+            android:background="@drawable/background_plantas_disponibles">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/coustard"
+                android:text="Imagen"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/plant_image"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="19dp"
+                android:src="@drawable/ic_plant"
+                android:background="@drawable/background_cantidad"
+                android:contentDescription="Plant Image" />
+
+            <!-- Botón para subir imagen -->
+            <Button
+                android:id="@+id/upload_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/coustard"
+                android:text="Subir Imagen"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#225E1D"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/coustard"
+                android:text="Nombre"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
+
+            <!-- Campo para el nombre de la planta -->
+            <EditText
+                android:id="@+id/plant_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/my_custom_font"
+                android:hint="Nombre"
+                android:text="Planta araña"
+                android:padding="10dp"
+                android:background="@drawable/background_cantidad" />
+
+            <!-- Sección de cantidad con botones de incremento y decremento -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/coustard"
+                android:text="Cantidad"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/decrement_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/button_bc_circular"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/quantity_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="45"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/my_custom_font"
+                    android:textSize="18sp"
+                    android:background="@drawable/background_cantidad"
+                    android:gravity="center" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/increment_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/button_bc_circular"
+                    android:text="+" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/coustard"
+                android:text="Descripción"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
+
+            <!-- Campo para la descripción -->
+            <EditText
+                android:id="@+id/plant_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="Escribir descripción"
+                android:gravity="top"
+                android:fontFamily="@font/my_custom_font"
+                android:background="@drawable/background_cantidad"
+                android:padding="10dp"
+                android:minHeight="100dp" />
+
+            <!-- Texto para mostrar mensajes de error -->
+            <TextView
+                android:id="@+id/errorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/my_custom_font"
+                android:textColor="#FF0000"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:text="Mensaje de error prueba"
+                android:gravity="center"
+                android:layout_marginTop="16dp" />
+
+            <!-- Botón para guardar -->
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Guardar"
+                android:backgroundTint="#225E1D"
+                android:textColor="#FFFFFF" />
+        </GridLayout>
+    </LinearLayout>
+</ScrollView>
