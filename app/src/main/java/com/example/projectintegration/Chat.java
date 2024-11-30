@@ -2,12 +2,14 @@ package com.example.projectintegration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,8 +36,7 @@ public class Chat extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private ArrayList<Message> messageList;
 
-    private String adminID = "6yAyP0KZqrfTwkrUGMAB69sY4QS2";
-
+    private String adminID = "6yAyP0KZqrfTwkrUGMAB69sY4QS2"; // Este valor se obtiene dinámicamente
     private String userName;
     private String currentUserRole; // "admin" o "user"
     private String currentUserId;   // UID del usuario actual
@@ -46,7 +47,6 @@ public class Chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
                 .whereEqualTo("email", "admin@admin.com")
@@ -54,13 +54,12 @@ public class Chat extends AppCompatActivity {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         adminID = queryDocumentSnapshots.getDocuments().get(0).getId();
+                        setupChatRef(); // Llamar a la configuración del chatRef después de obtener el adminID
                     } else {
-                        System.err.println("Error: No se encontró un usuario con el correo admin@admin.com");
+                        Log.e("Chat", "Error: No se encontró el usuario admin.");
                     }
                 })
-                .addOnFailureListener(e -> {
-                    System.err.println("Error al buscar el usuario admin: " + e.getMessage());
-                });
+                .addOnFailureListener(e -> Log.e("Chat", "Error al buscar el usuario admin", e));
 
         // Configuración de vistas
         recyclerView = findViewById(R.id.recycler_view_messages);
@@ -74,27 +73,9 @@ public class Chat extends AppCompatActivity {
         // Obtener el nombre del usuario con el que el admin está chateando, si es el admin
         userName = getIntent().getStringExtra("userName");
 
-        String receiver;
-        receiver = getIntent().getStringExtra("userId");
-
-
-        if (currentUserRole.equals("admin")) {
-            String chatID = adminID + "_" + receiver;
-            chatRef = FirebaseFirestore.getInstance()
-                    .collection("chats")
-                    .document(chatID) // Documento específico del usuario
-                    .collection("messages");
-        } else {
-            String chatID = adminID + "_" + currentUserId;
-            chatRef = FirebaseFirestore.getInstance()
-                    .collection("chats")
-                    .document(chatID) // Documento del usuario actual
-                    .collection("messages");
-        }
-
         // Configurar RecyclerView
         messageList = new ArrayList<>();
-        messageAdapter = new MessageAdapter(messageList, currentUserRole);
+        messageAdapter = new MessageAdapter(messageList, currentUserId);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(messageAdapter);
 
@@ -123,47 +104,48 @@ public class Chat extends AppCompatActivity {
         });
     }
 
+    private void setupChatRef() {
+        String chatID =   adminID + "_" + currentUserId;
+
+        chatRef = FirebaseFirestore.getInstance()
+                .collection("chats")
+                .document(chatID)
+                .collection("messages"); // Subcolección de mensajes dentro del chat
+        loadMessages();
+    }
+
     private void loadMessages() {
-        // Filtrar mensajes directamente desde Firestore
+        if (chatRef == null) {
+            Log.e("Chat", "chatRef no está inicializado para cargar mensajes.");
+            return;
+        }
+
         chatRef.orderBy("timestamp", Query.Direction.ASCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@NonNull QuerySnapshot snapshots, @NonNull FirebaseFirestoreException e) {
-                        if (e != null) {
-                            // Mostrar mensaje de error si algo salió mal
-                            System.err.println("Error al cargar los mensajes: " + e.getMessage());
-                            return;  // Si ocurre un error, no continuar
-                        }
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.e("FirestoreError", "Error al cargar los mensajes", e);
+                        return;
+                    }
 
-                        // Limpiar la lista de mensajes antes de agregar los nuevos
-                        messageList.clear();
-
-                        // Recorrer todos los mensajes y agregarlos a la lista
+                    messageList.clear();
+                    if (snapshots != null) {
                         for (DocumentSnapshot document : snapshots.getDocuments()) {
                             Message message = document.toObject(Message.class);
-
-                            // Verificar si el mensaje es relevante (debe ser entre el admin y el usuario)
-                            if (message != null &&
-                                    ((message.getSender().equals(currentUserId) && message.getReceiver().equals(adminID)) ||
-                                            (message.getSender().equals(adminID) && message.getReceiver().equals(currentUserId)))) {
+                            if (message != null) {
                                 messageList.add(message);
                             }
                         }
-
-                        // Notificar al adaptador que los datos han cambiado
                         messageAdapter.notifyDataSetChanged();
 
-                        // Asegurarse de que el RecyclerView se desplace hacia el último mensaje
+                        // Desplazar al último mensaje
                         if (!messageList.isEmpty()) {
                             recyclerView.scrollToPosition(messageList.size() - 1);
                         }
+                    } else {
+                        Log.d("Firestore", "No hay mensajes disponibles.");
                     }
                 });
     }
-
-
-
-
 
     private void sendMessage(String content) {
         // Validar que el contenido no esté vacío
@@ -175,49 +157,30 @@ public class Chat extends AppCompatActivity {
         long timestamp = System.currentTimeMillis();
         String sender = currentUserId; // Siempre usamos el UID único del usuario actual como sender
 
-
+        String receiver;
         if (currentUserRole.equals("admin")) {
-            String receiver;
             receiver = getIntent().getStringExtra("userId"); // ID del usuario con el que el admin está chateando
             if (receiver == null || receiver.isEmpty()) {
                 System.err.println("Error: No se pudo determinar el receptor para este mensaje.");
                 return;
             }
-            sendToFirestore(sender, receiver, content, timestamp);
         } else {
-            // Buscar el ID del admin con el correo admin@admin.com
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users")
-                    .whereEqualTo("email", "admin@admin.com")
-                    .get()
-                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            String receiver = queryDocumentSnapshots.getDocuments().get(0).getId();
-                            sendToFirestore(sender, receiver, content, timestamp);
-                        } else {
-                            System.err.println("Error: No se encontró un usuario con el correo admin@admin.com");
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        System.err.println("Error al buscar el usuario admin: " + e.getMessage());
-                    });
+            receiver = adminID; // El admin es el receptor cuando el usuario está enviando un mensaje
         }
+
+        sendToFirestore(sender, receiver, content, timestamp);
     }
 
     private void sendToFirestore(String sender, String receiver, String content, long timestamp) {
-        // Crear el mensaje
+        if (chatRef == null) {
+            Log.e("Chat", "chatRef no está inicializado para enviar mensajes.");
+            return;
+        }
+
         Message message = new Message(sender, receiver, content, timestamp);
 
-        // Enviar el mensaje a Firestore
         chatRef.add(message)
-                .addOnSuccessListener(documentReference -> {
-                    System.out.println("Mensaje enviado correctamente: " + documentReference.getId());
-                })
-                .addOnFailureListener(e -> {
-                    System.err.println("Error al enviar el mensaje: " + e.getMessage());
-                });
+                .addOnSuccessListener(documentReference -> Log.d("Chat", "Mensaje enviado correctamente: " + documentReference.getId()))
+                .addOnFailureListener(e -> Log.e("Chat", "Error al enviar el mensaje", e));
     }
-
-
-
 }
