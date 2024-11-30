@@ -1,58 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="#F5F5F5"
+    android:padding="16dp"
     tools:context=".registro_pedido_plantas.Historial_Registros">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#DFF6DD"
-        android:padding="8dp"
-        android:elevation="4dp"
-        android:layout_marginBottom="16dp">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_buscar"
-            android:layout_width="0dp"
+        <!-- Barra de búsqueda -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Buscar por nombre o ID"
-            android:inputType="text"
-            android:fontFamily="@font/coustard"
+            android:orientation="horizontal"
+            android:background="#DFF6DD"
             android:padding="8dp"
-            android:background="#FFFFFF"
-            android:layout_marginEnd="8dp" />
+            android:elevation="4dp"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btn_buscar"
-            android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/et_buscar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Buscar por nombre o ID"
+                android:inputType="text"
+                android:fontFamily="@font/coustard"
+                android:padding="8dp"
+                android:background="#FFFFFF"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btn_buscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#4CAF50"
+                android:text="Buscar"
+                android:fontFamily="@font/coustard"
+                android:textColor="#FFFFFF"
+                android:padding="8dp"
+                android:elevation="4dp" />
+        </LinearLayout>
+
+        <!-- RecyclerView para mostrar pedidos -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_historial_pedidos"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="8dp"
+            android:elevation="2dp" />
+
+        <!-- Botón para regresar -->
+        <Button
+            android:id="@+id/btn_regresar"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:backgroundTint="#4CAF50"
-            android:text="Buscar"
+            android:text="Regresar"
             android:fontFamily="@font/coustard"
             android:textColor="#FFFFFF"
-            android:padding="8dp"
+            android:padding="12dp"
+            android:layout_gravity="center_horizontal"
             android:elevation="4dp" />
+
     </LinearLayout>
-
-    <!-- RecyclerView para mostrar pedidos -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_historial_pedidos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:padding="8dp"
-        android:elevation="2dp"
-        >
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-</LinearLayout>
+</ScrollView>
