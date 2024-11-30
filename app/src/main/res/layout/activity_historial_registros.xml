@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#DFF6DD"
+        android:background="@drawable/fondo_mis_plantas"
         android:padding="8dp"
         android:elevation="4dp"
         android:layout_marginBottom="16dp">
@@ -28,7 +28,7 @@
             android:inputType="text"
             android:fontFamily="@font/coustard"
             android:padding="8dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/background_cantidad"
             android:layout_marginEnd="8dp" />
 
         <Button
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#FFFFFF"
+        android:background="@drawable/fondo_mis_plantas"
         android:padding="8dp"
         android:elevation="2dp" />
 

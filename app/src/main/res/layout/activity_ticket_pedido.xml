@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#DFF6DD"
+        android:background="@drawable/fondo_mis_plantas"
         android:padding="16dp"
         android:layout_marginTop="16dp"
         android:elevation="4dp">
@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#DFF6DD"
+        android:background="@drawable/fondo_mis_plantas"
         android:padding="16dp"
         android:layout_marginTop="16dp"
         android:elevation="4dp">
@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#DFF6DD"
+        android:background="@drawable/fondo_mis_plantas"
         android:padding="16dp"
         android:layout_marginTop="16dp"
         android:elevation="4dp">
