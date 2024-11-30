@@ -5,46 +5,78 @@
     android:layout_height="match_parent"
     tools:context=".Fragment_Catalogo_Admin">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
-        <ScrollView
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="130dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/fondo_mis_plantas"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:id="@+id/buscar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:fillViewport="true">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/background_card"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="0dp">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_agregar"
+                android:contentDescription="Agregar planta icon" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="Agregar planta"
+                android:textAlignment="center"
+                android:textSize="22sp"
+                android:fontFamily="@font/my_custom_font"
+                android:textColor="#225E1D" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Plantas disponibles"
-                    android:fontFamily="@font/coustard"
-                    android:paddingStart="16dp"
-                    android:paddingTop="16dp"
-                    android:textSize="18sp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#333333" />
+    </LinearLayout>
+        <!-- Tarjeta Buscar -->
 
-                <!-- GridView que se llenará dinámicamente con el adaptador -->
-                <GridView
-                    android:id="@+id/plantsGridView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="2"
-                    android:horizontalSpacing="8dp"
-                    android:paddingTop="16dp"
-                    android:verticalSpacing="8dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:clipToPadding="false"
-                    android:background="@drawable/background_plantas_disponibles" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Plantas disponibles"
+            android:fontFamily="@font/coustard"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:textColor="#333333" />
 
-            </LinearLayout>
-        </ScrollView>
+        <!-- GridView que se llenará dinámicamente con el adaptador -->
+        <GridView
+            android:id="@+id/plantsGridView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="2"
+            android:horizontalSpacing="8dp"
+            android:paddingTop="16dp"
+            android:verticalSpacing="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clipToPadding="false"
+            android:background="@drawable/background_plantas_disponibles" />
 
+    </LinearLayout>
+20
 </FrameLayout>
