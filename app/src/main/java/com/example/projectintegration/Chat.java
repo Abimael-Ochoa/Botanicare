@@ -36,7 +36,7 @@ public class Chat extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private ArrayList<Message> messageList;
 
-    private String adminID = "6yAyP0KZqrfTwkrUGMAB69sY4QS2"; // Este valor se obtiene dinámicamente
+    private String adminID = "BzGePvzWsbh10CXIV9kWVcje4O02"; // Este valor se obtiene dinámicamente
     private String userName;
     private String currentUserRole; // "admin" o "user"
     private String currentUserId;   // UID del usuario actual
@@ -105,7 +105,7 @@ public class Chat extends AppCompatActivity {
     }
 
     private void setupChatRef() {
-        String chatID =   adminID + "_" + currentUserId;
+        String chatID =   adminID + "_" + getIntent().getStringExtra("userId");;
 
         chatRef = FirebaseFirestore.getInstance()
                 .collection("chats")
