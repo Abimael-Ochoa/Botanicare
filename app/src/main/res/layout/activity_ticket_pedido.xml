@@ -78,46 +78,43 @@
             android:fontFamily="@font/coustard"
             android:text="Plantas Seleccionadas:"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
 
-        <LinearLayout
-            android:id="@+id/lista_plantas"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_lista_plantas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="8dp">
+            android:layout_marginTop="8dp" />
 
-            <!-- Ejemplo de un item de planta -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:background="#FFFFFF"
-                android:layout_marginBottom="8dp"
-                android:elevation="2dp">
-
-                <TextView
-                    android:id="@+id/tv_nombre_planta"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Nombre de la Planta"
-                    android:fontFamily="@font/my_custom_font"
-                    android:textSize="16sp"
-                    android:layout_marginEnd="8dp" />
-
-                <TextView
-                    android:id="@+id/tv_cantidad_planta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/my_custom_font"
-                    android:text="Cantidad: 2"
-                    android:textSize="16sp"
-                    android:layout_gravity="end" />
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#DFF6DD"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/coustard"
+            android:text="Fecha de Registro:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_order_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="fecha de registro..."
+            android:fontFamily="@font/my_custom_font"
+            android:textSize="20sp"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
 
     <!-- Botones Aceptar y Cancelar -->
     <LinearLayout

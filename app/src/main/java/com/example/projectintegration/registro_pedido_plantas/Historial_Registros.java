@@ -1,5 +1,6 @@
 package com.example.projectintegration.registro_pedido_plantas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,6 +38,8 @@ public class Historial_Registros extends AppCompatActivity {
     private EditText etBuscar;
     private Button btnBuscar;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +56,15 @@ public class Historial_Registros extends AppCompatActivity {
         etBuscar = findViewById(R.id.et_buscar);
         btnBuscar = findViewById(R.id.btn_buscar);
 
-        // Creamos el adaptador
-        adapter = new PlantOrderAdapter(plantOrdersFiltered);
+        adapter = new PlantOrderAdapter(plantOrders, new PlantOrderAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int orderCode) {
+                // Al hacer clic en un item, pasamos el orderCode a la siguiente actividad
+                Intent intent = new Intent(Historial_Registros.this, Ticket_Pedido.class);
+                intent.putExtra("orderCode", orderCode);
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         // Consultamos los pedidos en Firestore
