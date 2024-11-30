@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.projectintegration.Historial_Registros;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.PlantOrder;
 import com.example.projectintegration.models.PlantOrderList;
@@ -28,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 public class RegistroPedidoAdminFragment extends Fragment {
 

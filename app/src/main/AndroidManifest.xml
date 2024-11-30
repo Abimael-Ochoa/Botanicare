@@ -39,13 +39,13 @@
             android:name=".Chat"
             android:exported="false" />
         <activity
-            android:name=".Historial_Registros"
+            android:name=".registro_pedido_plantas.Historial_Registros"
             android:exported="false" />
         <activity
             android:name=".Activity_users_chat"
             android:exported="false" />
         <activity
-            android:name=".Ticket_Pedido"
+            android:name=".registro_pedido_plantas.Ticket_Pedido"
             android:exported="false" />
         <activity
             android:name=".inicio_sesion.ForgotPasswordActivity"

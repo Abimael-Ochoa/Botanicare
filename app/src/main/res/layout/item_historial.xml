@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- item_historial.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -7,7 +7,8 @@
     android:padding="12dp"
     android:background="@drawable/background_plantas"
     android:layout_marginBottom="8dp"
-    android:elevation="2dp">
+    android:elevation="2dp"
+    android:id="@+id/item_historial">
 
     <!-- ID del Pedido -->
     <TextView
@@ -32,4 +33,13 @@
         android:textColor="#000000"
         android:fontFamily="@font/my_custom_font" />
 
+    <!-- Estatus del Pedido -->
+    <TextView
+        android:id="@+id/order_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pendiente"
+        android:textSize="16sp"
+        android:textColor="#FF5722"
+        android:fontFamily="@font/coustard" />
 </LinearLayout>
