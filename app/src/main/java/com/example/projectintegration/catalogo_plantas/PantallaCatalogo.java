@@ -27,6 +27,7 @@ import com.example.projectintegration.Chat;
 import com.example.projectintegration.EdicionPlantaActivity;
 import com.example.projectintegration.FragmentCalendario;
 import com.example.projectintegration.FragmentPlantProgress;
+import com.example.projectintegration.FragmentRecordatorio;
 import com.example.projectintegration.Fragment_Consejos;
 import com.example.projectintegration.Fragment_Content;
 import com.example.projectintegration.PlantasAdquiridasUsuario;
@@ -195,7 +196,7 @@ public class PantallaCatalogo extends AppCompatActivity {
 
                     // Aquí decides cuál fragmento mostrar
                     if (id == R.id.nav_calendario) {
-                        fragment = new FragmentCalendario(); // Fragmento de calendario
+                        fragment = new FragmentRecordatorio(); // Fragmento de calendario
                     }else if (id == R.id.nav_chat) {
                         Intent intent = new Intent(PantallaCatalogo.this, Chat.class);
                         intent.putExtra("userName", "demo");
