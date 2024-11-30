@@ -31,9 +31,9 @@ import java.util.List;
 public class RegistroPedidoAdminFragment extends Fragment {
 
     private LinearLayout plantList; // Contenedor principal
-    private Button btnAddPlant; // Botón para añadir plantas
-    private Button btnRegisterOrder; // Botón para registrar el pedido
-    private Button btnHistorial;
+    private  LinearLayout btnAddPlant; // Botón para añadir plantas
+    private LinearLayout  btnRegisterOrder; // Botón para registrar el pedido
+    private LinearLayout  btnHistorial;
     private FirebaseFirestore db;
     private PlantStockValidator plantStockValidator;
 
@@ -41,7 +41,7 @@ public class RegistroPedidoAdminFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         db = FirebaseFirestore.getInstance();
         // Inflar el diseño del fragmento
-        View view = inflater.inflate(R.layout.pantalla_registro_pedido_admin, container, false);
+        View view = inflater.inflate(R.layout.fragment_registro_plantas, container, false);
         plantStockValidator = new PlantStockValidator(db, getContext()); // Instanciar la clase de validación
 
         // Inicializa los elementos de la vista
