@@ -37,6 +37,7 @@ public class Historial_Registros extends AppCompatActivity {
     private List<PlantOrder> plantOrdersFiltered; // Lista filtrada para búsqueda
     private EditText etBuscar;
     private Button btnBuscar;
+    private Button btnRegresar;
 
 
 
@@ -55,6 +56,13 @@ public class Historial_Registros extends AppCompatActivity {
         // Inicializamos la vista y el adaptador
         etBuscar = findViewById(R.id.et_buscar);
         btnBuscar = findViewById(R.id.btn_buscar);
+        btnRegresar = findViewById(R.id.btn_regresar);
+
+        // Configurar el botón "Regresar"
+        btnRegresar.setOnClickListener(v -> {
+            // Finaliza la actividad actual para regresar a la anterior
+            finish();
+        });
 
         adapter = new PlantOrderAdapter(plantOrders, new PlantOrderAdapter.OnItemClickListener() {
             @Override
