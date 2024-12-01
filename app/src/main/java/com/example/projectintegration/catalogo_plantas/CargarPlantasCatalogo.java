@@ -1,15 +1,20 @@
 package com.example.projectintegration.catalogo_plantas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.projectintegration.FragmentPlantInformationUser;
+import com.example.projectintegration.PlantInformationActivity;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.Plant;
 import com.example.projectintegration.adapter.PlantAdapter;
@@ -40,9 +45,32 @@ public class CargarPlantasCatalogo extends Fragment {
         // Asocia el adaptador al GridView
         plantsGridView.setAdapter(plantAdapter);
 
+
+
         // Inicializa Firestore y carga las plantas
         db = FirebaseFirestore.getInstance();
         loadPlantsFromFirebase();
+
+        // Configurar el evento de clic en un elemento del GridView
+        plantsGridView.setOnItemClickListener((AdapterView<?> parent, View view1, int position, long id) -> {
+            Plant selectedPlant = plantList.get(position);
+            Log.d("GridViewClick", "Clicked on: " + selectedPlant.getName());
+
+            // Crear un Intent para iniciar la nueva Activity
+            Intent intent = new Intent(getContext(), PlantInformationActivity.class);
+
+            // Pasar los datos al Intent
+            intent.putExtra("plantName", selectedPlant.getName());
+            intent.putExtra("plantDescription", selectedPlant.getDescription());
+            intent.putExtra("plantImage", selectedPlant.getImageUrl());
+            intent.putExtra("plantQuantity", selectedPlant.getQuantity());
+
+            // Iniciar la Activity
+            startActivity(intent);
+        });
+
+
+
 
         return view;
     }
