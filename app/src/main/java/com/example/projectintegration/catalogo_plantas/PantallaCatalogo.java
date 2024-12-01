@@ -29,6 +29,7 @@ import com.example.projectintegration.FragmentPlantProgress;
 import com.example.projectintegration.FragmentRecordatorio;
 import com.example.projectintegration.Fragment_Consejos;
 import com.example.projectintegration.Fragment_Content;
+import com.example.projectintegration.NotiUsuario;
 import com.example.projectintegration.PlantasAdquiridasUsuario;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.R;
@@ -60,6 +61,7 @@ public class PantallaCatalogo extends AppCompatActivity {
     private SearchBarCatalogo searchBarCatalogo;
 
     User usuarioActual;
+    private boolean isAdmin = false;
 
 
     @Override
@@ -84,26 +86,33 @@ public class PantallaCatalogo extends AppCompatActivity {
                                 // Se encontró un documento que coincide con el correo electrónico
                                 DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asumimos que solo hay un documento con ese email
                                 usuarioActual = document.toObject(User.class); // Mapeamos los datos a un objeto User
-
-                                // Ahora puedes usar el objeto `user` con los datos obtenidos de Firestore
-                                Log.d("User Data", "Name: " + usuarioActual.getName() + ", Phone: " + usuarioActual.getPhone());
+                                if (firebaseUser != null) {
+                                    if ("admin@admin.com".equalsIgnoreCase(firebaseUser.getEmail())) {
+                                        isAdmin = true;
+                                    }
+                                    // Ahora puedes usar el objeto `user` con los datos obtenidos de Firestore
+                                    Log.d("User Data", "Name: " + usuarioActual.getName() + ", Phone: " + usuarioActual.getPhone());
+                                } else {
+                                    // No se encontró un usuario con ese email en Firestore
+                                    Log.d("Firestore", "No such user with this email");
+                                }
                             } else {
-                                // No se encontró un usuario con ese email en Firestore
-                                Log.d("Firestore", "No such user with this email");
+                                // Error al realizar la consulta
+                                Log.d("Firestore", "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            // Error al realizar la consulta
-                            Log.d("Firestore", "Error getting documents: ", task.getException());
                         }
                     });
+
         } else {
             // El usuario no está autenticado
             // Maneja el caso donde no hay usuario autenticado
         }
 
+
+
         toolbarLogic();
         drawerLayoutConfig();
-        navViewConfig();
+        navViewConfig(isAdmin);
 
         // Cargar el fragmento por defecto (si es necesario)
         if (savedInstanceState == null) {
@@ -112,9 +121,11 @@ public class PantallaCatalogo extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame,  new CargarPlantasCatalogo())
                     .commit();
-        }    }
+        }
+    }
 
-    private void navViewConfig() {
+
+    private void navViewConfig(boolean isAdmin) {
         // Configuración del NavigationView
         NavigationView navView = findViewById(R.id.nav_view);
         if (navView != null) {

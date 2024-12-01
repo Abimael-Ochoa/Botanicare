@@ -68,6 +68,7 @@ public class PlantAdapter extends BaseAdapter {
         TextView nameTextView = convertView.findViewById(R.id.plantNameTextView);
         TextView quantityTextView = convertView.findViewById(R.id.plantQuantityTextView);
         ImageView imageView = convertView.findViewById(R.id.plantImageView);
+        ImageView editImageView = convertView.findViewById(R.id.editImage);
 
         // Llenar los elementos con datos
         nameTextView.setText(plant.getName());
