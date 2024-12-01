@@ -127,10 +127,9 @@ public class LoginScreen extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Autenticación exitosa
                         FirebaseUser user = mAuth.getCurrentUser();
+                        mAuth = FirebaseAuth.getInstance();
                         if (user != null) {
-                            AdminRole adminRole = new AdminRole();
-                            boolean isAdmin = adminRole.isAdmin(user);
-                            if (isAdmin) {
+                            if ("admin@admin.com".equalsIgnoreCase(user.getEmail())) {
                                 // Redirige al catálogo para usuarios normales
                                 Intent catalogIntent = new Intent(LoginScreen.this, NotiUsuario.class);
                                 Toast.makeText(LoginScreen.this,"El usuario es Administrador", Toast.LENGTH_SHORT).show();
