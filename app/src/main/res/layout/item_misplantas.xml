@@ -12,11 +12,13 @@
         android:layout_marginRight="8dp">
 
         <ImageView
+            android:id="@+id/misPlantasIMG"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:src="@drawable/ic_plant" />
 
         <TextView
+            android:id="@+id/misPlantasNombre"
             android:textSize="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="4dp"
