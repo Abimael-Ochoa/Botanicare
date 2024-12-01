@@ -67,10 +67,6 @@ public class PantallaCatalogo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
 
-        TodoLoQueHaceElCatalogo(savedInstanceState);
-    }
-
-    public void TodoLoQueHaceElCatalogo(Bundle savedInstanceState) {
         usuarioActual = new User();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -87,7 +83,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                             if (!querySnapshot.isEmpty()) {
                                 // Se encontró un documento que coincide con el correo electrónico
                                 DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asumimos que solo hay un documento con ese email
-                                 usuarioActual = document.toObject(User.class); // Mapeamos los datos a un objeto User
+                                usuarioActual = document.toObject(User.class); // Mapeamos los datos a un objeto User
 
                                 // Ahora puedes usar el objeto `user` con los datos obtenidos de Firestore
                                 Log.d("User Data", "Name: " + usuarioActual.getName() + ", Phone: " + usuarioActual.getPhone());
@@ -105,88 +101,20 @@ public class PantallaCatalogo extends AppCompatActivity {
             // Maneja el caso donde no hay usuario autenticado
         }
 
+        toolbarLogic();
+        drawerLayoutConfig();
+        navViewConfig();
 
-        toolbar = findViewById(R.id.toolbar);
-        // Inicializa el ImageView como botón de logout
-        addButton = findViewById(R.id.addButton);
-        toolBarTitle = findViewById(R.id.toolbar_title);
-        // Configuración del DrawerLayout
-        drawerLayout = findViewById(R.id.drawer_layout);
-        searchButton = findViewById(R.id.searchButton);
+        // Cargar el fragmento por defecto (si es necesario)
+        if (savedInstanceState == null) {
+            // Si la app se inicia por primera vez, carga el fragmento por defecto
+            Fragment defaultFragment = new Fragment_Content(); // Asegúrate de que el fragmento por defecto sea cargado
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame,  new CargarPlantasCatalogo())
+                    .commit();
+        }    }
 
-        mAuth = FirebaseAuth.getInstance();
-
-        // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.tu_color_verde)); // Reemplaza 'tu_color_verde' con el color que desees
-        }
-
-        // Configuración del Toolbar
-        setSupportActionBar(toolbar);
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Crear el Intent para abrir otra actividad (página)
-                Intent intent = new Intent(PantallaCatalogo.this, EdicionPlantaActivity.class);
-
-                // Iniciar la actividad
-                startActivity(intent);
-            }
-        });
-        // Configura la barra de búsqueda
-        searchBarCatalogo = new SearchBarCatalogo(toolbar, searchButton, addButton, toolBarTitle);
-
-        // Escucha la barra de búsqueda para realizar búsquedas
-        searchBarCatalogo.setOnSearchListener(query -> {
-
-            filterPlants(query);
-        });
-// Inicializa el ImageView como botón de logout
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Crear el Intent para abrir otra actividad (página)
-                Intent intent = new Intent(PantallaCatalogo.this, EdicionPlantaActivity.class);
-
-                // Iniciar la actividad
-                startActivity(intent);
-            }
-        });
-
-        // Oculta el título predeterminado
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-
-        // Configura el TextView como título
-        toolBarTitle.setText("Botanicare");  // Título centrado
-
-        // Configuración del DrawerLayout
-        drawerLayout = findViewById(R.id.drawer_layout);
-
-        // Eliminar ActionBarDrawerToggle por completo, no lo usaremos
-        // Ajusta el tamaño del ícono de hamburguesa y usa tu ícono personalizado
-        Drawable menuIcon = getResources().getDrawable(R.drawable.menu64); // Cambia "menu64" por el nombre de tu ícono
-        if (menuIcon != null) {
-            // Cambia el tamaño del ícono
-            menuIcon.setBounds(0, 0, 120, 120); // Ajusta el tamaño (ancho, alto) como lo necesites
-            toolbar.setNavigationIcon(menuIcon);  // Vuelve a establecer el ícono modificado
-        }
-
-        // Configura la acción para el nuevo ícono
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    drawerLayout.closeDrawer(GravityCompat.START);  // Cierra el Drawer
-                } else {
-                    drawerLayout.openDrawer(GravityCompat.START);  // Abre el Drawer
-                }
-            }
-        });
-
-
+    private void navViewConfig() {
         // Configuración del NavigationView
         NavigationView navView = findViewById(R.id.nav_view);
         if (navView != null) {
@@ -318,16 +246,92 @@ public class PantallaCatalogo extends AppCompatActivity {
                 item.setTitle(spanString);
             }
         }
-
-        // Cargar el fragmento por defecto (si es necesario)
-        if (savedInstanceState == null) {
-            // Si la app se inicia por primera vez, carga el fragmento por defecto
-            Fragment defaultFragment = new Fragment_Content(); // Asegúrate de que el fragmento por defecto sea cargado
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame,  new CargarPlantasCatalogo())
-                    .commit();
-        }
     }
+
+    private void drawerLayoutConfig() {
+        // Configuración del DrawerLayout
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        // Eliminar ActionBarDrawerToggle por completo, no lo usaremos
+        // Ajusta el tamaño del ícono de hamburguesa y usa tu ícono personalizado
+        Drawable menuIcon = getResources().getDrawable(R.drawable.menu64); // Cambia "menu64" por el nombre de tu ícono
+        if (menuIcon != null) {
+            // Cambia el tamaño del ícono
+            menuIcon.setBounds(0, 0, 120, 120); // Ajusta el tamaño (ancho, alto) como lo necesites
+            toolbar.setNavigationIcon(menuIcon);  // Vuelve a establecer el ícono modificado
+        }
+
+        // Configura la acción para el nuevo ícono
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);  // Cierra el Drawer
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START);  // Abre el Drawer
+                }
+            }
+        });
+    }
+
+    private void toolbarLogic() {
+        toolbar = findViewById(R.id.toolbar);
+        // Inicializa el ImageView como botón de logout
+        addButton = findViewById(R.id.addButton);
+        toolBarTitle = findViewById(R.id.toolbar_title);
+        // Configuración del DrawerLayout
+        drawerLayout = findViewById(R.id.drawer_layout);
+        searchButton = findViewById(R.id.searchButton);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.tu_color_verde)); // Reemplaza 'tu_color_verde' con el color que desees
+        }
+
+        // Configuración del Toolbar
+        setSupportActionBar(toolbar);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear el Intent para abrir otra actividad (página)
+                Intent intent = new Intent(PantallaCatalogo.this, EdicionPlantaActivity.class);
+
+                // Iniciar la actividad
+                startActivity(intent);
+            }
+        });
+        // Configura la barra de búsqueda
+        searchBarCatalogo = new SearchBarCatalogo(toolbar, searchButton, addButton, toolBarTitle);
+
+        // Escucha la barra de búsqueda para realizar búsquedas
+        searchBarCatalogo.setOnSearchListener(query -> {
+
+            filterPlants(query);
+        });
+// Inicializa el ImageView como botón de logout
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear el Intent para abrir otra actividad (página)
+                Intent intent = new Intent(PantallaCatalogo.this, EdicionPlantaActivity.class);
+
+                // Iniciar la actividad
+                startActivity(intent);
+            }
+        });
+
+        // Oculta el título predeterminado
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        // Configura el TextView como título
+        toolBarTitle.setText("Botanicare");  // Título centrado
+    }
+
 
     private void filterPlants(String query) {
         // Buscar en el fragmento PlantsGridFragment
