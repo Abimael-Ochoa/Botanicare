@@ -78,8 +78,6 @@
             android:layout_height="match_parent"
             android:background="@drawable/background_plantas_disponibles"
             android:padding="8dp" />
-
-
     </LinearLayout>
 
 </FrameLayout>
