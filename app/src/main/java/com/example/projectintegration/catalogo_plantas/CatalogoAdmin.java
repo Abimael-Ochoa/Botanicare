@@ -21,14 +21,6 @@ public class CatalogoAdmin extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_catalogo_admin);
-
-       pantallaCatalogo.TodoLoQueHaceElCatalogo(savedInstanceState);
-    }
-    @Override
     public void onBackPressed() {
         // Si estamos en FragmentCalendario, mostramos el Toolbar al regresar
         if (toolbar.getVisibility() == View.GONE) {

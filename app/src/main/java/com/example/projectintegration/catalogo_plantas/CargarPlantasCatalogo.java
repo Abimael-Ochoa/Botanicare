@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.PlantInformationActivity;
@@ -52,6 +53,10 @@ public class CargarPlantasCatalogo extends Fragment {
         // Configura el RecyclerView para el desplazamiento horizontal
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         plantsRecyclerView.setLayoutManager(layoutManager);
+
+        // Agrega el LinearSnapHelper para alinear los elementos
+        LinearSnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(plantsRecyclerView);
 
         // Crea una instancia del adaptador para "Mis Plantas"
         misPlantasAdapter = new MisPlantasAdapter(getContext(), myPlantsList);
