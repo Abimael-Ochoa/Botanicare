@@ -233,6 +233,8 @@ public class PantallaCatalogo extends AppCompatActivity {
                             toolbar.setVisibility(View.GONE);
                         } else if (id == R.id.nav_consejos) {
                             toolbar.setVisibility(View.GONE);
+                        } else if (id == R.id.nav_plantas_adquiridas) {
+                            toolbar.setVisibility(View.GONE);
                         }
                     } else if (item.getItemId() == R.id.nav_logout) {
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -59,6 +60,15 @@ public class RegistroPedidoUser extends Fragment {
         etIdPedido = view.findViewById(R.id.et_id_usuario);
         LinearLayout btnBuscarPedido = view.findViewById(R.id.buscar);
         LinearLayout btnVerMisPlantas= view.findViewById(R.id.btn_verplantas);
+
+        // Configurar botón de retroceso
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().onBackPressed(); // Llamar a la acción de retroceso
+            }
+        });
 
         // Configurar listener del botón
         btnVerMisPlantas.setOnClickListener(new View.OnClickListener() {
