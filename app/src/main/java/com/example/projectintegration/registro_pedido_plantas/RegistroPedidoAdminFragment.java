@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,12 +37,17 @@ public class RegistroPedidoAdminFragment extends Fragment {
     private LinearLayout  btnHistorial;
     private FirebaseFirestore db;
     private PlantStockValidator plantStockValidator;
+    private List<String> selectedPlants = new ArrayList<>();
+    private int maxPlantCount = 0;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         db = FirebaseFirestore.getInstance();
         // Inflar el diseño del fragmento
         View view = inflater.inflate(R.layout.fragment_registro_plantas, container, false);
+        obtenerCantidadMaximaDePlantas(); // Obtén el límite de plantas disponibles
         plantStockValidator = new PlantStockValidator(db, getContext()); // Instanciar la clase de validación
 
 
@@ -103,15 +109,18 @@ public class RegistroPedidoAdminFragment extends Fragment {
 
         // Configura el botón de eliminación para la primera planta
         ImageView eliminateRegisteredPlant = nuevaPlantaView.findViewById(R.id.eliminate_registered);
-        eliminateRegisteredPlant.setOnClickListener(new View.OnClickListener() {
+        eliminateRegisteredPlant.setVisibility(View.GONE);
+        /*eliminateRegisteredPlant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 plantList.removeView(nuevaPlantaView);
             }
-        });
+
+        });*/
 
         // Llenar el Spinner con datos de Firebase
-        cargarPlantasSpinner(spinner);
+        cargarPlantasSpinner(spinner, () -> configurarListener(spinner));
+
         cantidadEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 plantStockValidator.validarCantidadStock(spinner, cantidadEditText, () -> {
@@ -126,6 +135,10 @@ public class RegistroPedidoAdminFragment extends Fragment {
 
 
     private void agregarRegistro() {
+        if (plantList.getChildCount() >= maxPlantCount) {
+            Toast.makeText(getContext(), "Has alcanzado el límite máximo de plantas disponibles.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         // Usa el LayoutInflater para inflar el diseño de la nueva fila
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View nuevaPlantaView = inflater.inflate(R.layout.nueva_planta_registro_item, null);
@@ -136,12 +149,13 @@ public class RegistroPedidoAdminFragment extends Fragment {
         eliminateRegisteredPlant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Elimina la planta seleccionada de la lista
                 plantList.removeView(nuevaPlantaView);
+                actualizarPlantasSeleccionadas();
+                actualizarTodosLosSpinners();
             }
         });
 
-        cargarPlantasSpinner(spinner);
+        cargarPlantasSpinner(spinner, () -> configurarListener(spinner));
 
         cantidadEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -157,17 +171,23 @@ public class RegistroPedidoAdminFragment extends Fragment {
 
     }
 
-    private void cargarPlantasSpinner(Spinner spinner) {
+    private void cargarPlantasSpinner(Spinner spinner, Runnable onPlantSelected) {
+        // Guarda la selección previa (si existe)
+        String previousSelection = spinner.getSelectedItem() != null ? spinner.getSelectedItem().toString() : null;
+
         db.collection("plants").get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
                 List<String> plantNames = new ArrayList<>();
+                plantNames.add("Selecciona una planta"); // Placeholder inicial
+
                 for (DocumentSnapshot document : task.getResult()) {
                     String name = document.getString("name");
-                    if (name != null) {
+                    if (name != null && (!selectedPlants.contains(name) || name.equals(previousSelection))) {
                         plantNames.add(name);
                     }
                 }
-                // Crear un adaptador para el Spinner
+
+                // Crear y asignar adaptador
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(
                         getContext(),
                         android.R.layout.simple_spinner_item,
@@ -175,11 +195,66 @@ public class RegistroPedidoAdminFragment extends Fragment {
                 );
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(adapter);
-            }else{
+
+                // Mantén la selección previa si es válida
+                if (previousSelection != null && plantNames.contains(previousSelection)) {
+                    spinner.setSelection(plantNames.indexOf(previousSelection));
+                }
+
+                // Ejecuta la acción si se selecciona algo
+                if (onPlantSelected != null) {
+                    onPlantSelected.run();
+                }
+            } else {
                 Toast.makeText(getContext(), "Error al cargar plantas.", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    private void configurarListener(Spinner spinner) {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinner.getSelectedItem().toString();
+
+                // Si se selecciona algo distinto al placeholder
+                if (!selectedItem.equals("Selecciona una planta")) {
+                    actualizarPlantasSeleccionadas();
+                    actualizarTodosLosSpinners();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada
+            }
+        });
+    }
+
+    private void actualizarPlantasSeleccionadas() {
+        selectedPlants.clear();
+        for (int i = 0; i < plantList.getChildCount(); i++) {
+            View plantaView = plantList.getChildAt(i);
+            Spinner spinner = plantaView.findViewById(R.id.plantsAvailable);
+            if (spinner.getSelectedItem() != null) {
+                String selectedItem = spinner.getSelectedItem().toString();
+                if (!selectedItem.equals("Selecciona una planta")) {
+                    selectedPlants.add(selectedItem);
+                }
+            }
+        }
+    }
+
+    private void actualizarTodosLosSpinners() {
+        for (int i = 0; i < plantList.getChildCount(); i++) {
+            View plantaView = plantList.getChildAt(i);
+            Spinner spinner = plantaView.findViewById(R.id.plantsAvailable);
+            cargarPlantasSpinner(spinner, null); // Actualiza cada Spinner individualmente
+        }
+    }
+
+
+
     private void registrarPedido() {
         List<PlantOrderList> plantItems = new ArrayList<>();
 
@@ -319,6 +394,16 @@ public class RegistroPedidoAdminFragment extends Fragment {
     private int generateOrderCode() {
         // Generar un código único para la orden
         return (int) (Math.random() * 100000); // Solo un ejemplo
+    }
+
+    private void obtenerCantidadMaximaDePlantas() {
+        db.collection("plants").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                maxPlantCount = task.getResult().size();
+            } else {
+                Toast.makeText(getContext(), "Error al obtener el número de plantas.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
