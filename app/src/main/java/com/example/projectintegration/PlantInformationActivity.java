@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,6 +45,8 @@ public class PlantInformationActivity extends AppCompatActivity {
                 Picasso.get().load(plantImage).into(plantImageView);
             }
         }
+
+
 
 // En el onCreate() de tu Activity
         ImageView btnBack = findViewById(R.id.back); // Obtén la referencia al botón de retroceso
