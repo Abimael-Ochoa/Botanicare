@@ -23,7 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.projectintegration.Chat;
+import com.example.projectintegration.chat_codigo.ChatUser;
 import com.example.projectintegration.EdicionPlantaActivity;
 import com.example.projectintegration.FragmentPlantProgress;
 import com.example.projectintegration.FragmentRecordatorio;
@@ -139,7 +139,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                     if (id == R.id.nav_calendario) {
                         fragment = new FragmentRecordatorio(); // Fragmento de calendario
                     }else if (id == R.id.nav_chat) {
-                        Intent intent = new Intent(PantallaCatalogo.this, Chat.class);
+                        Intent intent = new Intent(PantallaCatalogo.this, ChatUser.class);
                         intent.putExtra("userName", "demo");
                         intent.putExtra("unreadMessages", 0);
                         intent.putExtra("userId", usuarioActual.getId()); // UID del usuario receptor
