@@ -25,7 +25,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.projectintegration.Chat;
 import com.example.projectintegration.EdicionPlantaActivity;
-import com.example.projectintegration.FragmentCalendario;
 import com.example.projectintegration.FragmentPlantProgress;
 import com.example.projectintegration.FragmentRecordatorio;
 import com.example.projectintegration.Fragment_Consejos;
@@ -35,6 +34,7 @@ import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.User;
 import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoAdminFragment;
+import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoUser;
 import com.example.projectintegration.utilities.SearchBarCatalogo;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,10 +67,10 @@ public class PantallaCatalogo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
 
-        todoLoQueHaceElCatalogo(savedInstanceState);
+        TodoLoQueHaceElCatalogo(savedInstanceState);
     }
 
-    private void todoLoQueHaceElCatalogo(Bundle savedInstanceState) {
+    public void TodoLoQueHaceElCatalogo(Bundle savedInstanceState) {
         usuarioActual = new User();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -213,9 +213,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                     } else if (id == R.id.nav_consejos) {
                         fragment = new Fragment_Consejos();
                     }else if (id == R.id.nav_plantas_adquiridas) {
-                        Intent intent = new Intent(PantallaCatalogo.this, PlantasAdquiridasUsuario.class);
-                        startActivity(intent);
-                        finish(); // Finalizar la actividad actual
+                        fragment = new RegistroPedidoUser();
                     }
 
                     // Si el fragmento es válido
