@@ -135,7 +135,10 @@
                 android:gravity="center"
                 android:clipToPadding="false"
                 android:padding="16dp"
-                android:background="@drawable/background_plantas_disponibles" />
+                android:background="@drawable/background_plantas_disponibles"
+                android:focusable="true"
+                android:clickable="true"
+                />
 
         </LinearLayout>
     </ScrollView>

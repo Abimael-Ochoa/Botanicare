@@ -99,7 +99,7 @@
 
             <!-- Tarjeta Ver mis plantas -->
             <LinearLayout
-                android:id="@+id/btn_add_plant"
+                android:id="@+id/btn_verplantas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
