@@ -58,7 +58,7 @@ public class RegistroPedidoUser extends Fragment {
         // Inicializar vistas
         etIdPedido = view.findViewById(R.id.et_id_usuario);
         LinearLayout btnBuscarPedido = view.findViewById(R.id.buscar);
-        LinearLayout btnVerMisPlantas= view.findViewById(R.id.btn_add_plant);
+        LinearLayout btnVerMisPlantas= view.findViewById(R.id.btn_verplantas);
 
         // Configurar listener del botón
         btnVerMisPlantas.setOnClickListener(new View.OnClickListener() {
