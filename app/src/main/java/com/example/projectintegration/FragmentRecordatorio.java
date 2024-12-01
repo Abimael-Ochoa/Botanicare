@@ -57,6 +57,19 @@ public class FragmentRecordatorio extends Fragment {
         rbRegar = view.findViewById(R.id.rb_regar);  // RadioButton para regar
         rbFertilizar = view.findViewById(R.id.rb_fertilizar);  // RadioButton para fertilizar
 
+        // Configurar cambio dinámico del fondo de los RadioButtons
+        rgAccion.setOnCheckedChangeListener((group, checkedId) -> {
+            // Actualiza los fondos según la selección
+            if (checkedId == rbRegar.getId()) {
+                rbRegar.setBackgroundResource(R.drawable.radio_button_border); // Fondo seleccionado
+                rbFertilizar.setBackgroundResource(R.drawable.bc_radiobutton); // Fondo no seleccionado
+            } else if (checkedId == rbFertilizar.getId()) {
+                rbFertilizar.setBackgroundResource(R.drawable.radio_button_border); // Fondo seleccionado
+                rbRegar.setBackgroundResource(R.drawable.bc_radiobutton); // Fondo no seleccionado
+            }
+        });
+
+
         // Configurar botón de retroceso
         ImageView btnBack = view.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
