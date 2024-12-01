@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -27,6 +26,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
+        <activity
+            android:name=".PlantInformationAdmin"
+            android:exported="false"
+            android:theme="@style/Theme.ProjectIntegration" />
         <activity
             android:name=".PlantasAdquiridasUsuario"
             android:exported="false" />
