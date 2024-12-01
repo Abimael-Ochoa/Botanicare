@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.adapter.UserAdapter;
+import com.example.projectintegration.chat_codigo.Chat;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.models.User;
 import com.google.firebase.auth.FirebaseAuth;

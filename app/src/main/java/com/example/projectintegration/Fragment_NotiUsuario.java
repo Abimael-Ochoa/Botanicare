@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.projectintegration.adapter.UserAdapter;
+import com.example.projectintegration.chat_codigo.Chat;
 import com.example.projectintegration.models.User;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
