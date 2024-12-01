@@ -26,7 +26,6 @@ public class CatalogoAdmin extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_catalogo_admin);
 
-       pantallaCatalogo.TodoLoQueHaceElCatalogo(savedInstanceState);
     }
     @Override
     public void onBackPressed() {

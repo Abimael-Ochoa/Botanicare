@@ -14,12 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectintegration.NotiUsuario;
 import com.example.projectintegration.R;
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
+import com.example.projectintegration.utilities.AdminRole;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import android.text.TextWatcher;
 import android.text.Editable;
+import android.widget.Toast;
 
 
 public class LoginScreen extends AppCompatActivity {
@@ -126,14 +128,18 @@ public class LoginScreen extends AppCompatActivity {
                         // Autenticación exitosa
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            if ("admin@admin.com".equalsIgnoreCase(user.getEmail())) {
+                            AdminRole adminRole = new AdminRole();
+                            boolean isAdmin = adminRole.isAdmin(user);
+                            if (isAdmin) {
                                 // Redirige al catálogo para usuarios normales
                                 Intent catalogIntent = new Intent(LoginScreen.this, NotiUsuario.class);
+                                Toast.makeText(LoginScreen.this,"El usuario es Administrador", Toast.LENGTH_SHORT).show();
                                 startActivity(catalogIntent);
 
                             } else {
                                 // Redirige al catálogo para usuarios normales
                                 Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
+                                Toast.makeText(LoginScreen.this,"El usuario NO es Administrador", Toast.LENGTH_SHORT).show();
                                 startActivity(catalogIntent);
                             }
                             finish(); // Cierra la actividad de login
