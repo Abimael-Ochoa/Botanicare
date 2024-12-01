@@ -12,9 +12,12 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.PlantInformationActivity;
 import com.example.projectintegration.R;
+import com.example.projectintegration.adapter.MisPlantasAdapter;
 import com.example.projectintegration.models.Plant;
 import com.example.projectintegration.adapter.PlantAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -24,7 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CargarPlantasCatalogo extends Fragment {
+    private RecyclerView plantsRecyclerView;
     private GridView plantsGridView;
+    private MisPlantasAdapter misPlantasAdapter;
     private static PlantAdapter plantAdapter;
     private static List<Plant> plantList;
     private FirebaseFirestore db;
@@ -34,6 +39,22 @@ public class CargarPlantasCatalogo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__catalogo_plantas, container, false);
+
+        //AGREGUE DE AQUI
+        //CREE EL ADAPTER DEL RECYCLERVIEW PARA MIS PLANTAS PERO OTRA VEZ NO JALA LA INFORMACION
+        //DE LA BASE DE DATOS AHI CHECALO
+        // Inicializa el RecyclerView y la lista de plantas
+        plantsRecyclerView = view.findViewById(R.id.plantsRecyclerView);
+        plantList = new ArrayList<>();
+
+        // Configura el RecyclerView para el desplazamiento horizontal
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        plantsRecyclerView.setLayoutManager(layoutManager);
+
+        // Crea una instancia del adaptador MisPlantasAdapter y la asocia al RecyclerView
+        misPlantasAdapter = new MisPlantasAdapter(getContext(), plantList);
+        plantsRecyclerView.setAdapter(misPlantasAdapter);
+        //HASTA AQUI PERO NO JALO
 
         // Inicializa el GridView y la lista de plantas
         plantsGridView = view.findViewById(R.id.plantsGridView);
