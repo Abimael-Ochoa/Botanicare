@@ -31,7 +31,7 @@
             android:name=".PlantasAdquiridasUsuario"
             android:exported="false" />
         <activity
-            android:name=".catalogo_plantas.CatalogoAdmin"
+            android:name=".PlantInformationActivity"
             android:exported="false" />
         <activity
             android:name=".NotiUsuario"

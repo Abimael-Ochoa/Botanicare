@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.projectintegration.FragmentPlantInformationUser;
 import com.example.projectintegration.PlantInformationActivity;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.Plant;
@@ -32,9 +31,8 @@ public class CargarPlantasCatalogo extends Fragment {
     private final Handler searchHandler = new Handler();  // Handler para manejar el debounce
     private Runnable searchRunnable;               // Runnable para la búsqueda
 
-
     @Override
-    public  View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__catalogo_plantas, container, false);
 
         // Inicializa el GridView y la lista de plantas
@@ -45,37 +43,36 @@ public class CargarPlantasCatalogo extends Fragment {
         // Asocia el adaptador al GridView
         plantsGridView.setAdapter(plantAdapter);
 
-
-
         // Inicializa Firestore y carga las plantas
         db = FirebaseFirestore.getInstance();
         loadPlantsFromFirebase();
 
         // Configurar el evento de clic en un elemento del GridView
         plantsGridView.setOnItemClickListener((AdapterView<?> parent, View view1, int position, long id) -> {
-            Plant selectedPlant = plantList.get(position);
-            Log.d("GridViewClick", "Clicked on: " + selectedPlant.getName());
+            if (plantList != null && !plantList.isEmpty()) {
+                Plant selectedPlant = plantList.get(position);
+                Log.d("GridViewClick", "Clicked on: " + selectedPlant.getName());
 
-            // Crear un Intent para iniciar la nueva Activity
-            Intent intent = new Intent(getContext(), PlantInformationActivity.class);
+                // Crear un Intent para iniciar la nueva Activity
+                Intent intent = new Intent(getContext(), PlantInformationActivity.class);
 
-            // Pasar los datos al Intent
-            intent.putExtra("plantName", selectedPlant.getName());
-            intent.putExtra("plantDescription", selectedPlant.getDescription());
-            intent.putExtra("plantImage", selectedPlant.getImageUrl());
-            intent.putExtra("plantQuantity", selectedPlant.getQuantity());
+                // Pasar los datos al Intent
+                intent.putExtra("plantName", selectedPlant.getName());
+                intent.putExtra("plantDescription", selectedPlant.getDescription());
+                intent.putExtra("plantImage", selectedPlant.getImageUrl());
+                intent.putExtra("plantQuantity", selectedPlant.getQuantity());
 
-            // Iniciar la Activity
-            startActivity(intent);
+                // Iniciar la Activity
+                startActivity(intent);
+            } else {
+                Toast.makeText(getContext(), "No hay plantas disponibles", Toast.LENGTH_SHORT).show();
+            }
         });
-
-
-
 
         return view;
     }
 
-
+    // Método para filtrar plantas con debounce
     public void filterPlants(String query) {
         if (searchRunnable != null) {
             searchHandler.removeCallbacks(searchRunnable);
@@ -115,9 +112,9 @@ public class CargarPlantasCatalogo extends Fragment {
             }
         };
         searchHandler.postDelayed(searchRunnable, 300);
-
     }
 
+    // Método para ajustar el número de columnas del GridView dinámicamente
     private void adjustGridViewColumns() {
         plantsGridView.post(() -> {
             int totalWidth = plantsGridView.getWidth(); // Obtiene el ancho total disponible
@@ -129,23 +126,22 @@ public class CargarPlantasCatalogo extends Fragment {
         });
     }
 
-        // Cargar plantas desde Firebase
-        private void loadPlantsFromFirebase () {
-            db.collection("plants")
-                    .get()
-                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                        plantList.clear();
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            // Convierte el documento de Firestore a un objeto Plant
-                            Plant plant = document.toObject(Plant.class);
-                            plantList.add(plant);
-                        }
-                        // Notificar al adaptador que los datos han cambiado
-                        plantAdapter.notifyDataSetChanged();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(getContext(), "Error al cargar plantas", Toast.LENGTH_SHORT).show();
-                    });
-        }
+    // Cargar plantas desde Firebase
+    private void loadPlantsFromFirebase() {
+        db.collection("plants")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    plantList.clear();
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        // Convierte el documento de Firestore a un objeto Plant
+                        Plant plant = document.toObject(Plant.class);
+                        plantList.add(plant);
+                    }
+                    // Notificar al adaptador que los datos han cambiado
+                    plantAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error al cargar plantas", Toast.LENGTH_SHORT).show();
+                });
     }
-
+}

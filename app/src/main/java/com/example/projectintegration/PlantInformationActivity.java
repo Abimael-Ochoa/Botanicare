@@ -3,6 +3,7 @@
 package com.example.projectintegration;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,10 +39,22 @@ public class PlantInformationActivity extends AppCompatActivity {
             // Setear los datos en las vistas
             plantNameTextView.setText(plantName);
             plantDescriptionTextView.setText(plantDescription);
-            plantQuantityTextView.setText("Cantidad: " + plantQuantity);
+            plantQuantityTextView.setText(String.valueOf(plantQuantity));
             if (plantImage != null) {
                 Picasso.get().load(plantImage).into(plantImageView);
             }
         }
+
+// En el onCreate() de tu Activity
+        ImageView btnBack = findViewById(R.id.back); // Obtén la referencia al botón de retroceso
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Llamar al método de retroceso del Activity
+            }
+        });
+
     }
+
+
 }

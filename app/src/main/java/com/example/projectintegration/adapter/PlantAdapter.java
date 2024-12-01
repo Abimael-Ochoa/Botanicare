@@ -12,8 +12,11 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.projectintegration.PlantInformationActivity;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.Plant;
+
+import android.content.Intent; // Asegúrate de importar esto para poder usar Intent
 
 import java.util.List;
 
@@ -78,6 +81,21 @@ public class PlantAdapter extends BaseAdapter {
             // Si la URL es válida, carga la imagen con Volley
             loadImageWithVolley(imageUrl, imageView);
         }
+
+        // Agregar el listener para redirigir al hacer clic en un ítem
+        convertView.setOnClickListener(v -> {
+            // Crear un Intent para abrir la pantalla de información de la planta
+            Intent intent = new Intent(context, PlantInformationActivity.class);
+
+            // Pasar los datos al Intent
+            intent.putExtra("plantName", plant.getName());
+            intent.putExtra("plantDescription", plant.getDescription());
+            intent.putExtra("plantImage", plant.getImageUrl());
+            intent.putExtra("plantQuantity", plant.getQuantity());
+
+            // Iniciar la Activity
+            context.startActivity(intent);
+        });
 
         return convertView;
     }
