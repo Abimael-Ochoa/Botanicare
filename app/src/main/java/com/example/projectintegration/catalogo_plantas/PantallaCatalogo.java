@@ -68,6 +68,10 @@ public class PantallaCatalogo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
 
+        todoLoQueHaceElCatalogo(savedInstanceState);
+    }
+
+    private void todoLoQueHaceElCatalogo(Bundle savedInstanceState) {
         usuarioActual = new User();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -101,8 +105,6 @@ public class PantallaCatalogo extends AppCompatActivity {
             // El usuario no está autenticado
             // Maneja el caso donde no hay usuario autenticado
         }
-
-
 
 
         toolbar = findViewById(R.id.toolbar);
