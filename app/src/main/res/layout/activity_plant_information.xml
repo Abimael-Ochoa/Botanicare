@@ -49,12 +49,12 @@
         android:textColor="#333333" />
 
     <!-- Contenedor principal -->
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_plantas_disponibles"
-        android:columnCount="1"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/background_plantas_disponibles">
 
         <!-- Imagen de la planta -->
         <TextView
@@ -78,8 +78,6 @@
             android:scaleType="centerCrop"
             android:clipToOutline="true" /> <!-- Para que la imagen se recorte al contorno del fondo -->
 
-
-
         <!-- Nombre de la planta -->
         <TextView
             android:layout_width="wrap_content"
@@ -102,6 +100,8 @@
             android:hint="Nombre"
             android:minHeight="48dp"
             android:padding="10dp"
+            android:textSize="20dp"
+            android:textAlignment="center"
             android:text="Planta araña" />
 
         <!-- Cantidad disponible -->
@@ -109,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/coustard"
             android:text="Cantidad Disponible"
             android:textSize="16sp" />
@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/coustard"
             android:text="Descripción"
             android:textSize="16sp" />
@@ -156,5 +156,5 @@
             android:hint="Descripción de la planta"
             android:minHeight="100dp"
             android:padding="7dp" />
-    </GridLayout>
+    </LinearLayout>
 </LinearLayout>
