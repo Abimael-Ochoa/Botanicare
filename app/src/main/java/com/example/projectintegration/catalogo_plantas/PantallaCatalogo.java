@@ -35,6 +35,7 @@ import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.User;
 import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoAdminFragment;
+import com.example.projectintegration.registro_pedido_plantas.RegistroPedidoUser;
 import com.example.projectintegration.utilities.SearchBarCatalogo;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -211,9 +212,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                     } else if (id == R.id.nav_consejos) {
                         fragment = new Fragment_Consejos();
                     }else if (id == R.id.nav_plantas_adquiridas) {
-                        Intent intent = new Intent(PantallaCatalogo.this, PlantasAdquiridasUsuario.class);
-                        startActivity(intent);
-                        finish(); // Finalizar la actividad actual
+                        fragment = new RegistroPedidoUser();
                     }
 
                     // Si el fragmento es válido
