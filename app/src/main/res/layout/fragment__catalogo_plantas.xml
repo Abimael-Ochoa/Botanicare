@@ -28,89 +28,14 @@
                 android:textSize="18sp"
                 android:textColor="#333333" />
 
-            <!-- Horizontal ScrollView para Mis Plantas -->
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPlantas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:scrollbars="none">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:scrollbars="none" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <!-- Primer Plantas Card -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@drawable/fondo_mis_plantas"
-                        android:padding="8dp"
-                        android:layout_marginRight="8dp">
-
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/ic_plant" />
-
-                        <TextView
-                            android:textSize="20dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/my_custom_font"
-                            android:text="Planta de \ncasa" />
-                    </LinearLayout>
-
-                    <!-- Segundo Plantas Card -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@drawable/fondo_mis_plantas"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/ic_plant" />
-                        <TextView
-                            android:textSize="20dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/my_custom_font"
-                            android:text="Planta de \ncasa" />
-                    </LinearLayout>
-
-                    <!-- tercero Plantas Card -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@drawable/fondo_mis_plantas"
-                        android:layout_marginLeft="8dp"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/ic_plant" />
-                        <TextView
-                            android:textSize="20dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/my_custom_font"
-                            android:text="Planta de \ncasa" />
-                    </LinearLayout>
-                </LinearLayout>
-            </HorizontalScrollView>
 
             <!-- Sección Plantas Disponibles -->
             <TextView
