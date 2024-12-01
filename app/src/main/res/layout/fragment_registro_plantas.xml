@@ -134,7 +134,7 @@
                         <ImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:layout_marginLeft="45dp"
+                            android:layout_marginLeft="32dp"
                             android:layout_marginRight="50sp"
                             android:src="@drawable/ic_registro_50"
                             android:contentDescription="Registro icon" />

@@ -92,7 +92,7 @@ public class NotiUsuario extends AppCompatActivity {
                     Long unreadMessages = document.getLong("unreadMessages");
                     String userId = document.getId(); // Obtén el ID del documento
 
-                    if (name != null && unreadMessages != null) {
+                    if (name != null && unreadMessages != null && !userId.equals("BzGePvzWsbh10CXIV9kWVcje4O02")) {
                         userList.add(new User(name, unreadMessages.intValue(), userId));
                     }
                 });

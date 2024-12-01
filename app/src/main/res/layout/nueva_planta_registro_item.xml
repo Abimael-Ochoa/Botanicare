@@ -16,7 +16,7 @@
     <EditText
         android:fontFamily="@font/my_custom_font"
         android:id="@+id/et_plant_quantity"
-        android:layout_width="0dp"
+        android:layout_width="15dp"
         android:layout_height="wrap_content"
         android:hint="Cantidad"
         android:inputType="number"

@@ -37,7 +37,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="75dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,30 +53,82 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/coustard"
-            android:hint="Ingresa tu ID proporcionado por el admin"
+            android:hint="Ingresa tu ID"
+            android:background="@drawable/background_cantidad"
             android:inputType="text"
             android:layout_marginTop="16dp" />
 
-        <!-- Botón para buscar las plantas asociadas con el ID -->
-        <Button
-            android:fontFamily="@font/my_custom_font"
-            android:id="@+id/buscar_planta"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="#4CBA43"
-            android:layout_width="200dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buscar"
-            android:layout_marginTop="16dp" />
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/fondo_mis_plantas"
+            android:layout_margin="16dp">
 
-        <Button
-            android:fontFamily="@font/my_custom_font"
-            android:id="@+id/btn_mis_plantas"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="#4CBA43"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="Ver mis plantas"
-            android:layout_marginTop="16dp" />
+            <!-- Tarjeta Buscar -->
+            <LinearLayout
+                android:id="@+id/buscar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/background_card"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_lupa"
+                    android:layout_marginStart="-70dp"
+                    android:contentDescription="Agregar planta icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:text="Buscar"
+                    android:textAlignment="center"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/my_custom_font"
+                    android:textColor="#225E1D" />
+            </LinearLayout>
+
+            <!-- Tarjeta Ver mis plantas -->
+            <LinearLayout
+                android:id="@+id/btn_add_plant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/background_card"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_add_plant_50"
+                    android:contentDescription="Agregar planta icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="Ver mis plantas"
+                    android:textAlignment="center"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/my_custom_font"
+                    android:textColor="#225E1D" />
+            </LinearLayout>
+
+        </LinearLayout>
+
 
 
         <!-- Icono de la aplicación -->

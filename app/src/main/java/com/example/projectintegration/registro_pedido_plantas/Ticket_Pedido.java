@@ -1,6 +1,7 @@
 package com.example.projectintegration.registro_pedido_plantas;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class Ticket_Pedido extends AppCompatActivity {
 
     private TextView tvNombreUsuario, tvOrderDate;
     private RecyclerView rvListaPlantas;
+    private Button btnRegresar;
     private List<PlantOrderList> plantItems;  // Lista de plantas de este pedido
 
     @Override
@@ -34,6 +36,14 @@ public class Ticket_Pedido extends AppCompatActivity {
         tvOrderDate = findViewById(R.id.tv_order_date);
         rvListaPlantas = findViewById(R.id.rv_lista_plantas);
         rvListaPlantas.setLayoutManager(new LinearLayoutManager(this));
+        btnRegresar = findViewById(R.id.btn_regresar); // Enlazar el botón
+
+        // Configurar el botón "Regresar"
+        btnRegresar.setOnClickListener(v -> {
+            // Finaliza la actividad actual para regresar a la anterior
+            finish();
+        });
+
 
         // Obtener el orderCode del Intent
         int orderCode = getIntent().getIntExtra("orderCode", -1);

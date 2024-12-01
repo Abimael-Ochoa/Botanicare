@@ -44,6 +44,7 @@ public class RegistroPedidoAdminFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_registro_plantas, container, false);
         plantStockValidator = new PlantStockValidator(db, getContext()); // Instanciar la clase de validación
 
+
         // Inicializa los elementos de la vista
         plantList = view.findViewById(R.id.layout_lista_plantas); // Asigna el contenedor correctamente
         btnAddPlant = view.findViewById(R.id.btn_add_plant);
