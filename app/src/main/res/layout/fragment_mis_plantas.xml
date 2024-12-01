@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentMisPlantas">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+    <!-- Sección Plantas Disponibles -->
+    <TextView
+        android:id="@+id/tv_misplantas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mis plantas"
+        android:fontFamily="@font/coustard"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:textSize="18sp"
+        android:textColor="#333333" />
+
+    <!-- GridView que se llenará dinámicamente con el adaptador -->
+    <GridView
+        android:id="@+id/plantsGridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="auto_fit"
+        android:horizontalSpacing="8dp"
+        android:verticalSpacing="8dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        android:background="@drawable/background_plantas_disponibles"
+        android:focusable="true"
+        android:clickable="true"
+        />
+
+</LinearLayout>
+</FrameLayout>

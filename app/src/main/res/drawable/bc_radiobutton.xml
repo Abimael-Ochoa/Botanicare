@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <size
-        android:width="60dp"
-        android:height="60dp" />
-    <solid android:color="#FFFFFF" />
-    <corners android:radius="60dp" />
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Estado seleccionado -->
+    <item android:state_selected="true">
+        <shape>
+            <size
+                android:width="60dp"
+                android:height="60dp" />
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="60dp" />
+            <stroke
+                android:width="2dp"
+                android:color="#00FF00" /> <!-- Borde verde -->
+        </shape>
+    </item>
+
+    <!-- Estado normal -->
+    <item>
+        <shape>
+            <size
+                android:width="60dp"
+                android:height="60dp" />
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="60dp" />
+        </shape>
+    </item>
+</selector>

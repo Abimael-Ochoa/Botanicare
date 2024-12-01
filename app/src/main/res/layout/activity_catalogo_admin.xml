@@ -34,6 +34,7 @@
                 android:clickable="true"
                 android:focusable="true">
 
+                
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"

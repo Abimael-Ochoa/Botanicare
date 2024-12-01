@@ -11,14 +11,9 @@
             android:title="Consejos"
             android:icon="@drawable/nav_consejos"/>
         <item
-            android:id="@+id/nav_sugerencias"
-            android:title="Sugerencias"
-            android:icon="@drawable/nav_sugerencias"
-            />
-        <item
-            android:id="@+id/nav_plantas_adquiridas"
-            android:title="Plantas adquiridas"
-            android:icon="@drawable/nav_plantas_adquiridas"
+            android:id="@+id/nav_misplantas"
+            android:title="Mis plantas"
+            android:icon="@drawable/nav_misplantas"
             />
         <item
             android:id="@+id/nav_progreso"
