@@ -153,7 +153,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                         fragment = new Fragment_Consejos();
                     }else if (id == R.id.nav_plantas_adquiridas) {
                         fragment = new RegistroPedidoUser();
-                    }else if (id == R.id.nav_sugerencias) {
+                    }else if (id == R.id.nav_misplantas) {
                         Intent intent = new Intent(PantallaCatalogo.this, PlantasAdquiridasUsuario.class);
                         startActivity(intent);
                         finish(); // Finalizar la actividad actual
