@@ -136,10 +136,10 @@
             android:id="@+id/appIcon"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:src="@drawable/plant_icon"
-            android:contentDescription="Ícono de la aplicación"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
-            android:layout_gravity="center_horizontal"/>
+            android:contentDescription="Ícono de la aplicación"
+            android:src="@drawable/plant_icon" />
     </LinearLayout>
 
 </FrameLayout>
