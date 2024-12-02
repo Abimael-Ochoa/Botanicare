@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +59,10 @@ public class FragmentMisPlantas extends Fragment {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         myPlantsList.clear();
+
+                        // Utilizamos un HashMap para almacenar plantas únicas por plantName
+                        Map<String, Plant> uniquePlantsMap = new HashMap<>();
+
                         List<Map<String, Object>> plantItems = (List<Map<String, Object>>) documentSnapshot.get("plantItems");
                         if (plantItems != null) {
                             for (Map<String, Object> plantItem : plantItems) {
@@ -65,21 +70,24 @@ public class FragmentMisPlantas extends Fragment {
                                 Long quantityLong = (Long) plantItem.get("quantity");
                                 int quantity = (quantityLong != null) ? quantityLong.intValue() : 0;
 
-                                db.collection("plants").whereEqualTo("name", plantName).get()
-                                        .addOnSuccessListener(querySnapshot -> {
-                                            if (!querySnapshot.isEmpty()) {
-                                                DocumentSnapshot plantDoc = querySnapshot.getDocuments().get(0);
-                                                Plant plant = plantDoc.toObject(Plant.class);
-                                                if (plant != null) {
-                                                    plant.setQuantity(quantity);
-                                                    myPlantsList.add(plant);
+                                // Realizamos la consulta a Firestore solo si el plantName aún no está en el HashMap
+                                if (!uniquePlantsMap.containsKey(plantName)) {
+                                    db.collection("plants").whereEqualTo("name", plantName).get()
+                                            .addOnSuccessListener(querySnapshot -> {
+                                                if (!querySnapshot.isEmpty()) {
+                                                    DocumentSnapshot plantDoc = querySnapshot.getDocuments().get(0);
+                                                    Plant plant = plantDoc.toObject(Plant.class);
+                                                    if (plant != null) {
+                                                        plant.setQuantity(quantity);
+                                                        uniquePlantsMap.put(plantName, plant); // Agregamos al HashMap
+                                                    }
                                                 }
-                                            }
 
-                                            // Actualiza el adaptador con los nuevos datos
-                                            misPlantasAdapter.notifyDataSetChanged();
-                                        })
-                                        .addOnFailureListener(e -> Log.e("FirestoreError", "Error al buscar planta", e));
+                                                // Cuando finalicen todas las consultas, actualizamos la lista del adaptador
+                                                updatePlantListFromMap(uniquePlantsMap);
+                                            })
+                                            .addOnFailureListener(e -> Log.e("FirestoreError", "Error al buscar planta", e));
+                                }
                             }
                         } else {
                             Toast.makeText(getContext(), "No hay plantas en plantItems", Toast.LENGTH_SHORT).show();
@@ -91,4 +99,12 @@ public class FragmentMisPlantas extends Fragment {
                     Toast.makeText(getContext(), "Error al cargar plantas", Toast.LENGTH_SHORT).show();
                 });
     }
+
+    // Método para actualizar el adaptador desde el HashMap
+    private void updatePlantListFromMap(Map<String, Plant> uniquePlantsMap) {
+        myPlantsList.clear();
+        myPlantsList.addAll(uniquePlantsMap.values()); // Convertimos los valores únicos del HashMap en una lista
+        misPlantasAdapter.notifyDataSetChanged();
+    }
+
 }
