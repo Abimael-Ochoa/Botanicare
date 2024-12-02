@@ -18,29 +18,7 @@
             android:orientation="vertical"
             android:padding="0dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Mis plantas"
-                android:fontFamily="@font/coustard"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:textSize="18sp"
-                android:textColor="#333333" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/plantsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="0dp"
-                android:paddingEnd="0dp"
-                android:padding="0dp"
-                android:clipToPadding="false"
-            android:layout_margin="0dp"
-            android:scrollbars="none" />
-
-
-            <!-- Sección Plantas Disponibles -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +29,7 @@
                 android:textSize="18sp"
                 android:textColor="#333333" />
 
-            <!-- GridView que se llenará dinámicamente con el adaptador -->
+            <!-- GridView que se llenarÃ¡ dinÃ¡micamente con el adaptador -->
             <GridView
                 android:id="@+id/plantsGridView"
                 android:layout_width="match_parent"

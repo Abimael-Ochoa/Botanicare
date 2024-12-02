@@ -36,7 +36,7 @@ public class CargarPlantasCatalogo extends Fragment {
     private static MisPlantasAdapter misPlantasAdapter;
     private static PlantAdapter plantAdapter;
     private List<Plant> myPlantsList;  // Lista para el RecyclerView (Mis Plantas)
-    private List<Plant> plantList;     // Lista para el GridView (Catálogo)
+    private List<Plant> plantList;     // Lista para el GridView (CatÃ¡logo)
     private FirebaseFirestore db;
     private final Handler searchHandler = new Handler();  // Handler para manejar el debounce
     private Runnable searchRunnable;
@@ -47,23 +47,7 @@ public class CargarPlantasCatalogo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__catalogo_plantas, container, false);
 
-        // Inicializa el RecyclerView para "Mis Plantas"
-        plantsRecyclerView = view.findViewById(R.id.plantsRecyclerView);
-        myPlantsList = new ArrayList<>();
-
-        // Configura el RecyclerView para el desplazamiento horizontal
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        plantsRecyclerView.setLayoutManager(layoutManager);
-
-        // Agrega el LinearSnapHelper para alinear los elementos
-        LinearSnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(plantsRecyclerView);
-
-        // Crea una instancia del adaptador para "Mis Plantas"
-        misPlantasAdapter = new MisPlantasAdapter(getContext(), myPlantsList);
-        plantsRecyclerView.setAdapter(misPlantasAdapter);
-
-        // Inicializa el GridView para el Catálogo de Plantas
+        // Inicializa el GridView para el CatÃ¡logo de Plantas
         plantsGridView = view.findViewById(R.id.plantsGridView);
         plantList = new ArrayList<>();
         plantAdapter = new PlantAdapter(getContext(), plantList);
@@ -73,8 +57,7 @@ public class CargarPlantasCatalogo extends Fragment {
 
         // Inicializa Firestore y carga los datos
         db = FirebaseFirestore.getInstance();
-        loadPlantsFromFirebase();          // Carga el catálogo
-        loadPlantsFromFirebaseMyPlants();  // Carga "Mis Plantas"
+        loadPlantsFromFirebase();          // Carga el catÃ¡logo
 
         // Configurar clic en GridView
         plantsGridView.setOnItemClickListener((AdapterView<?> parent, View view1, int position, long id) -> {
@@ -96,7 +79,7 @@ public class CargarPlantasCatalogo extends Fragment {
         return view;
     }
 
-    // Método para filtrar plantas (Catálogo)
+    // MÃ©todo para filtrar plantas (CatÃ¡logo)
     public void filterPlants(String query) {
         if (searchRunnable != null) {
             searchHandler.removeCallbacks(searchRunnable);
@@ -137,7 +120,7 @@ public class CargarPlantasCatalogo extends Fragment {
         searchHandler.postDelayed(searchRunnable, 300);
     }
 
-    // Ajustar columnas dinámicamente
+    // Ajustar columnas dinÃ¡micamente
     private void adjustGridViewColumns() {
         plantsGridView.post(() -> {
             int totalWidth = plantsGridView.getWidth();
@@ -148,7 +131,7 @@ public class CargarPlantasCatalogo extends Fragment {
         });
     }
 
-    // Carga catálogo de plantas
+    // Carga catÃ¡logo de plantas
     private void loadPlantsFromFirebase() {
         db.collection("plants")
                 .get()
@@ -165,58 +148,6 @@ public class CargarPlantasCatalogo extends Fragment {
                 });
     }
 
-    private void loadPlantsFromFirebaseMyPlants() {
-        db.collection("users").document(userId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        myPlantsList.clear(); // Asegúrate de limpiar la lista antes de cargar
-                        List<Map<String, Object>> plantItems = (List<Map<String, Object>>) documentSnapshot.get("plantItems");
-                        if (plantItems != null) {
-                            int totalPlants = plantItems.size();
-                            int[] plantsLoaded = {0};
 
-                            for (Map<String, Object> plantItem : plantItems) {
-                                String plantName = (String) plantItem.get("plantName");
-                                Long quantityLong = (Long) plantItem.get("quantity");
-                                int quantity = (quantityLong != null) ? quantityLong.intValue() : 0;
-
-                                db.collection("plants").whereEqualTo("name", plantName).get()
-                                        .addOnSuccessListener(querySnapshot -> {
-                                            Log.d("FirebaseQuery", "Consulta realizada para: " + plantName + " - Documentos encontrados: " + querySnapshot.size());
-                                            if (!querySnapshot.isEmpty()) {
-                                                DocumentSnapshot plantDoc = querySnapshot.getDocuments().get(0);
-                                                Plant plant = plantDoc.toObject(Plant.class);
-                                                if (plant != null) {
-                                                    plant.setQuantity(quantity);
-                                                    myPlantsList.add(plant);
-                                                    Log.d("PlantAdded", "Planta añadida: " + plant.getName() + ", Cantidad: " + plant.getQuantity());
-                                                }
-                                            } else {
-                                                Log.d("Firestore", "No se encontró la planta: " + plantName);
-                                            }
-
-                                            plantsLoaded[0]++;
-                                            Log.d("PlantLoadStatus", "Cargadas: " + plantsLoaded[0] + "/" + totalPlants);
-
-                                            // Notifica al adaptador solo cuando todas las plantas estén cargadas
-                                            if (plantsLoaded[0] == totalPlants) {
-                                                misPlantasAdapter.notifyDataSetChanged();
-                                                Log.d("AdapterUpdated", "Adaptador actualizado con " + myPlantsList.size() + " elementos");
-                                            }
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Log.e("FirestoreError", "Error al buscar planta en colección 'plants'", e);
-                                        });
-                            }
-                        } else {
-                            Toast.makeText(getContext(), "No hay plantas en plantItems", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("FirestoreError", "Error al cargar las plantas del usuario", e);
-                    Toast.makeText(getContext(), "Error al cargar plantas", Toast.LENGTH_SHORT).show();
-                });
-    }
 
 }

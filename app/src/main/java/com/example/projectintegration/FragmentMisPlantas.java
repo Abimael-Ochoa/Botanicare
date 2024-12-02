@@ -1,64 +1,94 @@
 package com.example.projectintegration;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentMisPlantas#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+
+import com.example.projectintegration.adapter.MisPlantasAdapter;
+import com.example.projectintegration.models.Plant;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class FragmentMisPlantas extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FragmentMisPlantas() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentMisPlantas.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentMisPlantas newInstance(String param1, String param2) {
-        FragmentMisPlantas fragment = new FragmentMisPlantas();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private GridView plantsGridView;
+    private List<Plant> myPlantsList;
+    private MisPlantasAdapter misPlantasAdapter;
+    private FirebaseFirestore db;
+    private String userId;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_mis_plantas, container, false);
+
+        plantsGridView = view.findViewById(R.id.myplantsGridView);
+        myPlantsList = new ArrayList<>();
+
+        // Configura el adaptador para el GridView
+        misPlantasAdapter = new MisPlantasAdapter(getContext(), myPlantsList);
+        plantsGridView.setAdapter(misPlantasAdapter);
+
+        // Maneja el clic en los elementos del GridView
+        plantsGridView.setOnItemClickListener((AdapterView<?> parent, View itemView, int position, long id) -> {
+            Plant selectedPlant = myPlantsList.get(position);
+            Toast.makeText(getContext(), "Seleccionaste: " + selectedPlant.getName(), Toast.LENGTH_SHORT).show();
+        });
+
+        // Inicializa Firebase y carga los datos
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        db = FirebaseFirestore.getInstance();
+        loadPlantsFromFirebaseMyPlants();
+
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mis_plantas, container, false);
+    private void loadPlantsFromFirebaseMyPlants() {
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        myPlantsList.clear();
+                        List<Map<String, Object>> plantItems = (List<Map<String, Object>>) documentSnapshot.get("plantItems");
+                        if (plantItems != null) {
+                            for (Map<String, Object> plantItem : plantItems) {
+                                String plantName = (String) plantItem.get("plantName");
+                                Long quantityLong = (Long) plantItem.get("quantity");
+                                int quantity = (quantityLong != null) ? quantityLong.intValue() : 0;
+
+                                db.collection("plants").whereEqualTo("name", plantName).get()
+                                        .addOnSuccessListener(querySnapshot -> {
+                                            if (!querySnapshot.isEmpty()) {
+                                                DocumentSnapshot plantDoc = querySnapshot.getDocuments().get(0);
+                                                Plant plant = plantDoc.toObject(Plant.class);
+                                                if (plant != null) {
+                                                    plant.setQuantity(quantity);
+                                                    myPlantsList.add(plant);
+                                                }
+                                            }
+
+                                            // Actualiza el adaptador con los nuevos datos
+                                            misPlantasAdapter.notifyDataSetChanged();
+                                        })
+                                        .addOnFailureListener(e -> Log.e("FirestoreError", "Error al buscar planta", e));
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "No hay plantas en plantItems", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirestoreError", "Error al cargar las plantas del usuario", e);
+                    Toast.makeText(getContext(), "Error al cargar plantas", Toast.LENGTH_SHORT).show();
+                });
     }
 }

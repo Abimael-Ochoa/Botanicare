@@ -23,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.projectintegration.FragmentMisPlantas;
 import com.example.projectintegration.chat_codigo.ChatUser;
 import com.example.projectintegration.EdicionPlantaActivity;
 import com.example.projectintegration.FragmentPlantProgress;
@@ -154,9 +155,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                     }else if (id == R.id.nav_plantas_adquiridas) {
                         fragment = new RegistroPedidoUser();
                     }else if (id == R.id.nav_misplantas) {
-                        Intent intent = new Intent(PantallaCatalogo.this, PlantasAdquiridasUsuario.class);
-                        startActivity(intent);
-                        finish(); // Finalizar la actividad actual
+                        fragment = new FragmentMisPlantas();
                     }
 
                     // Si el fragmento es válido
