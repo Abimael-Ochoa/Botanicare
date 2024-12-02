@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.projectintegration.PlantInformationActivity;
+import com.example.projectintegration.PlantInformationAdmin;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.Plant;
 
@@ -82,7 +83,7 @@ public class MisPlantasAdapter extends BaseAdapter {
 
         // Evento de clic para abrir PlantInformationActivity
         convertView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PlantInformationActivity.class);
+            Intent intent = new Intent(context, PlantInformationAdmin.class);
             intent.putExtra("plantName", plant.getName());
             intent.putExtra("plantDescription", plant.getDescription());
             intent.putExtra("plantImage", plant.getImageUrl());
