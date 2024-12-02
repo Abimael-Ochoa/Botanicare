@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.projectintegration.FragmentMisPlantas;
+import com.example.projectintegration.ProgressPlant;
 import com.example.projectintegration.chat_codigo.ChatUser;
 import com.example.projectintegration.EdicionPlantaActivity;
 import com.example.projectintegration.FragmentPlantProgress;
@@ -147,12 +148,23 @@ public class PantallaCatalogo extends AppCompatActivity {
                     if (id == R.id.nav_calendario) {
                         fragment = new FragmentRecordatorio(); // Fragmento de calendario
                     }else if (id == R.id.nav_chat) {
-                        Intent intent = new Intent(PantallaCatalogo.this, ChatUser.class);
-                        intent.putExtra("userName", "demo");
-                        intent.putExtra("unreadMessages", 0);
-                        intent.putExtra("userId", usuarioActual.getId()); // UID del usuario receptor
-                        startActivity(intent);
-                        finish(); // Finalizar la actividad actual
+
+                        if ("admin@admin.com".equalsIgnoreCase(email)) {
+                            Intent intent = new Intent(PantallaCatalogo.this, NotiUsuario.class);
+                            intent.putExtra("userName", "demo");
+                            intent.putExtra("unreadMessages", 0);
+                            intent.putExtra("userId", usuarioActual.getId()); // UID del usuario receptor
+                            startActivity(intent);
+                            finish(); // Finalizar la actividad actual
+                        }else{
+                            Intent intent = new Intent(PantallaCatalogo.this, ChatUser.class);
+                            intent.putExtra("userName", "demo");
+                            intent.putExtra("unreadMessages", 0);
+                            intent.putExtra("userId", usuarioActual.getId()); // UID del usuario receptor
+                            startActivity(intent);
+                            finish(); // Finalizar la actividad actual
+                        }
+
                     }else if (id == R.id.nav_registrarP){
                         if ("admin@admin.com".equalsIgnoreCase(email)) {
                             fragment = new RegistroPedidoAdminFragment();
@@ -160,7 +172,15 @@ public class PantallaCatalogo extends AppCompatActivity {
                             fragment = new RegistroPedidoUser();
                         }
                     } else if (id == R.id.nav_progreso) {
-                        fragment = new FragmentPlantProgress();
+
+                        if ("admin@admin.com".equalsIgnoreCase(email)) {
+                            Intent intent = new Intent(PantallaCatalogo.this, ProgressPlant.class);
+                            startActivity(intent);
+                            finish(); // Finalizar la actividad actual
+                        }else{
+                            fragment = new FragmentPlantProgress();
+                        }
+
                     } else if (id == R.id.nav_consejos) {
                         fragment = new Fragment_Consejos();
                     }else if (id == R.id.nav_plantas_adquiridas) {
