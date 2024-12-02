@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-
     android:background="@drawable/fondo_items_progresop_admin">
 
     <!-- Imagen de perfil del usuario -->

@@ -109,12 +109,6 @@ public class MisPlantasAdapter extends BaseAdapter {
         requestQueue.add(imageRequest);
     }
 
-    // Método para actualizar la lista de plantas y notificar al adaptador
-    public void updatePlantList(List<Plant> newPlantList) {
-        this.plantList.clear();
-        this.plantList.addAll(newPlantList);
-        notifyDataSetChanged(); // Notificar que los datos han cambiado
-    }
 
     // ViewHolder para optimizar la conversión de vistas
     static class ViewHolder {
