@@ -46,6 +46,9 @@
             android:name=".chat_codigo.ChatUser"
             android:exported="false" />
         <activity
+            android:name=".ProgressPlant"
+            android:exported="false" />
+        <activity
             android:name=".registro_pedido_plantas.Historial_Registros"
             android:exported="false" />
         <activity
