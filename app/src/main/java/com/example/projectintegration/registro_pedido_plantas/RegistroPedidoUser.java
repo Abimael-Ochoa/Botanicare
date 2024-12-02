@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,11 +150,29 @@ public class RegistroPedidoUser extends Fragment {
 
 
     private void asignarPedidoAlUsuario(String pedidoId, List<Map<String, Object>> plantItems) {
-        // Crear un mapa con las plantas para agregar al usuario
-        Map<String, Object> updateData = new HashMap<>();
-        updateData.put("plantItems", FieldValue.arrayUnion(plantItems.toArray()));
+        // Crear una lista para almacenar las nuevas plantas que se asignarán al usuario
+        List<Map<String, Object>> plantasAAgregar = new ArrayList<>();
 
-        // Actualizar la colección "users" con las plantas
+        // Recorrer las plantas del pedido y generar las entradas según la cantidad
+        for (Map<String, Object> planta : plantItems) {
+            String plantName = (String) planta.get("plantName");
+            int quantity = ((Number) planta.get("quantity")).intValue(); // Convertir a int
+
+            for (int i = 0; i < quantity; i++) {
+                // Crear una nueva entrada para cada planta con un ID único
+                Map<String, Object> nuevaPlanta = new HashMap<>();
+                nuevaPlanta.put("plantName", plantName);
+                nuevaPlanta.put("uniqueId", java.util.UUID.randomUUID().toString()); // Generar ID único
+
+                // Agregar la nueva planta a la lista
+                plantasAAgregar.add(nuevaPlanta);
+            }
+        }
+
+        // Actualizar la colección "users" con las nuevas plantas
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("plantItems", FieldValue.arrayUnion(plantasAAgregar.toArray()));
+
         firestore.collection("users")
                 .document(userId)
                 .update(updateData)
@@ -165,6 +184,7 @@ public class RegistroPedidoUser extends Fragment {
                     Toast.makeText(getContext(), "Error al asignar las plantas al usuario.", Toast.LENGTH_SHORT).show();
                 });
     }
+
 
 
     private void actualizarEstadoPedido(String pedidoId) {
