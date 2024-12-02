@@ -17,6 +17,7 @@ import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -80,25 +81,52 @@ public class NotiUsuario extends AppCompatActivity {
     }
 
     private void loadUsersFromFirestore() {
-        usersRef.addSnapshotListener((QuerySnapshot snapshots, @NonNull FirebaseFirestoreException e) -> {
-            if (e != null) {
+        usersRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                userList.clear(); // Limpiar lista de usuarios
+                for (DocumentSnapshot userDoc : task.getResult()) {
+                    String userId = userDoc.getId();
+                    String name = userDoc.getString("name");
+
+                    // Omitir admin por su ID
+                    if ("BzGePvzWsbh10CXIV9kWVcje4O02".equals(userId)) continue;
+
+                    // Crear usuario temporal con mensajes no leídos inicialmente en 0
+                    User user = new User(name, 0, userId);
+
+                    // Consultar mensajes no leídos de este usuario
+                    FirebaseFirestore.getInstance()
+                            .collection("chats")
+                            .document("BzGePvzWsbh10CXIV9kWVcje4O02_" + userId)
+                            .collection("messages")
+                            .whereEqualTo("isRead", false)
+                            .whereEqualTo("receiver", "BzGePvzWsbh10CXIV9kWVcje4O02") // Asegura que solo obtienes mensajes no leídos dirigidos al admin.
+                            .get()
+                            .addOnCompleteListener(msgTask -> {
+                                if (msgTask.isSuccessful()) {
+                                    // Actualiza la cantidad de mensajes no leídos
+                                    int unreadCount = msgTask.getResult().size();
+                                    user.setUnreadMessages(unreadCount);
+
+                                    // Actualiza la lista de usuarios
+                                    if (!userList.contains(user)) {
+                                        userList.add(user);
+                                    } else {
+                                        int index = userList.indexOf(user);
+                                        userList.set(index, user);
+                                    }
+
+                                    // Notificar al adaptador que se ha actualizado un usuario
+                                    userAdapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(NotiUsuario.this, "Error loading messages for " + name, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            } else {
                 Toast.makeText(NotiUsuario.this, "Error loading users", Toast.LENGTH_SHORT).show();
-                return;
             }
-
-            userList.clear();
-            if (snapshots != null) {
-                snapshots.forEach(document -> {
-                    String name = document.getString("name");
-                    Long unreadMessages = document.getLong("unreadMessages");
-                    String userId = document.getId(); // Obtén el ID del documento
-
-                    if (name != null && unreadMessages != null && !userId.equals("BzGePvzWsbh10CXIV9kWVcje4O02")) {
-                        userList.add(new User(name, unreadMessages.intValue(), userId));
-                    }
-                });
-            }
-            userAdapter.notifyDataSetChanged();
         });
     }
+
 }

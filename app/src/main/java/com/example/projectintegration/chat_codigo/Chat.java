@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projectintegration.NotiUsuario;
 import com.example.projectintegration.R;
 import com.example.projectintegration.adapter.MessageAdapter;
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
@@ -65,7 +66,7 @@ public class Chat extends AppCompatActivity {
         // Botón de retroceso
         ImageView btnBack = findViewById(R.id.back_button);
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(Chat.this, PantallaCatalogo.class);
+            Intent intent = new Intent(Chat.this, NotiUsuario.class);
             startActivity(intent);
             finish();
         });
@@ -105,6 +106,13 @@ public class Chat extends AppCompatActivity {
                             Message message = document.toObject(Message.class);
                             if (message != null) {
                                 messageList.add(message);
+
+                                // Marcar mensaje como leído si no lo está
+                                if (!message.getIsRead() && message.getReceiver().equals(adminID)) {
+                                    document.getReference().update("isRead", true)
+                                            .addOnFailureListener(error -> Log.e("Chat", "Error al actualizar mensaje", error));
+                                }
+
                             }
                         }
                         messageAdapter.notifyDataSetChanged();
@@ -119,7 +127,7 @@ public class Chat extends AppCompatActivity {
 
     private void sendMessage(String content) {
         long timestamp = System.currentTimeMillis();
-        Message message = new Message(adminID, userId, content, timestamp);
+        Message message = new Message(adminID, userId, content, timestamp,false);
 
         chatRef.add(message)
                 .addOnSuccessListener(documentReference -> Log.d("Chat", "Mensaje enviado correctamente"))
