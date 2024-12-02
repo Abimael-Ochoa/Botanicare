@@ -27,7 +27,7 @@ public class PlantInformationAdmin extends AppCompatActivity {
         plantDescriptionTextView = findViewById(R.id.plant_description);
         plantQuantityTextView = findViewById(R.id.quantity_text);
         plantImageView = findViewById(R.id.plant_image);
-        //TextView cantidadQuality = findViewById(R.id.cantidad_disponible);
+        TextView cantidadQuality = findViewById(R.id.cantidad_disponible);
 
         plantQuantityTextView.setVisibility(View.GONE);
         //cantidadQuality.setVisibility(View.GONE);

@@ -1,5 +1,6 @@
 package com.example.projectintegration;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
 import com.example.projectintegration.adapter.AdapterPlantProgress;
 import com.example.projectintegration.models.IPlantProgress;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,4 +94,5 @@ public class FragmentPlantProgress extends Fragment {
                     }
                 });
     }
+
 }
