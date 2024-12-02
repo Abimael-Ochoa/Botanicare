@@ -1,35 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:background="@drawable/bg_item_rounded"
+android:padding="8dp"
+android:layout_margin="8dp"
+android:gravity="center"
+android:clickable="true"
+android:focusable="true">
+
+<ImageView
+    android:id="@+id/misPlantasIMG"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:src="@drawable/ic_plant"
+    android:contentDescription="Imagen de planta" />
+
+<TextView
+    android:id="@+id/misPlantasNombre"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
-    android:padding="0dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:orientation="horizontal"
-        android:background="@drawable/fondo_mis_plantas"
-        android:padding="8dp"
-        android:layout_marginRight="8dp">
-
-        <ImageView
-            android:id="@+id/misPlantasIMG"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_plant"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:id="@+id/misPlantasNombre"
-            android:textSize="40dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/my_custom_font"
-            android:text="Planta de casa" />
-    </LinearLayout>
+    android:text="Planta de casa"
+    android:textColor="#333333"
+    android:textSize="16sp"
+    android:fontFamily="@font/coustard"
+    android:paddingTop="8dp" />
 
 </LinearLayout>
