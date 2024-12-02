@@ -60,7 +60,7 @@ public class PantallaCatalogo extends AppCompatActivity {
     TextView toolBarTitle;
     ImageView searchButton;
     private SearchBarCatalogo searchBarCatalogo;
-
+    private FirebaseUser firebaseUser;
     User usuarioActual;
     private boolean isAdmin = false;
 
@@ -71,9 +71,10 @@ public class PantallaCatalogo extends AppCompatActivity {
         setContentView(R.layout.activity_pantalla_catalogo);
 
         usuarioActual = new User();
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             // El usuario está autenticado
+
             String email = firebaseUser.getEmail(); // Obtener el correo electrónico del usuario
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -85,8 +86,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                             QuerySnapshot querySnapshot = task.getResult();
                             if (!querySnapshot.isEmpty()) {
                                 // Se encontró un documento que coincide con el correo electrónico
-                                DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asumimos que solo hay un documento con ese email
-                                usuarioActual = document.toObject(User.class); // Mapeamos los datos a un objeto User
+                                DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asumimos que solo hay un documento con ese emailusuarioActual = document.toObject(User.class); // Mapeamos los datos a un objeto User
                                 if (firebaseUser != null) {
                                     if ("admin@admin.com".equalsIgnoreCase(firebaseUser.getEmail())) {
                                         isAdmin = true;
@@ -111,9 +111,7 @@ public class PantallaCatalogo extends AppCompatActivity {
 
 
 
-        toolbarLogic();
-        drawerLayoutConfig();
-        navViewConfig(isAdmin);
+
 
         // Cargar el fragmento por defecto (si es necesario)
         if (savedInstanceState == null) {
@@ -123,13 +121,22 @@ public class PantallaCatalogo extends AppCompatActivity {
                     .replace(R.id.content_frame,  new CargarPlantasCatalogo())
                     .commit();
         }
+        toolbarLogic();
+        drawerLayoutConfig();
+        navViewConfig();
     }
 
 
-    private void navViewConfig(boolean isAdmin) {
+    private void navViewConfig( ) {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String email = firebaseUser.getEmail(); // Obtener el correo electrónico del usuario
         // Configuración del NavigationView
         NavigationView navView = findViewById(R.id.nav_view);
         if (navView != null) {
+            Menu navMenu = navView.getMenu();
+            if ("admin@admin.com".equalsIgnoreCase(email)) {
+                navMenu.findItem(R.id.nav_misplantas).setVisible(false);
+            }
             navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -147,7 +154,11 @@ public class PantallaCatalogo extends AppCompatActivity {
                         startActivity(intent);
                         finish(); // Finalizar la actividad actual
                     }else if (id == R.id.nav_registrarP){
-                        fragment = new RegistroPedidoAdminFragment();
+                        if ("admin@admin.com".equalsIgnoreCase(email)) {
+                            fragment = new RegistroPedidoAdminFragment();
+                        }else{
+                            fragment = new RegistroPedidoUser();
+                        }
                     } else if (id == R.id.nav_progreso) {
                         fragment = new FragmentPlantProgress();
                     } else if (id == R.id.nav_consejos) {
@@ -157,6 +168,8 @@ public class PantallaCatalogo extends AppCompatActivity {
                     }else if (id == R.id.nav_misplantas) {
                         fragment = new FragmentMisPlantas();
                     }
+
+
 
                     // Si el fragmento es válido
                     if (fragment != null) {
@@ -234,8 +247,6 @@ public class PantallaCatalogo extends AppCompatActivity {
                         transaction.commit();
                     }
 
-
-
                     // Cerrar el drawer después de seleccionar
                     if (drawerLayout != null) {
                         drawerLayout.closeDrawers();
@@ -285,6 +296,9 @@ public class PantallaCatalogo extends AppCompatActivity {
     }
 
     private void toolbarLogic() {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String email = firebaseUser.getEmail(); // Obtener el correo electrónico del usuario
+
         toolbar = findViewById(R.id.toolbar);
         // Inicializa el ImageView como botón de logout
         addButton = findViewById(R.id.addButton);
@@ -292,6 +306,12 @@ public class PantallaCatalogo extends AppCompatActivity {
         // Configuración del DrawerLayout
         drawerLayout = findViewById(R.id.drawer_layout);
         searchButton = findViewById(R.id.searchButton);
+
+        if (firebaseUser != null) {
+            if (!"admin@admin.com".equalsIgnoreCase(email)) {
+                addButton.setVisibility(View.GONE);
+            }
+        }
 
         mAuth = FirebaseAuth.getInstance();
 

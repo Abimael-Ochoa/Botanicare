@@ -131,7 +131,7 @@ public class LoginScreen extends AppCompatActivity {
                         if (user != null) {
                             if ("admin@admin.com".equalsIgnoreCase(user.getEmail())) {
                                 // Redirige al catálogo para usuarios normales
-                                Intent catalogIntent = new Intent(LoginScreen.this, NotiUsuario.class);
+                                Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
                                 Toast.makeText(LoginScreen.this,"El usuario es Administrador", Toast.LENGTH_SHORT).show();
                                 startActivity(catalogIntent);
 
@@ -164,7 +164,7 @@ public class LoginScreen extends AppCompatActivity {
             if ("admin@admin.com".equalsIgnoreCase(currentUser.getEmail())) {
 
                 // Redirige al catálogo para usuarios normales
-                Intent catalogIntent = new Intent(LoginScreen.this, NotiUsuario.class);
+                Intent catalogIntent = new Intent(LoginScreen.this, PantallaCatalogo.class);
                 startActivity(catalogIntent);
 
             } else {
