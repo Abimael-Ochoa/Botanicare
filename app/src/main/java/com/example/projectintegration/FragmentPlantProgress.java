@@ -84,7 +84,7 @@ public class FragmentPlantProgress extends Fragment {
                                     java.util.Map<String, Object> plantData = (java.util.Map<String, Object>) plantObj;
                                     String plantName = (String) plantData.get("plantName");
                                     // Aquí puedes establecer una imagen predeterminada o ajustar según sea necesario
-                                    items.add(new IPlantProgress(R.drawable.ic_plant, plantName));
+                                   // items.add(new IPlantProgress(R.drawable.ic_plant, plantName));
                                 }
                             }
                             adapter.notifyDataSetChanged(); // Actualizar el GridView
