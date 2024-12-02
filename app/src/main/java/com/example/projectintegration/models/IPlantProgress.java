@@ -6,7 +6,7 @@ public class IPlantProgress {
     private String plantName; // Nombre único de la planta
 
     // Constructor
-    public IPlantProgress(int imageResId, String description, String plantName) {
+    public IPlantProgress(int imageResId, String description) {
         this.imageResId = imageResId;
         this.description = description;
         this.plantName = plantName;
@@ -24,4 +24,6 @@ public class IPlantProgress {
     public String getPlantName() {
         return plantName;
     }
+
+
 }
