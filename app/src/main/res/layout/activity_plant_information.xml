@@ -34,6 +34,14 @@
             android:textSize="25sp"
             android:fontFamily="@font/my_custom_font"
             android:gravity="center" />
+        <ImageView
+            android:id="@+id/edit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_edit_white"
+            android:contentDescription="Back"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
 
     <!-- Título de la sección -->

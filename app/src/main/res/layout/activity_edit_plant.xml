@@ -19,9 +19,10 @@
             android:gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/back_button"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:src="@drawable/ic_menu"
+                android:src="@drawable/ic_regreso"
                 android:contentDescription="Menu" />
 
             <TextView
@@ -34,14 +35,7 @@
                 android:fontFamily="@font/my_custom_font"
                 android:gravity="center" />
 
-            <ImageView
-                android:id="@+id/searchButton"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Search"
-                android:clickable="true"
-                android:focusable="true" />
+
         </LinearLayout>
 
         <!-- Imagen de la planta -->
@@ -132,7 +126,7 @@
                     android:background="@drawable/button_bc_circular"
                     android:text="-" />
 
-                <TextView
+                <EditText
                     android:id="@+id/quantity_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

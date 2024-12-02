@@ -22,6 +22,7 @@ import com.example.projectintegration.adapter.MisPlantasAdapter;
 import com.example.projectintegration.models.Plant;
 import com.example.projectintegration.adapter.PlantAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
