@@ -48,7 +48,6 @@ public class AdapterPlantProgress extends BaseAdapter {
 
         IPlantProgress currentItem = items.get(position);
         imageView.setImageResource(currentItem.getImageResId());
-        textView.setText(currentItem.getText());
 
         return convertView;
     }

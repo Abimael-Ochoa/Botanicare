@@ -27,6 +27,9 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
+            android:name=".GaleriaProgreso"
+            android:exported="false" />
+        <activity
             android:name=".PlantInformationAdmin"
             android:exported="false"
             android:theme="@style/Theme.ProjectIntegration" />

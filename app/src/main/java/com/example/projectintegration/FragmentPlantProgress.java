@@ -1,5 +1,6 @@
 package com.example.projectintegration;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -34,31 +35,39 @@ public class FragmentPlantProgress extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_plant_progress, container, false);
 
-        // Configurar botón de retroceso
+        // Configurar el botón de retroceso
         ImageView btnBack = view.findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity().onBackPressed(); // Llamar a la acción de retroceso
-            }
-        });
-        // Encontrar el GridView
-        GridView gridView = view.findViewById(R.id.plantsGridView);
+        btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
-        // Crear datos para el adaptador
+        // Crear datos estáticos para el adaptador
         List<IPlantProgress> items = new ArrayList<>();
-        items.add(new IPlantProgress(R.drawable.ic_plant, "Plant 1"));
-        items.add(new IPlantProgress(R.drawable.ic_plant, "Plant 2"));
-        items.add(new IPlantProgress(R.drawable.ic_plant, "Plant 3"));
-        // Agrega más elementos según sea necesario
+        items.add(new IPlantProgress(R.drawable.ic_plant, "Descripción de la planta 1", "Planta 1"));
+        items.add(new IPlantProgress(R.drawable.ic_plant, "Descripción de la planta 2", "Planta 2"));
+        items.add(new IPlantProgress(R.drawable.ic_plant, "Descripción de la planta 3", "Planta 3"));
 
-        // Configurar el adaptador
+        // Configurar el adaptador y asignarlo al GridView
+        GridView gridView = view.findViewById(R.id.plantsGridView);
         AdapterPlantProgress adapter = new AdapterPlantProgress(getContext(), items);
         gridView.setAdapter(adapter);
 
+        // Configurar OnItemClickListener para abrir la actividad
+        gridView.setOnItemClickListener((parent, itemView, position, id) -> {
+            IPlantProgress selectedPlant = items.get(position);
+
+            // Crear Intent para la nueva actividad
+            Intent intent = new Intent(getContext(), GaleriaProgreso.class);
+            intent.putExtra("plantName", selectedPlant.getPlantName());
+            intent.putExtra("plantDescription", selectedPlant.getDescription());
+            intent.putExtra("plantImage", selectedPlant.getImageResId());
+
+            // Iniciar actividad
+            startActivity(intent);
+        });
+
         return view;
     }
+
+
 }

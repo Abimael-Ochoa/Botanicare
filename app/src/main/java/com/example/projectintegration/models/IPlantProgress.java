@@ -2,17 +2,26 @@ package com.example.projectintegration.models;
 
 public class IPlantProgress {
     private int imageResId;
-    private String text;
-    public IPlantProgress(int imageResId, String text) {
+    private String description;
+    private String plantName; // Nombre único de la planta
+
+    // Constructor
+    public IPlantProgress(int imageResId, String description, String plantName) {
         this.imageResId = imageResId;
-        this.text = text;
+        this.description = description;
+        this.plantName = plantName;
     }
 
+    // Getters
     public int getImageResId() {
         return imageResId;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
+    }
+
+    public String getPlantName() {
+        return plantName;
     }
 }
