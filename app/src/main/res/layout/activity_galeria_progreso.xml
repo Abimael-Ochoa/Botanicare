@@ -61,7 +61,7 @@
 
             <!-- Tarjeta Buscar -->
             <LinearLayout
-                android:id="@+id/buscar"
+                android:id="@+id/subir"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

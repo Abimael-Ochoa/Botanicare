@@ -11,6 +11,31 @@
         android:orientation="vertical"
         android:padding="0dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="#225E1D"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_regreso"
+                android:contentDescription="Regresar" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Botanicare"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:fontFamily="@font/my_custom_font"
+                android:gravity="center" />
+        </LinearLayout>
+
         <!-- SecciÃ³n Plantas Disponibles -->
         <TextView
             android:id="@+id/tv_misplantas"
