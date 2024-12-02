@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.projectintegration.FragmentMisPlantas;
 import com.example.projectintegration.R;
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
 import com.example.projectintegration.utilities.ErrorHandler;
@@ -63,13 +64,10 @@ public class RegistroPedidoUser extends Fragment {
                 requireActivity().onBackPressed(); // Llamar a la acción de retroceso
             }
         });
-
         // Configurar listener del botón
         btnVerMisPlantas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PantallaCatalogo.class);
-                startActivity(intent);
 
             }
         });
