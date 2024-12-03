@@ -104,10 +104,19 @@ public class Historial_Registros extends AppCompatActivity {
     private void consultarPedidos() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("plantOrders")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (DocumentSnapshot document : task.getResult()) {
+                .addSnapshotListener((querySnapshot, error) -> {
+                    if (error != null) {
+                        Toast.makeText(this, "Error al obtener los registros.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (querySnapshot != null) {
+                        // Limpiar la lista de pedidos antes de agregar los nuevos
+                        plantOrders.clear();
+                        plantOrdersFiltered.clear();
+
+                        // Iterar sobre los documentos obtenidos
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                             int orderCode = document.getLong("orderCode").intValue();
                             boolean status = document.getBoolean("status");
                             Date timestamp = document.getDate("timestamp");
@@ -125,11 +134,10 @@ public class Historial_Registros extends AppCompatActivity {
 
                         // Notificar al adaptador que los datos han cambiado
                         adapter.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(this, "Error al obtener los registros.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
 
     // Función para filtrar los pedidos según el texto de búsqueda
     private void buscarPedidos(String query) {

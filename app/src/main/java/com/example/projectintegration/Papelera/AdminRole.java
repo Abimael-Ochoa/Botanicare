@@ -1,4 +1,4 @@
-package com.example.projectintegration.utilities;
+package com.example.projectintegration.Papelera;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

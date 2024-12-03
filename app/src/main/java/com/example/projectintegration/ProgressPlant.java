@@ -49,9 +49,10 @@ public class ProgressPlant extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                onBackPressed();
             }
         });
+
 
         rvUsers = findViewById(R.id.rv_users);
         rvUsers.setLayoutManager(new LinearLayoutManager(this));
@@ -66,6 +67,10 @@ public class ProgressPlant extends AppCompatActivity {
     }
 
     private void openProgressActivity(User user) {
+        Intent intent = new Intent(this, GaleriaProgreso.class);
+        intent.putExtra("userName", user.getName());
+        intent.putExtra("userId", user.getId()); // UID del usuario receptor
+        startActivity(intent);
 
     }
 
