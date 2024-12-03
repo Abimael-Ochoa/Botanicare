@@ -71,7 +71,6 @@ public class FragmentPlantProgress extends Fragment {
     }
 
     private void loadPlantData() {
-        // Reemplaza "C5txZ5Vw4FOAjvQSOuUt..." por el ID real o ajusta la lógica para obtener el documento correcto
         db.collection("users").document(userId)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -83,16 +82,38 @@ public class FragmentPlantProgress extends Fragment {
                                 if (plantObj instanceof java.util.Map) {
                                     java.util.Map<String, Object> plantData = (java.util.Map<String, Object>) plantObj;
                                     String plantName = (String) plantData.get("plantName");
-                                    // Aquí puedes establecer una imagen predeterminada o ajustar según sea necesario
-                                   // items.add(new IPlantProgress(R.drawable.ic_plant, plantName));
+
+                                    // Consultar Firestore para obtener la imagen correspondiente
+                                    db.collection("plants")
+                                            .whereEqualTo("name", plantName)
+                                            .get()
+                                            .addOnSuccessListener(querySnapshot -> {
+                                                if (!querySnapshot.isEmpty()) {
+                                                    DocumentSnapshot plantDoc = querySnapshot.getDocuments().get(0);
+                                                    String imageUrl = plantDoc.getString("imageUrl");
+
+                                                    // Agregar datos al adaptador
+                                                    items.add(new IPlantProgress(plantName, imageUrl));
+                                                    adapter.notifyDataSetChanged();
+                                                } else {
+                                                    // Si no se encuentra la imagen, agregar con imagen predeterminada
+                                                    items.add(new IPlantProgress(plantName, null));
+                                                    adapter.notifyDataSetChanged();
+                                                }
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(getContext(), "Error al cargar imagen de planta", Toast.LENGTH_SHORT).show();
+                                            });
                                 }
                             }
-                            adapter.notifyDataSetChanged(); // Actualizar el GridView
+                        } else {
+                            Toast.makeText(getContext(), "No se encontraron plantas para este usuario", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(getContext(), "Error al cargar datos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error al cargar datos del usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
 
 }

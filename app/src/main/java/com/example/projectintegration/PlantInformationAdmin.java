@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 public class PlantInformationAdmin extends AppCompatActivity {
@@ -15,6 +16,9 @@ public class PlantInformationAdmin extends AppCompatActivity {
     private TextView plantDescriptionTextView;
     private TextView plantQuantityTextView;
     private ImageView plantImageView;
+    private ImageView editButton;
+
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,11 @@ public class PlantInformationAdmin extends AppCompatActivity {
         plantDescriptionTextView = findViewById(R.id.plant_description);
         plantQuantityTextView = findViewById(R.id.quantity_text);
         plantImageView = findViewById(R.id.plant_image);
+        editButton = findViewById(R.id.edit);
+        if(!"admin@admin.com".equalsIgnoreCase(email)){
+            editButton.setVisibility(View.GONE);
+        }
+
         TextView cantidadQuality = findViewById(R.id.cantidad_disponible);
 
         plantQuantityTextView.setVisibility(View.GONE);

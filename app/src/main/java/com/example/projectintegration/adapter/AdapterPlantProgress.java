@@ -59,19 +59,19 @@ public class AdapterPlantProgress extends BaseAdapter {
 
         IPlantProgress currentItem = items.get(position);
 
-        //textView.setText(currentItem.getText());
-
-        // Obtener y cargar la imagen desde Firebase usando el nombre de la planta
-       // loadPlantImage(currentItem.getText(), imageView);
-
         textView.setText(currentItem.getPlantName());
 
-        // Obtener y cargar la imagen desde Firebase usando el nombre de la planta
-        loadPlantImage(currentItem.getPlantName(), imageView);
-
+        // Cargar la imagen
+        String imageUrl = currentItem.getImageUrl();
+        if (imageUrl != null) {
+            loadImageWithVolley(imageUrl, imageView);
+        } else {
+            imageView.setImageResource(R.drawable.ic_plant); // Imagen predeterminada si no hay URL
+        }
 
         return convertView;
     }
+
 
     private void loadPlantImage(String plantName, ImageView imageView) {
         // Consultar Firestore para obtener el imageUrl
