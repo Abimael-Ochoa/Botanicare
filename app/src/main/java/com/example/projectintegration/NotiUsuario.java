@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.adapter.UserAdapter;
+import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
 import com.example.projectintegration.chat_codigo.Chat;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.models.User;
+import com.example.projectintegration.utilities.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -37,6 +39,8 @@ public class NotiUsuario extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noti_usuario);
 
+        Utils.changeStatusBarColor(this, R.color.tu_color_verde);
+
         // Inicializar FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
@@ -48,11 +52,9 @@ public class NotiUsuario extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Cerrar sesión en Firebase
-                mAuth.signOut();
 
                 // Redirigir a la actividad de login
-                Intent intent = new Intent(NotiUsuario.this, LoginScreen.class);
+                Intent intent = new Intent(NotiUsuario.this, PantallaCatalogo.class);
                 startActivity(intent);
                 finish(); // Finalizar la actividad actual
             }

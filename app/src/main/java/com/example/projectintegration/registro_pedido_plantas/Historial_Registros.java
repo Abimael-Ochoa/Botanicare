@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projectintegration.R;
 import com.example.projectintegration.adapter.PlantOrderAdapter;
 import com.example.projectintegration.models.PlantOrder;
+import com.example.projectintegration.utilities.Utils;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -45,6 +46,8 @@ public class Historial_Registros extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historial_registros);
+
+        Utils.changeStatusBarColor(this, R.color.tu_color_verde);
 
         recyclerView = findViewById(R.id.rv_historial_pedidos);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

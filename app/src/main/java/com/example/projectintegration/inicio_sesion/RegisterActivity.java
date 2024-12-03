@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.User;
 import com.example.projectintegration.utilities.ErrorHandler;
+import com.example.projectintegration.utilities.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +30,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        Utils.changeStatusBarColor(this, R.color.tu_color_verde);
 
         // Inicializa Firebase Auth y Firestore
         mAuth = FirebaseAuth.getInstance();

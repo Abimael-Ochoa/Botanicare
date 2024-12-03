@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -70,6 +71,13 @@ public class PantallaCatalogo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_catalogo);
+
+        // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.tu_color_verde)); // Cambia el color aquí
+        }
+
+
 
         usuarioActual = new User();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -149,6 +157,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                         fragment = new FragmentRecordatorio(); // Fragmento de calendario
                     }else if (id == R.id.nav_chat) {
 
+
                         if ("admin@admin.com".equalsIgnoreCase(email)) {
                             Intent intent = new Intent(PantallaCatalogo.this, NotiUsuario.class);
                             intent.putExtra("userName", "demo");
@@ -163,7 +172,10 @@ public class PantallaCatalogo extends AppCompatActivity {
                             intent.putExtra("userId", usuarioActual.getId()); // UID del usuario receptor
                             startActivity(intent);
                             finish(); // Finalizar la actividad actual
+                            // Cambiar color de la barra de estado en el Activity del chat
+
                         }
+
 
                     }else if (id == R.id.nav_registrarP){
                         if ("admin@admin.com".equalsIgnoreCase(email)) {
@@ -197,7 +209,7 @@ public class PantallaCatalogo extends AppCompatActivity {
                         if (id == R.id.nav_calendario) {
                             toolbar.setVisibility(View.GONE); // Oculta el Toolbar
                         } else if (id == R.id.nav_chat){
-                            toolbar.setVisibility(View.GONE); // Oculta el Toolbar
+                            toolbar.setVisibility(View.VISIBLE); // Oculta el Toolbar
                         } else if (id == R.id.nav_registrarP) {
                             toolbar.setVisibility(View.GONE);
                         } else if (id == R.id.nav_progreso) {
@@ -336,9 +348,9 @@ public class PantallaCatalogo extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.tu_color_verde)); // Reemplaza 'tu_color_verde' con el color que desees
-        }
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+         //   getWindow().setStatusBarColor(getResources().getColor(R.color.tu_color_verde)); // Reemplaza 'tu_color_verde' con el color que desees
+        //}
 
         // Configuración del Toolbar
         setSupportActionBar(toolbar);
