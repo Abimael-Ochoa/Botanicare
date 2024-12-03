@@ -100,6 +100,18 @@
 
         </GridLayout>
 
+        <!-- EditText para apodo de la planta -->
+        <EditText
+            android:id="@+id/editTextApodoPlanta"
+            android:fontFamily="@font/my_custom_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Apodo de tu planta"
+            android:background="@drawable/background_cantidad"
+            android:layout_margin="16dp"
+            android:inputType="text"
+            android:layout_marginBottom="8dp"/>
+
         <!-- Campo para la descripción -->
 
         <EditText
@@ -152,7 +164,7 @@
 
         <Button
             android:id="@+id/upload_image_button"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/my_custom_font"

@@ -107,11 +107,6 @@ public class Chat extends AppCompatActivity {
                             if (message != null) {
                                 messageList.add(message);
 
-                                // Marcar mensaje como leído si no lo está
-                                if (!message.getIsRead() && message.getReceiver().equals(adminID)) {
-                                    document.getReference().update("isRead", true)
-                                            .addOnFailureListener(error -> Log.e("Chat", "Error al actualizar mensaje", error));
-                                }
 
                             }
                         }
@@ -125,6 +120,23 @@ public class Chat extends AppCompatActivity {
                 });
     }
 
+    private void markMessagesAsRead() {
+        chatRef.whereEqualTo("isRead", false)
+                .whereEqualTo("receiver", adminID)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                        document.getReference().update("isRead", true);
+                    }
+                })
+                .addOnFailureListener(error -> Log.e("Chat", "Error al marcar mensajes como leídos", error));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        markMessagesAsRead();
+    }
     private void sendMessage(String content) {
         long timestamp = System.currentTimeMillis();
         Message message = new Message(adminID, userId, content, timestamp,false);

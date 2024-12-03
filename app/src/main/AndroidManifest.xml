@@ -55,9 +55,6 @@
             android:name=".registro_pedido_plantas.Historial_Registros"
             android:exported="false" />
         <activity
-            android:name=".chat_codigo.BaseChatActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activity_users_chat"
             android:exported="false" />
         <activity
