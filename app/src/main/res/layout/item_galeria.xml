@@ -2,41 +2,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="10dp"
-    android:background="@drawable/background_cantidad"
-    android:layout_margin="8dp">
+    android:orientation="vertical"
+    android:background="@drawable/bg_item_rounded"
+    android:padding="8dp"
+    android:layout_margin="8dp"
+    android:gravity="center"
+    android:clickable="true"
+    android:focusable="true">>
 
     <ImageView
-        android:id="@+id/plant_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:src="@drawable/ic_plant"
-        android:contentDescription="Plant Image"/>
+        android:scaleType="centerCrop" />
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:paddingStart="10dp">
+        android:text="Descripción"
+        android:paddingTop="4dp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/plant_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Planta araña"
-            android:fontFamily="@font/my_custom_font"
-            android:textSize="21sp"
-            android:layout_marginTop="5dp"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvFechaAdquirida"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="26/08/2023"
-            android:fontFamily="@font/my_custom_font"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
-    </LinearLayout>
 </LinearLayout>
