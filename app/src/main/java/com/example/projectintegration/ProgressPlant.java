@@ -1,6 +1,7 @@
 package com.example.projectintegration;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,11 +9,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectintegration.adapter.UserAdapter;
 import com.example.projectintegration.adapter.UserProgressAdapter;
+import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
 import com.example.projectintegration.chat_codigo.Chat;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.models.User;
@@ -31,12 +34,28 @@ public class ProgressPlant extends AppCompatActivity {
     private UserProgressAdapter userAdapter;
     private ArrayList<User> userList;
     private FirebaseAuth mAuth;  // Instancia de FirebaseAuth
-    private CollectionReference usersRef;  // Referencia a la colección de usuarios en Firestore
+    private CollectionReference usersRef;// Referencia a la colección de usuarios en Firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noti_usuario);
+
+        // Cambiar el color de la barra de estado (si la versión es Lollipop o superior)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.tu_color_verde)); // Cambia el color aquí
+        }
+
+        ImageView btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProgressPlant.this, PantallaCatalogo.class);
+                startActivity(intent);  // Inicia el Activity de destino
+                finish();  // Finaliza el Activity actual para no dejarlo en la pila
+            }
+        });
+
 
         // Inicializar FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -44,14 +63,7 @@ public class ProgressPlant extends AppCompatActivity {
         // Referencia a la colección "users" en Firestore
         usersRef = FirebaseFirestore.getInstance().collection("users");
 
-        // Configurar botón de retroceso
-        ImageView btnBack = findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         rvUsers = findViewById(R.id.rv_users);
         rvUsers.setLayoutManager(new LinearLayoutManager(this));

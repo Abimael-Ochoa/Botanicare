@@ -15,6 +15,7 @@
     <color name="popup_color">#F0F0F0</color>
 
     <color name="chat">#94E38E</color>
+    <color name="historial_registros">#4CAF50</color>
 
 
 </resources>
