@@ -13,6 +13,7 @@ import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
+import com.example.projectintegration.utilities.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -29,6 +30,8 @@ public class PlantInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_information);
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        Utils.changeStatusBarColor(this, R.color.tu_color_verde);
 
         // Inicializa las vistas
         plantNameTextView = findViewById(R.id.plant_name);

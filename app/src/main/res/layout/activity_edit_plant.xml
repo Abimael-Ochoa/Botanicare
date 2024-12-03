@@ -183,27 +183,6 @@
                 android:layout_gravity="center" />
 
             <!-- Campo para la descripción -->
-            <EditText
-                android:id="@+id/plant_caracteristicas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="Escribe Caracteristicas..."
-                android:gravity="top"
-                android:fontFamily="@font/my_custom_font"
-                android:background="@drawable/background_cantidad"
-                android:padding="10dp"
-                android:minHeight="100dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/coustard"
-                android:text="Cuidados"
-                android:textSize="16sp"
-                android:layout_gravity="center" />
-
             <!-- Campo para la descripción -->
             <EditText
                 android:id="@+id/plant_description"
@@ -216,6 +195,31 @@
                 android:background="@drawable/background_cantidad"
                 android:padding="10dp"
                 android:minHeight="100dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/coustard"
+                android:text="Cuidados"
+                android:textSize="16sp"
+                android:layout_gravity="center" />
+
+
+            <EditText
+                android:id="@+id/plant_caracteristicas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="Escribe Caracteristicas..."
+                android:gravity="top"
+                android:fontFamily="@font/my_custom_font"
+                android:background="@drawable/background_cantidad"
+                android:padding="10dp"
+                android:minHeight="100dp" />
+
+
 
             <!-- Texto para mostrar mensajes de error -->
             <TextView
