@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.Papelera;
 
 import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
@@ -24,6 +24,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.example.projectintegration.R;
 
 import java.util.Calendar;
 

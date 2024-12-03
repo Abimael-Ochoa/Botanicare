@@ -1,4 +1,4 @@
-package com.example.projectintegration.catalogo_plantas;
+package com.example.projectintegration.Papelera;
 
 import androidx.fragment.app.Fragment;
 
