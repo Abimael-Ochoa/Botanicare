@@ -1,5 +1,6 @@
 package com.example.projectintegration;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,17 +45,11 @@ public class FragmentPlantProgress extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plant_progress, container, false);
 
-
-        // Inicializa Firebase y carga los datos
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         // Configurar botón de retroceso
         ImageView btnBack = view.findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity().onBackPressed(); // Volver atrás
-            }
-        });
+        btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
         // Inicializar Firestore
         db = FirebaseFirestore.getInstance();
@@ -63,6 +59,26 @@ public class FragmentPlantProgress extends Fragment {
         items = new ArrayList<>();
         adapter = new AdapterPlantProgress(getContext(), items);
         gridView.setAdapter(adapter);
+
+        // Configurar el Listener para la selección
+        // Dentro de onCreateView de FragmentPlantProgress
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                IPlantProgress selectedPlant = items.get(position);
+                String plantName = selectedPlant.getPlantName();
+
+                // Obtener el uniqueId (puede ser necesario hacerlo en la carga de datos de la planta)
+                String uniqueId = selectedPlant.getUniqueId(); // Asumiendo que tienes este campo en IPlantProgress
+
+                // Crear el Intent y pasar los datos
+                Intent intent = new Intent(getContext(), MonitoreoPlantas.class);
+                /*intent.putExtra("plantName", plantName);
+                intent.putExtra("uniqueId", uniqueId);*/
+                startActivity(intent);
+            }
+        });
+
 
         // Cargar datos desde Firestore
         loadPlantData();
@@ -82,6 +98,7 @@ public class FragmentPlantProgress extends Fragment {
                                 if (plantObj instanceof java.util.Map) {
                                     java.util.Map<String, Object> plantData = (java.util.Map<String, Object>) plantObj;
                                     String plantName = (String) plantData.get("plantName");
+                                    String uniqueId = (String) plantData.get("uniqueId");
 
                                     // Consultar Firestore para obtener la imagen correspondiente
                                     db.collection("plants")
@@ -93,11 +110,10 @@ public class FragmentPlantProgress extends Fragment {
                                                     String imageUrl = plantDoc.getString("imageUrl");
 
                                                     // Agregar datos al adaptador
-                                                    items.add(new IPlantProgress(plantName, imageUrl));
+                                                    items.add(new IPlantProgress(plantName, imageUrl, uniqueId)); // Pasa el uniqueId
                                                     adapter.notifyDataSetChanged();
                                                 } else {
-                                                    // Si no se encuentra la imagen, agregar con imagen predeterminada
-                                                    items.add(new IPlantProgress(plantName, null));
+                                                    items.add(new IPlantProgress(plantName, null, uniqueId)); // Agregar sin imagen
                                                     adapter.notifyDataSetChanged();
                                                 }
                                             })
@@ -114,6 +130,4 @@ public class FragmentPlantProgress extends Fragment {
                     }
                 });
     }
-
-
 }

@@ -5,10 +5,11 @@ public class IPlantProgress {
     private String description;
     private String plantName; // Nombre único de la planta
     private String imageUrl; // Almacena URLs de imágenes
+    private String uniqueId; // Identificador único de la planta en la base de datos
 
 
     // Constructor
-    public IPlantProgress(String plantName, String imageUrl) {
+    public IPlantProgress(String plantName, String imageUrl, String uniqueId) {
         this.imageResId = imageResId;
         this.description = description;
         this.plantName = plantName;
@@ -31,6 +32,8 @@ public class IPlantProgress {
     public String getImageUrl() {
         return imageUrl;
     }
-
+    public String getUniqueId() {
+        return uniqueId;
+    }
 
 }
