@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.projectintegration.utilities.Utils;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -23,6 +24,11 @@ public class Activity_users_chat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_chat);
+
+        // Cambiar el color de la barra de estado
+        Utils.changeStatusBarColor(this, R.color.tu_color_verde);
+
+
 
         // Para manejar el ajuste de la UI para dispositivos con barras del sistema (como el notch)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

@@ -14,5 +14,7 @@
     <color name="spinner_border">#CCCCCC</color>
     <color name="popup_color">#F0F0F0</color>
 
+    <color name="chat">#94E38E</color>
+
 
 </resources>
