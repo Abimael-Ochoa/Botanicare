@@ -61,6 +61,9 @@
             android:name=".registro_pedido_plantas.Historial_Registros"
             android:exported="false" />
         <activity
+            android:name=".MonitoreoPlantas"
+            android:exported="false" />
+        <activity
             android:name=".Activity_users_chat"
             android:exported="false" />
         <activity
