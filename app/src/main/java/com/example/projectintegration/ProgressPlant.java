@@ -63,8 +63,6 @@ public class ProgressPlant extends AppCompatActivity {
         // Referencia a la colección "users" en Firestore
         usersRef = FirebaseFirestore.getInstance().collection("users");
 
-
-
         rvUsers = findViewById(R.id.rv_users);
         rvUsers.setLayoutManager(new LinearLayoutManager(this));
         userList = new ArrayList<>();
@@ -78,6 +76,10 @@ public class ProgressPlant extends AppCompatActivity {
     }
 
     private void openProgressActivity(User user) {
+        Intent intent = new Intent(this, GaleriaProgreso.class);
+        intent.putExtra("userName", user.getName());
+        intent.putExtra("userId", user.getId()); // UID del usuario receptor
+        startActivity(intent);
 
     }
 

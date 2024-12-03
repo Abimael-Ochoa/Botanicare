@@ -1,5 +1,6 @@
 package com.example.projectintegration.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,9 @@ public class PlantOrderAdapter extends RecyclerView.Adapter<PlantOrderAdapter.Pl
         PlantOrder plantOrder = plantOrders.get(position);
         holder.orderCodeTextView.setText("ID: " + plantOrder.getOrderCode());
         holder.userNameTextView.setText(plantOrder.getCliente().getName());
+        holder.status.setText(plantOrder.getStatus());
+        holder.status.setTextColor(plantOrder.getStatus().equals("Pendiente") ? Color.parseColor("#FF5722") : Color.parseColor("#4CAF50"));
+
 
         // Setup click listener for the item
         holder.itemView.setOnClickListener(v -> {
@@ -57,11 +61,13 @@ public class PlantOrderAdapter extends RecyclerView.Adapter<PlantOrderAdapter.Pl
     public static class PlantOrderViewHolder extends RecyclerView.ViewHolder {
         TextView orderCodeTextView;
         TextView userNameTextView;
+        TextView status;
 
         public PlantOrderViewHolder(View itemView) {
             super(itemView);
             orderCodeTextView = itemView.findViewById(R.id.order_code);
             userNameTextView = itemView.findViewById(R.id.user_order);
+            status = itemView.findViewById(R.id.order_status);
         }
     }
 }

@@ -41,6 +41,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Galeria de la planta lamzabolas"
@@ -52,6 +53,7 @@
             android:textColor="#333333" />
 
         <LinearLayout
+            android:id="@+id/subirButon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

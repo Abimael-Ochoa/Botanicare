@@ -47,7 +47,7 @@ import android.content.Intent;
 
 public class FragmentRecordatorio extends Fragment {
     private ImageButton btn_establecer_fecha;
-   private Button btn_guardar_recordatorio;
+    private Button btn_guardar_recordatorio;
     private TextView tv_fecha;
     private EditText et_mensaje_personalizado;
     private RadioGroup rgAccion;
