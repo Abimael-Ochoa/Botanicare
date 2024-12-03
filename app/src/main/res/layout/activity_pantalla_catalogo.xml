@@ -41,7 +41,7 @@
 
             <ImageView
                 android:id="@+id/addButton"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_agregar_planta"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="end"
