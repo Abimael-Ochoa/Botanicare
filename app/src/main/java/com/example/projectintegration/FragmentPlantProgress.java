@@ -72,7 +72,7 @@ public class FragmentPlantProgress extends Fragment {
                 String uniqueId = selectedPlant.getUniqueId(); // Asumiendo que tienes este campo en IPlantProgress
 
                 // Crear el Intent y pasar los datos
-                Intent intent = new Intent(getContext(), MonitoreoPlantas.class);
+                Intent intent = new Intent(getContext(), GaleriaProgreso.class);
                 /*intent.putExtra("plantName", plantName);
                 intent.putExtra("uniqueId", uniqueId);*/
                 startActivity(intent);
