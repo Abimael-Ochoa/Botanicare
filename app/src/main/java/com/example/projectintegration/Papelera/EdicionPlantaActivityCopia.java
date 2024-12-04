@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.Papelera;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
@@ -17,10 +19,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.projectintegration.inicio_sesion.LoginScreen;
+import com.example.projectintegration.R;
+import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
 import com.example.projectintegration.models.Plant;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -35,20 +39,24 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class EdicionPlantaActivity extends AppCompatActivity {
+public class EdicionPlantaActivityCopia extends AppCompatActivity {
     private static final int IMAGE_REQUEST_CODE = 1;
 
     private ImageView plantImage;
+    private ImageView backBtn;
     private EditText plantName, plantDescription;
-    private TextView quantityText;
+    private EditText quantityText;
     private Button uploadImageButton, saveButton;
     private Uri imageUri;
     TextView errorMessage;
-    EditText plantScientificName;
-    EditText  plantCare;
+
+    private EditText scientificName, plantCare;
+
+
     private FirebaseFirestore db;
 
     private int quantity = 1;
+    private String plantDocumentId; // Almacenar el ID del documento de la planta
 
     private static final String IMGBB_API_URL = "https://api.imgbb.com/1/upload";
     private static final String IMGBB_API_KEY = "2a3854d4c56935ed6fa743b1abee822c"; // Asegúrate de que esta clave es válida y segura.
@@ -64,7 +72,8 @@ public class EdicionPlantaActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        plantScientificName = findViewById(R.id.scientific_name);
+
+        scientificName = findViewById(R.id.scientific_name);
         plantCare = findViewById(R.id.plant_care);
 
         // Inicializar vistas
@@ -74,12 +83,76 @@ public class EdicionPlantaActivity extends AppCompatActivity {
         quantityText = findViewById(R.id.quantity_text);
         uploadImageButton = findViewById(R.id.upload_image_button);
         saveButton = findViewById(R.id.save_button);
+        backBtn = findViewById(R.id.back_button);
         errorMessage = findViewById(R.id.errorMessage);
+
+        // Recuperar los datos enviados desde la actividad anterior (PlantInformationActivity)
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String plantNameStr = bundle.getString("plantName");
+
+            // Realizamos la consulta a Firestore para obtener la planta
+            db.collection("plants")
+                    .whereEqualTo("name", plantNameStr)  // Buscamos la planta por nombre
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                // Se encuentra la planta
+                                Plant plant = task.getResult().getDocuments().get(0).toObject(Plant.class);
+                                plantDocumentId = task.getResult().getDocuments().get(0).getId(); // Obtener el ID del documento
+
+                                // Setear los datos en los campos
+                                plantName.setText(plant.getName());
+                                plantDescription.setText(plant.getDescription());
+                                quantity = plant.getQuantity();
+                                updateQuantityText();
+
+                                // Cargar la imagen usando Picasso
+                                if (plant.getImageUrl() != null && !plant.getImageUrl().isEmpty()) {
+                                    Picasso.get().load(plant.getImageUrl()).into(plantImage);
+                                }
+                            } else {
+                                ErrorHandler.showErrorMessage(errorMessage, "Planta no encontrada");
+                            }
+                        } else {
+                            ErrorHandler.showErrorMessage(errorMessage, "Error al consultar la planta");
+                        }
+                    });
+        }
 
         uploadImageButton.setOnClickListener(v -> openImageSelector());
         saveButton.setOnClickListener(v -> savePlantData());
 
         updateQuantityText();
+        quantityText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No necesitas implementar esto
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No necesitas implementar esto
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString().trim();
+                if (!text.isEmpty()) {
+                    try {
+                        int newQuantity = Integer.parseInt(text);
+                        if (newQuantity > 0) {
+                            quantity = newQuantity; // Actualizar la variable `quantity`
+                        } else {
+                            quantityText.setError("La cantidad debe ser mayor a 0");
+                        }
+                    } catch (NumberFormatException e) {
+                        quantityText.setError("Ingresa un número válido");
+                    }
+                }
+            }
+        });
 
         findViewById(R.id.increment_button).setOnClickListener(v -> {
             quantity++;
@@ -90,7 +163,13 @@ public class EdicionPlantaActivity extends AppCompatActivity {
             if (quantity > 1) quantity--;
             updateQuantityText();
         });
+
+        backBtn.setOnClickListener(v -> onBackPressed()); // Llamar al método de retroceso del Activity
+
+
     }
+
+
 
     private void openImageSelector() {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -111,28 +190,46 @@ public class EdicionPlantaActivity extends AppCompatActivity {
     private void savePlantData() {
         String name = plantName.getText().toString().trim();
         String description = plantDescription.getText().toString().trim();
-        String scientificName = plantScientificName.getText().toString().trim();
-        String careDetails = plantCare.getText().toString().trim();
 
-        if (name.isEmpty() || description.isEmpty() || scientificName.isEmpty() || careDetails.isEmpty() || imageUri == null) {
+        if (name.isEmpty() || description.isEmpty() || (imageUri == null && plantImage.getDrawable() == null)) {
             ErrorHandler.showErrorMessage(errorMessage, "Completa todos los campos");
             return;
         }
 
-        uploadImageToImgbb(imageUri, url -> {
-            Plant plant = new Plant(name, description, quantity, url, scientificName, careDetails);
-
-            db.collection("plants").document()
-                    .set(plant)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(EdicionPlantaActivity.this, "Planta guardada con éxito", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(EdicionPlantaActivity.this, LoginScreen.class);
-                        startActivity(intent);
-                        finish();
+        if (imageUri != null) {
+            // Subir la nueva imagen a Imgbb
+            uploadImageToImgbb(imageUri, url -> updatePlantInFirestore(name, description, url));
+        } else {
+            // Usar la URL existente
+            db.collection("plants").document(plantDocumentId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String existingImageUrl = documentSnapshot.getString("imageUrl");
+                            updatePlantInFirestore(name, description, existingImageUrl);
+                        }
                     })
-                    .addOnFailureListener(e -> ErrorHandler.showErrorMessage(errorMessage, "Error al guardar planta"));
-        });
+                    .addOnFailureListener(e -> ErrorHandler.showErrorMessage(errorMessage, "Error al recuperar la imagen existente"));
+        }
     }
+
+    private void updatePlantInFirestore(String name, String description, String imageUrl) {
+        db.collection("plants").document(plantDocumentId)
+                .update(
+                        "name", name,
+                        "description", description,
+                        "quantity", quantity,
+                        "imageUrl", imageUrl
+                )
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(EdicionPlantaActivityCopia.this, "Planta actualizada con éxito", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EdicionPlantaActivityCopia.this, PantallaCatalogo.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> ErrorHandler.showErrorMessage(errorMessage, "Error al actualizar planta"));
+    }
+
 
     private void uploadImageToImgbb(Uri imageUri, ImageUploadCallback callback) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -192,3 +289,4 @@ public class EdicionPlantaActivity extends AppCompatActivity {
         void onUploadSuccess(String imageUrl);
     }
 }
+

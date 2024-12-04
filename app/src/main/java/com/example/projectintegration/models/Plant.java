@@ -5,14 +5,18 @@ public class Plant {
     private String description;
     private int quantity;
     private String imageUrl;
+    private String scientificName; // Agregar
+    private String care; // Agregar
 
     public Plant() {}
 
-    public Plant(String name, String description, int quantity, String imageUrl) {
+    public Plant(String name, String description, int quantity, String imageUrl,String scientificName,String care) {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.imageUrl = imageUrl;
+        this.scientificName = scientificName;
+        this.care = care;
     }
     // Getters y Setters
 
@@ -46,5 +50,21 @@ public class Plant {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(String scientificName) {
+        this.scientificName = scientificName;
+    }
+
+    public String getCare() {
+        return care;
+    }
+
+    public void setCare(String care) {
+        this.care = care;
     }
 }
