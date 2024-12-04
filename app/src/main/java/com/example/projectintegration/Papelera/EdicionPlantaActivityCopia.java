@@ -1,4 +1,4 @@
-package com.example.projectintegration;
+package com.example.projectintegration.Papelera;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,7 +39,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class EdicionPlantaActivity extends AppCompatActivity {
+public class EdicionPlantaActivityCopia extends AppCompatActivity {
     private static final int IMAGE_REQUEST_CODE = 1;
 
     private ImageView plantImage;
@@ -106,8 +106,6 @@ public class EdicionPlantaActivity extends AppCompatActivity {
                                 plantName.setText(plant.getName());
                                 plantDescription.setText(plant.getDescription());
                                 quantity = plant.getQuantity();
-                                scientificName.setText(plant.getScientificName());
-                                plantCare.setText(plant.getCare());
                                 updateQuantityText();
 
                                 // Cargar la imagen usando Picasso
@@ -224,8 +222,8 @@ public class EdicionPlantaActivity extends AppCompatActivity {
                         "imageUrl", imageUrl
                 )
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(EdicionPlantaActivity.this, "Planta actualizada con éxito", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EdicionPlantaActivity.this, PantallaCatalogo.class);
+                    Toast.makeText(EdicionPlantaActivityCopia.this, "Planta actualizada con éxito", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EdicionPlantaActivityCopia.this, PantallaCatalogo.class);
                     startActivity(intent);
                     finish();
                 })

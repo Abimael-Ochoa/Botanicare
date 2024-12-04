@@ -93,6 +93,8 @@ public class PlantAdapter extends BaseAdapter {
             intent.putExtra("plantDescription", plant.getDescription());
             intent.putExtra("plantImage", plant.getImageUrl());
             intent.putExtra("plantQuantity", plant.getQuantity());
+            intent.putExtra("scientificName", plant.getScientificName());
+            intent.putExtra("care", plant.getCare());
 
             // Iniciar la Activity
             context.startActivity(intent);

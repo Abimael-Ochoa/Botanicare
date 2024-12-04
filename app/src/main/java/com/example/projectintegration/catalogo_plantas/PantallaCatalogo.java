@@ -27,13 +27,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.projectintegration.FragmentMisPlantas;
 import com.example.projectintegration.ProgressPlant;
 import com.example.projectintegration.chat_codigo.ChatUser;
-import com.example.projectintegration.EdicionPlantaActivity;
+import com.example.projectintegration.SubirPlantaActivity;
 import com.example.projectintegration.FragmentPlantProgress;
 import com.example.projectintegration.FragmentRecordatorio;
 import com.example.projectintegration.Fragment_Consejos;
 import com.example.projectintegration.Fragment_Content;
 import com.example.projectintegration.NotiUsuario;
-import com.example.projectintegration.PlantasAdquiridasUsuario;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.User;
@@ -359,12 +358,14 @@ public class PantallaCatalogo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Crear el Intent para abrir otra actividad (página)
-                Intent intent = new Intent(PantallaCatalogo.this, EdicionPlantaActivity.class);
+                Intent intent = new Intent(PantallaCatalogo.this, SubirPlantaActivity.class);
 
                 // Iniciar la actividad
                 startActivity(intent);
             }
         });
+
+
         // Configura la barra de búsqueda
         searchBarCatalogo = new SearchBarCatalogo(toolbar, searchButton, addButton, toolBarTitle);
 
@@ -378,7 +379,7 @@ public class PantallaCatalogo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Crear el Intent para abrir otra actividad (página)
-                Intent intent = new Intent(PantallaCatalogo.this, EdicionPlantaActivity.class);
+                Intent intent = new Intent(PantallaCatalogo.this, SubirPlantaActivity.class);
 
                 // Iniciar la actividad
                 startActivity(intent);
