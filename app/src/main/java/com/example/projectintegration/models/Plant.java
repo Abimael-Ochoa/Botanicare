@@ -8,7 +8,8 @@ public class Plant {
     private String scientificName; // Agregar
     private String care; // Agregar
 
-    public Plant() {}
+    public Plant() {
+    }
 
     public Plant(String name, String description, int quantity, String imageUrl,String scientificName,String care) {
         this.name = name;

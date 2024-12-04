@@ -19,6 +19,8 @@ public class GaleriaProgreso extends AppCompatActivity {
     private TextView tvHeaderTitle;
     private LinearLayout btnSubir;
     private boolean isAdmin;
+    private String uniqueId;
+    private String plantName;
 
     private FirebaseUser firebaseUser;
 
@@ -26,6 +28,8 @@ public class GaleriaProgreso extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_galeria_progreso);
+        uniqueId = getIntent().getStringExtra("uniqueId");
+        plantName = getIntent().getStringExtra("plantName");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String email = firebaseUser.getEmail(); // Obtener el correo electrónico del usuario
@@ -39,6 +43,8 @@ public class GaleriaProgreso extends AppCompatActivity {
 
         // Initialize views
         tvHeaderTitle = findViewById(R.id.header);  // Assuming you have a TextView with this ID in your layout
+        tvHeaderTitle.setText("Progreso de " + plantName);
+
         btnSubir = findViewById(R.id.subir);  // Assuming you have a LinearLayout with this ID in your layout
 
         // Get data from Intent
@@ -50,8 +56,11 @@ public class GaleriaProgreso extends AppCompatActivity {
         btnSubir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Crear Intent para abrir MonitoreoPlantas
+                // Suponiendo que tienes un objeto 'plant' con el uniqueId y el nombre de la planta
+                // Crear Intent para pasar a MonitoreoPlantas
                 Intent intent = new Intent(GaleriaProgreso.this, MonitoreoPlantas.class);
+                intent.putExtra("uniqueId", uniqueId); // Pasar el uniqueId
+                intent.putExtra("plantName", plantName); // Pasar el nombre de la planta
                 startActivity(intent);
             }
         });
@@ -61,7 +70,6 @@ public class GaleriaProgreso extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
-
         });
         // Update the header text based on user
         if (isAdmin) {
