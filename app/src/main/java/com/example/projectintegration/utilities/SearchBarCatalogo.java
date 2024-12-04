@@ -50,48 +50,57 @@ public class SearchBarCatalogo {
 
     private void toggleSearchInput() {
         if (searchInput == null) {
-            // Crear el TextInput dinámicamente
             Context context = toolbar.getContext();
-            searchBar = new TextInputLayout(context);
 
-            // Usar LinearLayout.LayoutParams en lugar de Toolbar.LayoutParams
+            // Crear y configurar TextInputLayout
+            searchBar = new TextInputLayout(context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
+            layoutParams.setMargins(16, 8, 16, 8); // Agregar márgenes
             searchBar.setLayoutParams(layoutParams);
             searchBar.setHint("Buscar...");
-            searchBar.setHintTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.black)));
-            searchBar.setBackgroundColor(context.getResources().getColor(R.color.white));  // Color de fondo
+            searchBar.setHintTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.white)));
+            searchBar.setBoxBackgroundColor(context.getResources().getColor(R.color.white)); // Fondo de la barra
+            searchBar.setBoxStrokeColor(context.getResources().getColor(R.color.white)); // Color del borde
 
+            // Crear y configurar TextInputEditText
             searchInput = new TextInputEditText(context);
             searchInput.setInputType(InputType.TYPE_CLASS_TEXT);
-            searchInput.setLayoutParams(layoutParams);  // Usar los mismos LayoutParams para el TextInputEditText
-            searchInput.setTextColor(context.getResources().getColor(R.color.black));  // Color del texto ingresado
+            searchInput.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+            searchInput.setTextColor(context.getResources().getColor(R.color.white)); // Color del texto
+            searchInput.setHintTextColor(context.getResources().getColor(R.color.white)); // Color del hint
+            searchInput.setTextSize(16); // Tamaño del texto
+            searchInput.setPadding(16, 16, 16, 16); // Espaciado interno
+
+            // Añadir TextInputEditText al TextInputLayout
             searchBar.addView(searchInput);
 
-            // Añadir la barra de búsqueda al Toolbar
+            // Añadir TextInputLayout al Toolbar
             toolbar.addView(searchBar);
 
-            // Ocultar el título y el botón de agregar
+            // Ocultar otros elementos del Toolbar
             toolBarTitle.setVisibility(View.GONE);
             addButton.setVisibility(View.GONE);
 
+            // Configurar listener para detectar cambios en el texto
             searchInput.addTextChangedListener(new android.text.TextWatcher() {
-
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(onSearchListener != null) {
-                        onSearchListener.onSearch(s.toString().trim());  // Ejecuta la búsqueda cuando se cambia el texto ingresado
+                    if (onSearchListener != null) {
+                        onSearchListener.onSearch(s.toString().trim());
                     }
                 }
+
                 @Override
-                public void afterTextChanged(Editable editable) {
-                }
+                public void afterTextChanged(Editable editable) {}
             });
 
         } else {
@@ -102,5 +111,6 @@ public class SearchBarCatalogo {
             addButton.setVisibility(View.VISIBLE);
         }
     }
+
 
 }
