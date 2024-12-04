@@ -84,6 +84,7 @@ public class MonitoreoPlantas extends AppCompatActivity {
         // Obtener los datos del Intent
         plantName = getIntent().getStringExtra("plantName");
 
+
         // Configurar el EditText con el nombre de la planta como placeholder
         editTextApodoPlanta = findViewById(R.id.editTextApodoPlanta);
         if (plantName != null) {
@@ -100,6 +101,7 @@ public class MonitoreoPlantas extends AppCompatActivity {
         findViewById(R.id.upload_image_button).setOnClickListener(v -> {
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 savePlantDataToFirestore(imageUrl);
+
             } else {
                 Toast.makeText(this, "Primero selecciona una imagen.", Toast.LENGTH_SHORT).show();
             }
@@ -212,8 +214,14 @@ public class MonitoreoPlantas extends AppCompatActivity {
         String notes = editTextNotas.getText().toString();
         String progressDate = tvFecha.getText().toString();
 
-        // Crear un identificador único para esta entrada
-        String uniqueId = db.collection("users").document(userId).collection("userPlants").document().getId();
+        // Usar el uniqueId recibido del Intent (si es necesario para la referencia interna)
+        String uniqueId = getIntent().getStringExtra("uniqueId");
+
+        // Verificar si el uniqueId no es nulo
+        if (uniqueId == null || uniqueId.isEmpty()) {
+            Toast.makeText(this, "No se recibió un ID único válido.", Toast.LENGTH_SHORT).show();
+            return; // Salir si no se recibió un uniqueId válido
+        }
 
         // Crear un mapa con los datos
         Map<String, Object> plantData = new HashMap<>();
@@ -223,11 +231,18 @@ public class MonitoreoPlantas extends AppCompatActivity {
         plantData.put("progressDate", progressDate);
         plantData.put("uniqueId", uniqueId);
 
-        // Guardar los datos en Firestore bajo la colección del usuario
+        // Generar un ID aleatorio para el nuevo registro en la colección
+        String newDocumentId = db.collection("users")
+                .document(userId)
+                .collection("userPlants")
+                .document() // No pasamos un ID aquí, Firestore lo genera automáticamente
+                .getId(); // Obtenemos el ID generado
+
+        // Guardar los datos en Firestore bajo la colección del usuario, usando el nuevo ID
         db.collection("users")
                 .document(userId)
                 .collection("userPlants")
-                .document(uniqueId) // Usa el identificador único para el documento
+                .document(newDocumentId) // Usar el nuevo ID generado
                 .set(plantData)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(MonitoreoPlantas.this, "Datos guardados exitosamente.", Toast.LENGTH_SHORT).show();
@@ -236,6 +251,8 @@ public class MonitoreoPlantas extends AppCompatActivity {
                     Toast.makeText(MonitoreoPlantas.this, "Error al guardar los datos.", Toast.LENGTH_SHORT).show();
                 });
     }
+
+
 
     // Interfaz para el callback
     interface ImageUploadCallback {

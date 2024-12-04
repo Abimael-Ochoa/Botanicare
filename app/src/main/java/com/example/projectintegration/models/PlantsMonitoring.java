@@ -1,8 +1,7 @@
 package com.example.projectintegration.models;
 
 public class PlantsMonitoring {
-    private int imageResId;
-    private String description;
+
     private String imageUrl; // Almacena URLs de imágenes
     private String uniqueId; // Identificador único de la planta en la base de datos
     private String plantNickName;
@@ -19,13 +18,6 @@ public class PlantsMonitoring {
     }
 
 
-    public int getImageResId() {
-        return imageResId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 
 
     public String getImageUrl() {

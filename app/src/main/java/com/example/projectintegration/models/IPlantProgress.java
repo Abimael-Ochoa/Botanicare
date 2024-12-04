@@ -1,7 +1,6 @@
 package com.example.projectintegration.models;
 
 public class IPlantProgress {
-    private int imageResId;
     private String description;
     private String plantName; // Nombre único de la planta
     private String imageUrl; // Almacena URLs de imágenes
@@ -10,17 +9,30 @@ public class IPlantProgress {
 
     // Constructor
     public IPlantProgress(String plantName, String imageUrl, String uniqueId) {
-        this.imageResId = imageResId;
-        this.description = description;
         this.plantName = plantName;
         this.imageUrl = imageUrl;
+        this.uniqueId = uniqueId;
 
     }
 
-    // Getters
-    public int getImageResId() {
-        return imageResId;
+
+
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public void setPlantName(String plantName) {
+        this.plantName = plantName;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
 
     public String getDescription() {
         return description;

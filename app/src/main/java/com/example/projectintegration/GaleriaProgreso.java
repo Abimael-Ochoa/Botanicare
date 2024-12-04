@@ -5,14 +5,23 @@ import static java.security.AccessController.getContext;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projectintegration.adapter.GaleriaProgresoAdapter;
+import com.example.projectintegration.models.PlantsMonitoring;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GaleriaProgreso extends AppCompatActivity {
 
@@ -39,7 +48,6 @@ public class GaleriaProgreso extends AppCompatActivity {
         } else {
             isAdmin = false;
         }
-
 
         // Initialize views
         tvHeaderTitle = findViewById(R.id.header);  // Assuming you have a TextView with this ID in your layout
@@ -80,9 +88,40 @@ public class GaleriaProgreso extends AppCompatActivity {
         } else {
             // If the user is not an admin, display the normal gallery title with the user's name
         }
-
+        loadPlantProgressData();
 
 
     }
+    private void loadPlantProgressData() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(firebaseUser.getUid())
+                .collection("userPlants")
+                .whereEqualTo("uniqueId", uniqueId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<PlantsMonitoring> plantProgressList = new ArrayList<>();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            String imageUrl = document.getString("imageUrl");
+                            String notes = document.getString("notes");
+                            // Crear un objeto PlantsMonitoring y agregarlo a la lista
+                            plantProgressList.add(new PlantsMonitoring(plantName, imageUrl, notes, null, uniqueId));
+                        }
+
+                        // Si se encontró el progreso, mostramos la imagen y nota
+                        if (!plantProgressList.isEmpty()) {
+                            GaleriaProgresoAdapter adapter = new GaleriaProgresoAdapter(GaleriaProgreso.this, plantProgressList);
+                            GridView gridView = findViewById(R.id.plantsGridView);
+                            gridView.setAdapter(adapter);
+                        } else {
+                            Toast.makeText(GaleriaProgreso.this, "No se encontraron registros de progreso para esta planta.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(GaleriaProgreso.this, "Error al cargar los datos", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
 
 }
