@@ -88,6 +88,8 @@ public class MisPlantasAdapter extends BaseAdapter {
             intent.putExtra("plantDescription", plant.getDescription());
             intent.putExtra("plantImage", plant.getImageUrl());
             intent.putExtra("plantQuantity", plant.getQuantity());
+            intent.putExtra("scientificName", plant.getScientificName());
+            intent.putExtra("care", plant.getCare());
             context.startActivity(intent);
         });
 

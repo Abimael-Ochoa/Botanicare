@@ -18,6 +18,8 @@ public class PlantInformationAdmin extends AppCompatActivity {
     private ImageView plantImageView;
     private ImageView editButton;
 
+    private TextView scientificNameTextView, plantCareTextView;
+
     private FirebaseUser user;
 
     @Override
@@ -25,6 +27,9 @@ public class PlantInformationAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_information);
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        scientificNameTextView = findViewById(R.id.scientific_name);
+        plantCareTextView = findViewById(R.id.plant_care);
 
         // Inicializa las vistas
         plantNameTextView = findViewById(R.id.plant_name);
@@ -47,10 +52,15 @@ public class PlantInformationAdmin extends AppCompatActivity {
             String plantName = bundle.getString("plantName");
             String plantDescription = bundle.getString("plantDescription");
             String plantImage = bundle.getString("plantImage");
+            String scientificName = bundle.getString("scientificName");
+            String care = bundle.getString("care");
+
 
             // Setear los datos en las vistas
             plantNameTextView.setText(plantName);
             plantDescriptionTextView.setText(plantDescription);
+            scientificNameTextView.setText(scientificName);
+            plantCareTextView.setText(care);
 
             if (plantImage != null) {
                 Picasso.get().load(plantImage).into(plantImageView);
