@@ -6,7 +6,8 @@ public class Plant {
     private int quantity;
     private String imageUrl;
 
-    public Plant() {}
+    public Plant() {
+    }
 
     public Plant(String name, String description, int quantity, String imageUrl) {
         this.name = name;

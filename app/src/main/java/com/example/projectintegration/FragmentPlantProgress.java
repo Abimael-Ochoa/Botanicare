@@ -67,17 +67,16 @@ public class FragmentPlantProgress extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 IPlantProgress selectedPlant = items.get(position);
                 String plantName = selectedPlant.getPlantName();
+                String uniqueId = selectedPlant.getUniqueId(); // Este es el uniqueId que necesitas
 
-                // Obtener el uniqueId (puede ser necesario hacerlo en la carga de datos de la planta)
-                String uniqueId = selectedPlant.getUniqueId(); // Asumiendo que tienes este campo en IPlantProgress
-
-                // Crear el Intent y pasar los datos
+                // Crear el Intent para GaleriaProgreso
                 Intent intent = new Intent(getContext(), GaleriaProgreso.class);
-                /*intent.putExtra("plantName", plantName);
-                intent.putExtra("uniqueId", uniqueId);*/
-                startActivity(intent);
+                intent.putExtra("plantName", plantName); // Pasar el nombre de la planta
+                intent.putExtra("uniqueId", uniqueId);  // Pasar el uniqueId
+                startActivity(intent); // Iniciar la actividad
             }
         });
+
 
 
         // Cargar datos desde Firestore
