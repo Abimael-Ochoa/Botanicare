@@ -30,6 +30,9 @@
             android:name=".EdicionPlantaActivity"
             android:exported="false" />
         <activity
+            android:name=".GaleriaProgresoAdmin"
+            android:exported="false" />
+        <activity
             android:name=".MonitoreoPlantas"
             android:exported="false" />
         <activity
