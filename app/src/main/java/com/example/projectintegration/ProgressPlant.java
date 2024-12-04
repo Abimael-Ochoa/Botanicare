@@ -76,8 +76,9 @@ public class ProgressPlant extends AppCompatActivity {
     }
 
     private void openProgressActivity(User user) {
-        Intent intent = new Intent(this, GaleriaProgreso.class);
+        Intent intent = new Intent(this, GaleriaProgresoAdmin.class);
         intent.putExtra("userName", user.getName());
+        intent.putExtra("email", user.getEmail());
         intent.putExtra("userId", user.getId()); // UID del usuario receptor
         startActivity(intent);
 
@@ -90,12 +91,13 @@ public class ProgressPlant extends AppCompatActivity {
                 for (DocumentSnapshot userDoc : task.getResult()) {
                     String userId = userDoc.getId();
                     String name = userDoc.getString("name");
+                    String email = userDoc.getString("email");
 
                     // Omitir admin por su ID
                     if ("BzGePvzWsbh10CXIV9kWVcje4O02".equals(userId)) continue;
 
                     // Crear usuario temporal con mensajes no leídos inicialmente en 0
-                    User user = new User(name, 0, userId);
+                    User user = new User(name, 0, userId,email);
 
                     // Consultar mensajes no leídos de este usuario
                     FirebaseFirestore.getInstance()

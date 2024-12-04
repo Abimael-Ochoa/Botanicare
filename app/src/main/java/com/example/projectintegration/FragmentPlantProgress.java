@@ -77,8 +77,6 @@ public class FragmentPlantProgress extends Fragment {
             }
         });
 
-
-
         // Cargar datos desde Firestore
         loadPlantData();
 

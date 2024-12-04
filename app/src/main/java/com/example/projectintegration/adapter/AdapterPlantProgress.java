@@ -1,6 +1,7 @@
 package com.example.projectintegration.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.projectintegration.GaleriaProgreso;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.IPlantProgress;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -69,8 +71,18 @@ public class AdapterPlantProgress extends BaseAdapter {
             imageView.setImageResource(R.drawable.ic_plant); // Imagen predeterminada si no hay URL
         }
 
+        // Aquí puedes agregar un OnClickListener o usar el uniqueId de alguna otra manera
+        convertView.setOnClickListener(v -> {
+            String uniqueId = currentItem.getUniqueId();
+            // Hacer algo con el uniqueId, por ejemplo, abrir una nueva actividad con ese ID
+            Intent intent = new Intent(context, GaleriaProgreso.class);
+            intent.putExtra("uniqueId", uniqueId);
+            context.startActivity(intent);
+        });
+
         return convertView;
     }
+
 
 
     private void loadPlantImage(String plantName, ImageView imageView) {

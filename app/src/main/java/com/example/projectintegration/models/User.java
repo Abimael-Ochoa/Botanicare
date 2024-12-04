@@ -34,6 +34,14 @@ public class User {
         this.id = id;
     }
 
+    // Constructor con solo nombre, mensajes y id y email
+    public User(String name, int unreadMessages, String id,String email) {
+        this.name = name;
+        this.unreadMessages = unreadMessages;
+        this.id = id;
+        this.email = email;
+    }
+
 
     public String getName() {
         return name;

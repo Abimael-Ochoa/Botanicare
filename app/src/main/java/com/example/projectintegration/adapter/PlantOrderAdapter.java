@@ -41,8 +41,8 @@ public class PlantOrderAdapter extends RecyclerView.Adapter<PlantOrderAdapter.Pl
         PlantOrder plantOrder = plantOrders.get(position);
         holder.orderCodeTextView.setText("ID: " + plantOrder.getOrderCode());
         holder.userNameTextView.setText(plantOrder.getCliente().getName());
-        holder.status.setText(plantOrder.getStatus());
-        holder.status.setTextColor(plantOrder.getStatus().equals("Pendiente") ? Color.parseColor("#FF5722") : Color.parseColor("#4CAF50"));
+        holder.status.setText(plantOrder.getStatusNombre());
+        holder.status.setTextColor(plantOrder.getStatusNombre().equals("Pendiente") ? Color.parseColor("#FF5722") : Color.parseColor("#4CAF50"));
 
 
         // Setup click listener for the item

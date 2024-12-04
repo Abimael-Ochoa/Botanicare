@@ -76,6 +76,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
         scientificName = findViewById(R.id.scientific_name);
         plantCare = findViewById(R.id.plant_care);
 
+
         // Inicializar vistas
         plantImage = findViewById(R.id.plant_image);
         plantName = findViewById(R.id.plant_name);
@@ -192,6 +193,8 @@ public class EdicionPlantaActivity extends AppCompatActivity {
     private void savePlantData() {
         String name = plantName.getText().toString().trim();
         String description = plantDescription.getText().toString().trim();
+        String scientificsName = scientificName.getText().toString().trim();
+        String care = plantCare.getText().toString().trim();
 
         if (name.isEmpty() || description.isEmpty() || (imageUri == null && plantImage.getDrawable() == null)) {
             ErrorHandler.showErrorMessage(errorMessage, "Completa todos los campos");
@@ -200,7 +203,7 @@ public class EdicionPlantaActivity extends AppCompatActivity {
 
         if (imageUri != null) {
             // Subir la nueva imagen a Imgbb
-            uploadImageToImgbb(imageUri, url -> updatePlantInFirestore(name, description, url));
+            uploadImageToImgbb(imageUri, url -> updatePlantInFirestore(name, description, url,scientificsName,care));
         } else {
             // Usar la URL existente
             db.collection("plants").document(plantDocumentId)
@@ -208,20 +211,23 @@ public class EdicionPlantaActivity extends AppCompatActivity {
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             String existingImageUrl = documentSnapshot.getString("imageUrl");
-                            updatePlantInFirestore(name, description, existingImageUrl);
+                            updatePlantInFirestore(name, description, existingImageUrl,scientificsName,care);
                         }
                     })
                     .addOnFailureListener(e -> ErrorHandler.showErrorMessage(errorMessage, "Error al recuperar la imagen existente"));
         }
     }
 
-    private void updatePlantInFirestore(String name, String description, String imageUrl) {
+    private void updatePlantInFirestore(String name, String description, String imageUrl,String scientificName, String care) {
         db.collection("plants").document(plantDocumentId)
                 .update(
                         "name", name,
                         "description", description,
                         "quantity", quantity,
-                        "imageUrl", imageUrl
+                        "imageUrl", imageUrl,
+                        "scientificName", scientificName,
+                        "care", care
+
                 )
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(EdicionPlantaActivity.this, "Planta actualizada con éxito", Toast.LENGTH_SHORT).show();
