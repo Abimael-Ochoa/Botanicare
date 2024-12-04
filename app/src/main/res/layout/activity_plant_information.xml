@@ -77,19 +77,20 @@
                 android:text="Imagen"
                 android:textSize="16sp" />
 
+            <!-- Para que la imagen se recorte al contorno del fondo -->
+
+            <!-- Nombre de la planta -->
             <ImageView
                 android:id="@+id/plant_image"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="19dp"
+                android:src="@drawable/ic_plant"
                 android:background="@drawable/background_cantidad"
-                android:clipToOutline="true"
-                android:contentDescription="Plant Image"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_plant" /> <!-- Para que la imagen se recorte al contorno del fondo -->
+                android:contentDescription="Plant Image" />
 
-            <!-- Nombre de la planta -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
