@@ -27,6 +27,9 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
+            android:name=".GaleriaPlantas"
+            android:exported="false" />
+        <activity
             android:name=".MonitoreoPlantas"
             android:exported="false" />
         <activity
