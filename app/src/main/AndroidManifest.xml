@@ -27,7 +27,7 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
-            android:name=".GaleriaPlantas"
+            android:name=".EdicionPlantaActivity"
             android:exported="false" />
         <activity
             android:name=".MonitoreoPlantas"
@@ -76,7 +76,7 @@
             android:name=".catalogo_plantas.PantallaCatalogo"
             android:exported="false" />
         <activity
-            android:name=".EdicionPlantaActivity"
+            android:name=".SubirPlantaActivity"
             android:exported="false" />
         <activity
             android:name=".inicio_sesion.RegisterActivity"
