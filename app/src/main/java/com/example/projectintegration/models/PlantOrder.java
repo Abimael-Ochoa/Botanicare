@@ -44,9 +44,14 @@ public class PlantOrder {
         this.cliente = cliente;
     }
 
-    public String getStatus() {
-       return status ? "Aceptado":"Pendiente";
+    public Boolean getStatus() {
+       return status;
     }
+
+    public String getStatusNombre() {
+        return status ? "Aceptado":"Pendiente";
+    }
+
 
     public void setStatus(boolean status) {
         this.status = status;

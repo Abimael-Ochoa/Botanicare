@@ -47,6 +47,7 @@ public class SubirPlantaActivity extends AppCompatActivity {
     EditText plantScientificName;
     EditText  plantCare;
     private FirebaseFirestore db;
+    private ImageView backBtn;
 
     private int quantity = 1;
 
@@ -57,6 +58,8 @@ public class SubirPlantaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_plant);
+
+        backBtn = findViewById(R.id.back_button);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.tu_color_verde)); // Reemplaza 'tu_color_verde' con el color que desees
@@ -90,6 +93,8 @@ public class SubirPlantaActivity extends AppCompatActivity {
             if (quantity > 1) quantity--;
             updateQuantityText();
         });
+
+        backBtn.setOnClickListener(v -> onBackPressed()); // Llamar al método de retroceso del Activity
     }
 
     private void openImageSelector() {
