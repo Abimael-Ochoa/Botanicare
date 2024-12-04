@@ -7,12 +7,12 @@ public class PlantOrder {
     private int orderCode;
     private List<PlantOrderList> plantItems;
     private Cliente cliente; // Nuevo campo para información del cliente
-    private boolean status;  // Nuevo campo para el estatus
+    private Boolean status;  // Nuevo campo para el estatus
     private Date timestamp;
 
     public PlantOrder() {}
 
-    public PlantOrder(int orderCode, List<PlantOrderList> plantItems, Cliente cliente, boolean status, Date timestamp) {
+    public PlantOrder(int orderCode, List<PlantOrderList> plantItems, Cliente cliente, Boolean status, Date timestamp) {
         this.orderCode = orderCode;
         this.plantItems = plantItems;
         this.cliente = cliente;
@@ -48,12 +48,9 @@ public class PlantOrder {
        return status;
     }
 
-    public String getStatusNombre() {
-        return status ? "Aceptado":"Pendiente";
-    }
 
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
