@@ -68,6 +68,11 @@ public class RegistroPedidoUser extends Fragment {
         btnVerMisPlantas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentMisPlantas fragmentMisPlantas = new FragmentMisPlantas();
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.ResisterUserPlants, fragmentMisPlantas) // Asegúrate de que el ID corresponda al contenedor de tus fragmentos
+                        .commit();
 
             }
         });

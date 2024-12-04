@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.projectintegration.utilities.Utils;
+
 public class MonitoreoPlantas extends AppCompatActivity {
 
     @Override
@@ -18,6 +20,10 @@ public class MonitoreoPlantas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_monitoreo_plantas);
+
+        Utils.changeStatusBarColor(this, R.color.tu_color_verde);
     }
+
+
 
 }

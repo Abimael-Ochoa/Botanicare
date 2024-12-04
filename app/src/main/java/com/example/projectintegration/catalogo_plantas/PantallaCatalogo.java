@@ -365,6 +365,8 @@ public class PantallaCatalogo extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
         // Configura la barra de búsqueda
         searchBarCatalogo = new SearchBarCatalogo(toolbar, searchButton, addButton, toolBarTitle);
 

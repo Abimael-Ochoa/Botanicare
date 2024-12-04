@@ -27,6 +27,9 @@
         android:theme="@style/Theme.ProjectIntegration"
         tools:targetApi="31">
         <activity
+            android:name=".GaleriaPlantas"
+            android:exported="false" />
+        <activity
             android:name=".MonitoreoPlantas"
             android:exported="false" />
         <activity
@@ -57,9 +60,7 @@
         <activity
             android:name=".registro_pedido_plantas.Historial_Registros"
             android:exported="false" />
-        <activity
-            android:name=".MonitoreoPlantas"
-            android:exported="false" />
+
         <activity
             android:name=".Activity_users_chat"
             android:exported="false" />
