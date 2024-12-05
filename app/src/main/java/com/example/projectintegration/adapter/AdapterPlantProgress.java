@@ -74,9 +74,11 @@ public class AdapterPlantProgress extends BaseAdapter {
         // Aquí puedes agregar un OnClickListener o usar el uniqueId de alguna otra manera
         convertView.setOnClickListener(v -> {
             String uniqueId = currentItem.getUniqueId();
+            String plantName = currentItem.getPlantName();
             // Hacer algo con el uniqueId, por ejemplo, abrir una nueva actividad con ese ID
             Intent intent = new Intent(context, GaleriaProgreso.class);
             intent.putExtra("uniqueId", uniqueId);
+            intent.putExtra("plantName", plantName);
             context.startActivity(intent);
         });
 
