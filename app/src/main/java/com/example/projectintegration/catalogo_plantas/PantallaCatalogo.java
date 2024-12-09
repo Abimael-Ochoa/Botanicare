@@ -140,6 +140,21 @@ public class PantallaCatalogo extends AppCompatActivity {
         String email = firebaseUser.getEmail(); // Obtener el correo electrónico del usuario
         // Configuración del NavigationView
         NavigationView navView = findViewById(R.id.nav_view);
+
+        //fragmento de codigo para cerrar el navDrawer
+        View headerView = navView.getHeaderView(0); // Obtén el header del NavigationView (si está en el header)
+        ImageView icCancelar2 = headerView.findViewById(R.id.ic_cancelar2); // Encuentra el ícono
+
+        if (icCancelar2 != null) {
+            icCancelar2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (drawerLayout != null) {
+                        drawerLayout.closeDrawers(); // Cierra el NavigationDrawer
+                    }
+                }
+            });
+        }
         if (navView != null) {
             Menu navMenu = navView.getMenu();
             if ("admin@admin.com".equalsIgnoreCase(email)) {
