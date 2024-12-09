@@ -1,5 +1,7 @@
 package com.example.projectintegration.utilities;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
@@ -39,7 +41,9 @@ public class PlantStockValidator {
                         int availableQuantity = plantDoc.getLong("quantity").intValue();
 
                         if (enteredQuantity > availableQuantity) {
-                            cantidadEditText.setError("Cantidad excede el stock disponible (" + availableQuantity + ")");
+                            ErrorHandler.setFieldErrorStyleText(cantidadEditText, context);
+                            String error = "Cantidad excede el stock disponible (" + availableQuantity + ")";
+                            cantidadEditText.setError(error);
                             cantidadEditText.setText(""); // Limpia el valor ingresado
                             return;
                         } else {
@@ -79,9 +83,10 @@ public class PlantStockValidator {
                             int availableQuantity = task.getResult().getDocuments().get(0).getLong("quantity").intValue();
 
                             if (enteredQuantity > availableQuantity) {
-                                Toast.makeText(context, "Cantidad en el registro " + registroIndex + " excede el stock disponible (" + availableQuantity + ")", Toast.LENGTH_SHORT).show();
+                                ErrorHandler.setFieldErrorStyleInt(enteredQuantity, availableQuantity, cantidadEditText, context);
                                 return;
                             }
+
                         }
                     });
         }

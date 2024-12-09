@@ -15,6 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.projectintegration.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SearchBarCatalogo {
 
@@ -49,6 +51,9 @@ public class SearchBarCatalogo {
     }
 
     private void toggleSearchInput() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String email = firebaseUser.getEmail();
+
         if (searchInput == null) {
             Context context = toolbar.getContext();
 
@@ -107,8 +112,12 @@ public class SearchBarCatalogo {
             // Restaurar el estado original
             toolbar.removeView(searchBar);
             searchInput = null;
+            if("admin@admin.com".equals(email)) {
+                addButton.setVisibility(View.VISIBLE);
+            }else {
+                addButton.setVisibility(View.GONE);
+            }
             toolBarTitle.setVisibility(View.VISIBLE);
-            addButton.setVisibility(View.VISIBLE);
         }
     }
 
