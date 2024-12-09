@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -39,6 +40,7 @@ public class RegistroPedidoAdminFragment extends Fragment {
     private PlantStockValidator plantStockValidator;
     private List<String> selectedPlants = new ArrayList<>();
     private int maxPlantCount = 0;
+    TextView errorMessage;
 
 
 
@@ -56,6 +58,9 @@ public class RegistroPedidoAdminFragment extends Fragment {
         btnAddPlant = view.findViewById(R.id.btn_add_plant);
         btnRegisterOrder = view.findViewById(R.id.btn_register_order); // Botón para registrar el pedido
         btnHistorial = view.findViewById(R.id.btn_historial); // Botón para ver el historial de pedidos
+
+        // Referencia al TextView para mostrar los mensajes de error
+        errorMessage = view.findViewById(R.id.errorMessage);
 
         // Configurar botón de retroceso
         ImageView btnBack = view.findViewById(R.id.btn_back);
@@ -125,7 +130,9 @@ public class RegistroPedidoAdminFragment extends Fragment {
             if (!hasFocus) {
                 plantStockValidator.validarCantidadStock(spinner, cantidadEditText, () -> {
                     // Acción opcional si la validación es exitosa
-                    Toast.makeText(getContext(), "Cantidad válida para " + spinner.getSelectedItem(), Toast.LENGTH_SHORT).show();
+                    String error = "Cantidad válida para " + spinner.getSelectedItem();
+                    errorMessage.setText(error);
+                    errorMessage.setVisibility(View.VISIBLE);
                 });
             }
         });
@@ -136,7 +143,9 @@ public class RegistroPedidoAdminFragment extends Fragment {
 
     private void agregarRegistro() {
         if (plantList.getChildCount() >= maxPlantCount) {
-            Toast.makeText(getContext(), "Has alcanzado el límite máximo de plantas disponibles.", Toast.LENGTH_SHORT).show();
+            String error = "Has alcanzado el límite máximo de plantas disponibles.";
+            errorMessage.setText(error);
+            errorMessage.setVisibility(View.VISIBLE);
             return;
         }
         // Usa el LayoutInflater para inflar el diseño de la nueva fila
@@ -263,7 +272,10 @@ public class RegistroPedidoAdminFragment extends Fragment {
 
         if (clientName.isEmpty()) {
             ErrorHandler.setFieldErrorStyle(userName, getContext());
-            Toast.makeText(getContext(), "Debe ingresar el nombre del usuario.", Toast.LENGTH_SHORT).show();
+            String error = "Debe ingresar el nombre del usuario.";
+            errorMessage.setText(error);
+            errorMessage.setVisibility(View.VISIBLE);
+
             return;
         }
 
@@ -276,7 +288,9 @@ public class RegistroPedidoAdminFragment extends Fragment {
             EditText cantidadEditText = plantaView.findViewById(R.id.et_plant_quantity);
 
             if (spinner.getSelectedItem() == null) {
-                Toast.makeText(getContext(), "Debe seleccionar una planta en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
+                String error = "Debe seleccionar una planta en el registro " + (i + 1);
+                errorMessage.setText(error);
+                errorMessage.setVisibility(View.VISIBLE);
                 return;
             }
 
@@ -285,7 +299,9 @@ public class RegistroPedidoAdminFragment extends Fragment {
 
             if (quantityText.isEmpty() || Integer.parseInt(quantityText) <= 0) {
                 ErrorHandler.setFieldErrorStyle(cantidadEditText, getContext());
-                Toast.makeText(getContext(), "Debe ingresar una cantidad válida en el registro " + (i + 1), Toast.LENGTH_SHORT).show();
+                String error = "Debe seleccionar una planta en el registro " + (i + 1);
+                errorMessage.setText(error);
+                errorMessage.setVisibility(View.VISIBLE);
                 return;
             }
 

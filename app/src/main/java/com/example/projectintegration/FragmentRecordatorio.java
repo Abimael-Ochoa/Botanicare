@@ -36,6 +36,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
 import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.utilities.ErrorHandler;
 
@@ -276,7 +277,11 @@ public class FragmentRecordatorio extends Fragment {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
 
+
         Toast.makeText(getContext(), "Recordatorio programado", Toast.LENGTH_SHORT).show();
+        requireActivity().onBackPressed(); // Llamar a la acción de retroceso
+
+
     }
 
 
