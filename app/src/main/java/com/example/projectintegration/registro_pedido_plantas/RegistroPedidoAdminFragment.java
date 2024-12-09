@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -115,13 +114,7 @@ public class RegistroPedidoAdminFragment extends Fragment {
         // Configura el botón de eliminación para la primera planta
         ImageView eliminateRegisteredPlant = nuevaPlantaView.findViewById(R.id.eliminate_registered);
         eliminateRegisteredPlant.setVisibility(View.GONE);
-        /*eliminateRegisteredPlant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                plantList.removeView(nuevaPlantaView);
-            }
 
-        });*/
 
         // Llenar el Spinner con datos de Firebase
         cargarPlantasSpinner(spinner, () -> configurarListener(spinner));
