@@ -9,41 +9,53 @@
     android:clickable="true"
     android:focusable="true">
 
-<ImageView
-android:id="@+id/plantImage"
-android:layout_width="80dp"
-android:layout_height="80dp"
-android:src="@drawable/ic_plant"
-    android:contentDescription="Imagen de planta" />
+    <!-- Imagen de la planta -->
+    <ImageView
+        android:id="@+id/plantImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_plant"
+        android:contentDescription="Imagen de planta" />
 
-<TextView
-android:id="@+id/plantName"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Planta de casa"
-android:textColor="#333333"
-android:textSize="16sp"
-android:fontFamily="@font/coustard"
-android:paddingTop="8dp" />
+    <!-- Nombre de la planta -->
+    <TextView
+        android:id="@+id/plantName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Planta de casa"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        android:fontFamily="@font/coustard"
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:paddingTop="8dp" />
 
-<LinearLayout
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
-android:gravity="center">
+    <!-- Puntuación de la planta -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="4dp">
 
-<ImageView
-    android:layout_width="16dp"
-    android:layout_height="16dp"
-    android:src="@drawable/ic_estrella" /> <!-- Icono de estrella -->
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_estrella"
+            android:contentDescription="Ícono estrella" />
 
-<TextView
-    android:id="@+id/plantScore"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="75"
-    android:textColor="#333333"
-    android:textSize="14sp"
-    android:paddingStart="4dp" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/plantScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="75"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:paddingStart="4dp" />
     </LinearLayout>
+</LinearLayout>

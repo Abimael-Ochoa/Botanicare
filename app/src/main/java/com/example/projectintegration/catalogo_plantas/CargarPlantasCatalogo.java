@@ -123,13 +123,26 @@ public class CargarPlantasCatalogo extends Fragment {
     // Ajustar columnas dinÃ¡micamente
     private void adjustGridViewColumns() {
         plantsGridView.post(() -> {
+            // Ancho total del GridView
             int totalWidth = plantsGridView.getWidth();
+
+            // Ancho de cada columna (definido en dimensiones)
             int columnWidth = getResources().getDimensionPixelSize(R.dimen.column_width);
-            int numColumns = totalWidth / columnWidth;
+
+            // Espaciado horizontal entre columnas (definido en dimensiones)
+            int horizontalSpacing = getResources().getDimensionPixelSize(R.dimen.horizontal_spacing);
+
+            // Calcular el número máximo de columnas que caben
+            int numColumns = totalWidth / (columnWidth + horizontalSpacing);
+
+            // Asegurarse de que haya al menos 2 columnas
             if (numColumns < 2) numColumns = 2;
+
+            // Ajustar el número de columnas dinámicamente
             plantsGridView.setNumColumns(numColumns);
         });
     }
+
 
     // Carga catÃ¡logo de plantas
     private void loadPlantsFromFirebase() {
