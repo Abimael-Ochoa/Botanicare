@@ -125,10 +125,11 @@ public class ChatUser extends AppCompatActivity {
 
     private void sendMessage(String content) {
         long timestamp = System.currentTimeMillis();
-        Message message = new Message(userId, adminID, content, timestamp,false);
+        Message message = new Message(userId, adminID, content, timestamp, false);
 
         chatRef.add(message)
                 .addOnSuccessListener(documentReference -> Log.d("Chat", "Mensaje enviado correctamente"))
                 .addOnFailureListener(e -> Log.e("Chat", "Error al enviar el mensaje", e));
     }
+
 }

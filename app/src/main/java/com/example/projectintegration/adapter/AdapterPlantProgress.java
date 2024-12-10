@@ -27,6 +27,7 @@ public class AdapterPlantProgress extends BaseAdapter {
     private List<IPlantProgress> items;
     private RequestQueue requestQueue;
     private FirebaseFirestore firestore;
+    private TextView mote;
 
     public AdapterPlantProgress(Context context, List<IPlantProgress> items) {
         this.context = context;
@@ -58,10 +59,13 @@ public class AdapterPlantProgress extends BaseAdapter {
 
         ImageView imageView = convertView.findViewById(R.id.plant_image);
         TextView textView = convertView.findViewById(R.id.plant_name);
+        mote = convertView.findViewById(R.id.mote);
 
         IPlantProgress currentItem = items.get(position);
 
         textView.setText(currentItem.getPlantName());
+        String id = currentItem.getUniqueId();
+        mote.setText("Apodo: " + (id.length() > 5 ? id.substring(0, 5) : id));
 
         // Cargar la imagen
         String imageUrl = currentItem.getImageUrl();

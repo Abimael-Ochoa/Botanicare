@@ -106,8 +106,6 @@ public class Chat extends AppCompatActivity {
                             Message message = document.toObject(Message.class);
                             if (message != null) {
                                 messageList.add(message);
-
-
                             }
                         }
                         messageAdapter.notifyDataSetChanged();
@@ -120,27 +118,28 @@ public class Chat extends AppCompatActivity {
                 });
     }
 
-    private void markMessagesAsRead() {
+
+
+
+    private void markUnreadMessagesAsRead() {
         chatRef.whereEqualTo("isRead", false)
                 .whereEqualTo("receiver", adminID)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                        // Marcar como leído solo si el mensaje existía antes de ser actualizado
                         document.getReference().update("isRead", true);
                     }
                 })
                 .addOnFailureListener(error -> Log.e("Chat", "Error al marcar mensajes como leídos", error));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        markMessagesAsRead();
-    }
+
+
     private void sendMessage(String content) {
         long timestamp = System.currentTimeMillis();
         Message message = new Message(adminID, userId, content, timestamp,false);
-
+        markUnreadMessagesAsRead();
         chatRef.add(message)
                 .addOnSuccessListener(documentReference -> Log.d("Chat", "Mensaje enviado correctamente"))
                 .addOnFailureListener(e -> Log.e("Chat", "Error al enviar el mensaje", e));

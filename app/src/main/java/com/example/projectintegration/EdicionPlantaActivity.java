@@ -11,16 +11,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectintegration.R;
 import com.example.projectintegration.catalogo_plantas.PantallaCatalogo;
+import com.example.projectintegration.inicio_sesion.LoginScreen;
 import com.example.projectintegration.models.Plant;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -75,6 +79,9 @@ public class EdicionPlantaActivity extends AppCompatActivity {
 
         scientificName = findViewById(R.id.scientific_name);
         plantCare = findViewById(R.id.plant_care);
+        Button deleteButton = findViewById(R.id.delete_button); // Vincula el botón de eliminar
+        deleteButton.setOnClickListener(v -> confirmAndDeletePlant()); // Asigna el método para manejar clics
+
 
 
         // Inicializar vistas
@@ -174,6 +181,63 @@ public class EdicionPlantaActivity extends AppCompatActivity {
 
 
 
+    private void confirmAndDeletePlant() {
+        // Mostrar el dialogo de confirmación antes de cerrar sesión
+        // Inflar el layout personalizado
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_alert_borrar, null);
+
+
+
+        // Crear el AlertDialog con el tema personalizado
+        AlertDialog.Builder builder = new AlertDialog.Builder(EdicionPlantaActivity.this, R.style.TransparentDialogTheme);
+
+        builder.setView(dialogView);
+
+        // Obtener los botones y otros elementos del layout
+        Button btnConfirmar = dialogView.findViewById(R.id.btnconfirmar);
+        Button btnCancelar = dialogView.findViewById(R.id.btncancelar);
+
+        // Crear el dialogo
+        AlertDialog alertDialog = builder.create();
+
+        // Configurar el botón "Cerrar Sesión"
+        btnConfirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            deletePlantFromFirestore();
+            }
+        });
+
+        // Configurar el botón "Cancelar"
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss(); // Solo cerrar el dialogo, no hacer nada más
+            }
+        });
+
+        // Mostrar el dialogo
+        alertDialog.show();
+    }
+
+
+    private void deletePlantFromFirestore() {
+        if (plantDocumentId != null) {
+            db.collection("plants").document(plantDocumentId)
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(EdicionPlantaActivity.this, "Planta eliminada con éxito", Toast.LENGTH_SHORT).show();
+                        // Redirige al catálogo después de eliminar
+                        Intent intent = new Intent(EdicionPlantaActivity.this, PantallaCatalogo.class);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .addOnFailureListener(e -> ErrorHandler.showErrorMessage(errorMessage, "Error al eliminar planta"));
+        } else {
+            ErrorHandler.showErrorMessage(errorMessage, "No se encontró el ID de la planta para eliminar");
+        }
+    }
     private void openImageSelector() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
