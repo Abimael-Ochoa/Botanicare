@@ -243,6 +243,21 @@
                 android:text="Guardar"
                 android:backgroundTint="#225E1D"
                 android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Eliminar Planta"
+                android:backgroundTint="#FF5252"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/my_custom_font"
+                android:drawablePadding="10dp" />
         </GridLayout>
     </LinearLayout>
 </ScrollView>
