@@ -16,10 +16,14 @@ import com.example.projectintegration.PlantInformationActivity;
 import com.example.projectintegration.PlantInformationAdmin;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.Plant;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 import java.util.List;
+import java.util.Map;
 
 public class MisPlantasAdapter extends BaseAdapter {
 
@@ -81,16 +85,42 @@ public class MisPlantasAdapter extends BaseAdapter {
             loadImageWithVolley(imageUrl, viewHolder.imageView); // Cargar la imagen usando Volley
         }
 
-        // Evento de clic para abrir PlantInformationActivity
         convertView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PlantInformationAdmin.class);
-            intent.putExtra("plantName", plant.getName());
-            intent.putExtra("plantDescription", plant.getDescription());
-            intent.putExtra("plantImage", plant.getImageUrl());
-            intent.putExtra("plantQuantity", plant.getQuantity());
-            intent.putExtra("scientificName", plant.getScientificName());
-            intent.putExtra("care", plant.getCare());
-            context.startActivity(intent);
+            String plantName = plant.getName(); // Nombre de la planta seleccionada
+
+            // Consultar Firestore para obtener el conteo
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            int count = 0;
+
+                            for (DocumentSnapshot document : task.getResult()) {
+                                List<Map<String, Object>> plantItems = (List<Map<String, Object>>) document.get("plantItems");
+                                if (plantItems != null) {
+                                    for (Map<String, Object> item : plantItems) {
+                                        if (plantName.equals(item.get("plantName"))) {
+                                            count++;
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Inicia la actividad con los datos de la planta y la cantidad
+                            Intent intent = new Intent(context, PlantInformationAdmin.class);
+                            intent.putExtra("plantName", plant.getName());
+                            intent.putExtra("plantDescription", plant.getDescription());
+                            intent.putExtra("plantImage", plant.getImageUrl());
+                            intent.putExtra("plantQuantity", count); // Cantidad total de plantas
+                            intent.putExtra("scientificName", plant.getScientificName());
+                            intent.putExtra("care", plant.getCare());
+                            context.startActivity(intent);
+                        } else {
+                            // Manejar errores en la consulta
+                            Toast.makeText(context, "Error al obtener la cantidad de plantas", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
         return convertView;

@@ -67,15 +67,15 @@ public class Historial_Registros extends AppCompatActivity {
             finish();
         });
 
-        adapter = new PlantOrderAdapter(plantOrders, new PlantOrderAdapter.OnItemClickListener() {
+        adapter = new PlantOrderAdapter(plantOrdersFiltered, new PlantOrderAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int orderCode) {
-                // Al hacer clic en un item, pasamos el orderCode a la siguiente actividad
                 Intent intent = new Intent(Historial_Registros.this, Ticket_Pedido.class);
                 intent.putExtra("orderCode", orderCode);
                 startActivity(intent);
             }
         });
+
         recyclerView.setAdapter(adapter);
 
         // Consultamos los pedidos en Firestore
@@ -160,8 +160,9 @@ public class Historial_Registros extends AppCompatActivity {
             }
         }
 
-        // Notificar al adaptador que los datos han cambiado
-        adapter.notifyDataSetChanged();
+        // Actualizar el adaptador con la lista filtrada
+        adapter.setPlantOrders(plantOrdersFiltered);
     }
+
 }
 

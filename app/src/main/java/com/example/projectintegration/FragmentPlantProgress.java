@@ -91,6 +91,13 @@ public class FragmentPlantProgress extends Fragment {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             List<?> plantItems = (List<?>) document.get("plantItems");
+
+                            // Verificar si plantItems es nulo o está vacío
+                            if (plantItems == null || plantItems.isEmpty()) {
+                                Toast.makeText(getContext(), "No tienes plantas registradas.", Toast.LENGTH_SHORT).show();
+                                return; // Salir del método si no hay plantas
+                            }
+
                             for (Object plantObj : plantItems) {
                                 if (plantObj instanceof java.util.Map) {
                                     java.util.Map<String, Object> plantData = (java.util.Map<String, Object>) plantObj;
@@ -107,12 +114,11 @@ public class FragmentPlantProgress extends Fragment {
                                                     String imageUrl = plantDoc.getString("imageUrl");
 
                                                     // Agregar datos al adaptador
-                                                    items.add(new IPlantProgress(plantName, imageUrl, uniqueId)); // Pasa el uniqueId
-                                                    adapter.notifyDataSetChanged();
+                                                    items.add(new IPlantProgress(plantName, imageUrl, uniqueId));
                                                 } else {
                                                     items.add(new IPlantProgress(plantName, null, uniqueId)); // Agregar sin imagen
-                                                    adapter.notifyDataSetChanged();
                                                 }
+                                                adapter.notifyDataSetChanged();
                                             })
                                             .addOnFailureListener(e -> {
                                                 Toast.makeText(getContext(), "Error al cargar imagen de planta", Toast.LENGTH_SHORT).show();
@@ -120,11 +126,13 @@ public class FragmentPlantProgress extends Fragment {
                                 }
                             }
                         } else {
-                            Toast.makeText(getContext(), "No se encontraron plantas para este usuario", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "No se encontraron datos del usuario.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(getContext(), "Error al cargar datos del usuario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+
 }

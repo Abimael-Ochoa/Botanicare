@@ -98,7 +98,7 @@ public class FragmentMisPlantas extends Fragment {
                                 }
                             }
                         } else {
-                            Toast.makeText(getContext(), "No hay plantas en plantItems", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "No tienes plantas registradas", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })

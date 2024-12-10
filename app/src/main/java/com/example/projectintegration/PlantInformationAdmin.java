@@ -37,14 +37,13 @@ public class PlantInformationAdmin extends AppCompatActivity {
         plantQuantityTextView = findViewById(R.id.quantity_text);
         plantImageView = findViewById(R.id.plant_image);
         editButton = findViewById(R.id.edit);
+        TextView cantidadQuality = findViewById(R.id.cantidad_disponible);
+
         if(!"admin@admin.com".equalsIgnoreCase(email)){
             editButton.setVisibility(View.GONE);
         }
 
-        TextView cantidadQuality = findViewById(R.id.cantidad_disponible);
 
-        plantQuantityTextView.setVisibility(View.GONE);
-        //cantidadQuality.setVisibility(View.GONE);
 
         // Obtener los datos del Intent
         Bundle bundle = getIntent().getExtras();
@@ -54,6 +53,14 @@ public class PlantInformationAdmin extends AppCompatActivity {
             String plantImage = bundle.getString("plantImage");
             String scientificName = bundle.getString("scientificName");
             String care = bundle.getString("care");
+            int plantQuantity = bundle.getInt("plantQuantity", 0); // Cantidad predeterminada: 0
+
+            plantNameTextView.setText(plantName);
+            plantDescriptionTextView.setText(plantDescription);
+            scientificNameTextView.setText(scientificName);
+            cantidadQuality.setText("Plantas en posesión");
+            plantCareTextView.setText(care);
+            plantQuantityTextView.setText(String.valueOf(plantQuantity)); // Mostrar la cantidad
 
 
             // Setear los datos en las vistas
@@ -63,7 +70,10 @@ public class PlantInformationAdmin extends AppCompatActivity {
             plantCareTextView.setText(care);
 
             if (plantImage != null) {
-                Picasso.get().load(plantImage).into(plantImageView);
+                Picasso.get().load(plantImage)
+                        .placeholder(R.drawable.ic_plant)
+                        .error(R.drawable.ic_plant)
+                        .into(plantImageView);
             }
         }
 

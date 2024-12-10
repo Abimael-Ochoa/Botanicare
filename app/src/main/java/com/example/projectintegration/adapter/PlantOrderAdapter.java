@@ -27,6 +27,10 @@ public class PlantOrderAdapter extends RecyclerView.Adapter<PlantOrderAdapter.Pl
         this.plantOrders = plantOrders;
         this.onItemClickListener = onItemClickListener;
     }
+    public void setPlantOrders(List<PlantOrder> plantOrders) {
+        this.plantOrders = plantOrders;
+        notifyDataSetChanged(); // Notificar al RecyclerView que los datos han cambiado
+    }
 
     @NonNull
     @Override
