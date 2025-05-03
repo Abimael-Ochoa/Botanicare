@@ -46,12 +46,27 @@
         android:fontFamily="@font/my_custom_font"
         android:textSize="23sp"
         android:padding="12dp"
+        android:maxLength="20"
         app:layout_constraintTop_toBottomOf="@id/appTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
+
+    <!-- Mensaje de aviso de máximo caracteres -->
+    <TextView
+        android:id="@+id/tvNameMaxWarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Máximo 20 caracteres"
+        android:textSize="12sp"
+        android:fontFamily="@font/my_custom_font"
+        android:textColor="#D32F2F"
+        android:visibility="gone"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/nameField"
+        app:layout_constraintStart_toStartOf="@id/nameField"/>
 
     <!-- Campo de texto para Teléfono -->
     <EditText
@@ -65,12 +80,12 @@
         android:textSize="23sp"
         android:padding="12dp"
         android:inputType="phone"
-        app:layout_constraintTop_toBottomOf="@id/nameField"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
+    app:layout_constraintTop_toBottomOf="@id/tvNameMaxWarning"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"/>
 
     <!-- Campo de texto para Domicilio -->
     <EditText

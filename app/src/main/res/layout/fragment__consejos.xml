@@ -47,34 +47,52 @@
         android:textSize="24sp"
         android:textColor="#000000" />
 
-    <!-- Sección de campo de texto y botón de envío -->
+    <!-- Sección de campo de texto, botón de envío y mensaje de error -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="16dp">
 
-        <EditText
-            android:id="@+id/etEscribirConsejo"
-            android:layout_width="0dp"
+        <!-- Fila: EditText + botón enviar -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Escribe algún consejo"
-            android:padding="12dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etEscribirConsejo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Escribe algún consejo"
+                android:padding="12dp"
+                android:fontFamily="@font/my_custom_font"
+                android:background="@drawable/rounded_edittext"
+                android:maxLength="100" />
+
+            <ImageView
+                android:id="@+id/btnEnviarConsejo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_boton_enviar"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:rotation="50"
+                android:contentDescription="Enviar consejo" />
+        </LinearLayout>
+
+        <!-- Mensaje de aviso de máximo caracteres -->
+        <TextView
+            android:id="@+id/tvMaxLengthWarning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Máximo 100 caracteres"
+            android:textSize="12sp"
             android:fontFamily="@font/my_custom_font"
-            android:background="@drawable/rounded_edittext"
-            />
-
-        <ImageView
-
-            android:id="@+id/btnEnviarConsejo"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_boton_enviar"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:rotation="50"
-            android:contentDescription="Enviar consejo" />
+            android:textColor="#D32F2F"
+        android:visibility="gone"
+        android:layout_marginTop="4dp"/>
     </LinearLayout>
 
     <!-- Lista de consejos -->

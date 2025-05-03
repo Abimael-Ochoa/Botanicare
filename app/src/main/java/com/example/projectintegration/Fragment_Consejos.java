@@ -6,12 +6,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectintegration.adapter.ConsejoAdapter;
@@ -46,7 +50,6 @@ public class Fragment_Consejos extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__consejos, container, false);
 
         // Inicializar Firebase
@@ -57,23 +60,44 @@ public class Fragment_Consejos extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
-        etEscribirConsejo = view.findViewById(R.id.etEscribirConsejo);
-        ImageView btnEnviarConsejo = view.findViewById(R.id.btnEnviarConsejo);
-        rvConsejos = view.findViewById(R.id.rvConsejos);
+        // 1) Encuentra tus vistas
+        etEscribirConsejo   = view.findViewById(R.id.etEscribirConsejo);
+        TextView tvWarning  = view.findViewById(R.id.tvMaxLengthWarning);
+        ImageView btnEnviar = view.findViewById(R.id.btnEnviarConsejo);
+        rvConsejos          = view.findViewById(R.id.rvConsejos);
 
-        // Inicializar lista y adaptador
-        listaConsejos = new ArrayList<>();
-        consejoAdapter = new ConsejoAdapter(listaConsejos);
+        // 2) Aplica el filtro de longitud en código (opcional si ya lo pusiste en el XML)
+        etEscribirConsejo.setFilters(new InputFilter[]{
+                new InputFilter.LengthFilter(100)
+        });
 
-        // Configurar RecyclerView
+        // 3) Añade el TextWatcher justo después de configurar el filtro
+        etEscribirConsejo.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void afterTextChanged(Editable s) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Muestra el aviso cuando llegue a 100 y ocúltalo si es menor
+                if (s.length() >= 100) {
+                    tvWarning.setVisibility(View.VISIBLE);
+                } else {
+                    tvWarning.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // 4) Inicializa RecyclerView y adaptador
+        listaConsejos    = new ArrayList<>();
+        consejoAdapter   = new ConsejoAdapter(listaConsejos);
         rvConsejos.setLayoutManager(new LinearLayoutManager(getContext()));
         rvConsejos.setAdapter(consejoAdapter);
 
-        // Cargar los consejos existentes
+        // 5) Carga los consejos existentes
         cargarConsejos();
 
-        // Acción al presionar el botón de enviar
-        btnEnviarConsejo.setOnClickListener(v -> enviarConsejo());
+        // 6) Listener del botón de enviar
+        btnEnviar.setOnClickListener(v -> enviarConsejo());
 
         return view;
     }
