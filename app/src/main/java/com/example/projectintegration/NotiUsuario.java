@@ -22,9 +22,19 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NotiUsuario extends AppCompatActivity {
 
@@ -69,7 +79,7 @@ public class NotiUsuario extends AppCompatActivity {
 
         rvUsers.setAdapter(userAdapter);
 
-        loadUsersFromFirestore();  // Cambiado para usar Firestore
+        //loadUsersFromFirestore();  // Cambiado para usar Firestore
     }
 
     private void openChatActivity(User user) {
@@ -82,53 +92,115 @@ public class NotiUsuario extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadUsersFromFirestore();
+    }
+
+
+
+// …
+
     private void loadUsersFromFirestore() {
         usersRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                userList.clear(); // Limpiar lista de usuarios
-                for (DocumentSnapshot userDoc : task.getResult()) {
-                    String userId = userDoc.getId();
-                    String name = userDoc.getString("name");
+            if (!task.isSuccessful()) {
+                Toast.makeText(this, "Error loading users", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                    // Omitir admin por su ID
-                    if ("BzGePvzWsbh10CXIV9kWVcje4O02".equals(userId)) continue;
-
-                    // Crear usuario temporal con mensajes no leídos inicialmente en 0
-                    User user = new User(name, 0, userId);
-
-                    // Consultar mensajes no leídos de este usuario
-                    FirebaseFirestore.getInstance()
-                            .collection("chats")
-                            .document("BzGePvzWsbh10CXIV9kWVcje4O02_" + userId)
-                            .collection("messages")
-                            .whereEqualTo("isRead", false)
-                            .whereEqualTo("receiver", "BzGePvzWsbh10CXIV9kWVcje4O02") // Asegura que solo obtienes mensajes no leídos dirigidos al admin.
-                            .get()
-                            .addOnCompleteListener(msgTask -> {
-                                if (msgTask.isSuccessful()) {
-                                    // Actualiza la cantidad de mensajes no leídos
-                                    int unreadCount = msgTask.getResult().size();
-                                    user.setUnreadMessages(unreadCount);
-
-                                    // Actualiza la lista de usuarios
-                                    if (!userList.contains(user)) {
-                                        userList.add(user);
-                                    } else {
-                                        int index = userList.indexOf(user);
-                                        userList.set(index, user);
-                                    }
-
-                                    // Notificar al adaptador que se ha actualizado un usuario
-                                    userAdapter.notifyDataSetChanged();
-                                } else {
-                                    Toast.makeText(NotiUsuario.this, "Error loading messages for " + name, Toast.LENGTH_SHORT).show();
-                                }
-                            });
+            // 1) Filtrar admin y preparar documentos
+            List<DocumentSnapshot> docs = new ArrayList<>();
+            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                if (!"BzGePvzWsbh10CXIV9kWVcje4O02".equals(doc.getId())) {
+                    docs.add(doc);
                 }
-            } else {
-                Toast.makeText(NotiUsuario.this, "Error loading users", Toast.LENGTH_SHORT).show();
+            }
+
+            userList.clear();
+            int total = docs.size();
+            if (total == 0) {
+                userAdapter.notifyDataSetChanged();
+                return;
+            }
+            AtomicInteger processed = new AtomicInteger(0);
+
+            // 2) Para cada usuario, consulta unread y último mensaje
+            for (DocumentSnapshot userDoc : docs) {
+                String userId = userDoc.getId();
+                String name   = userDoc.getString("name");
+                User user     = new User(name, 0, userId);
+
+                // Genera un chatID consistente
+                String chatId = makeChatId("BzGePvzWsbh10CXIV9kWVcje4O02", userId);
+                CollectionReference messages = FirebaseFirestore
+                        .getInstance()
+                        .collection("chats")
+                        .document(chatId)
+                        .collection("messages");
+
+                // i) Mensajes no leídos
+                messages
+                        .whereEqualTo("isRead", false)
+                        .whereEqualTo("receiver", "BzGePvzWsbh10CXIV9kWVcje4O02")
+                        .get()
+                        .addOnSuccessListener(unreadSnap -> {
+                            user.setUnreadMessages(unreadSnap.size());
+
+                            // ii) Último mensaje
+                            messages
+                                    .orderBy("timestamp", Query.Direction.DESCENDING)
+                                    .limit(1)
+                                    .get()
+                                    .addOnSuccessListener(lastSnap -> {
+                                        if (!lastSnap.isEmpty()) {
+                                            Long ts = lastSnap.getDocuments()
+                                                    .get(0)
+                                                    .getLong("timestamp");
+                                            user.setLastMessageTimestamp(ts != null ? ts : 0L);
+                                        }
+
+                                        // iii) Añadir y comprobar fin de todas las consultas
+                                        userList.add(user);
+                                        if (processed.incrementAndGet() == total) {
+                                            // Ordena por último mensaje (descendente)
+                                            Collections.sort(userList, (u1, u2) ->
+                                                    Long.compare(u2.getLastMessageTimestamp(),
+                                                            u1.getLastMessageTimestamp()));
+                                            userAdapter.notifyDataSetChanged();
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Aunque falle la 2ª, se agrega para no bloquear el flujo
+                                        userList.add(user);
+                                        if (processed.incrementAndGet() == total) {
+                                            Collections.sort(userList, (u1, u2) ->
+                                                    Long.compare(u2.getLastMessageTimestamp(),
+                                                            u1.getLastMessageTimestamp()));
+                                            userAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+                        })
+                        .addOnFailureListener(e -> {
+                            // Si falla la primera query, igual contamos para no bloquear
+                            userList.add(user);
+                            if (processed.incrementAndGet() == total) {
+                                Collections.sort(userList, (u1, u2) ->
+                                        Long.compare(u2.getLastMessageTimestamp(),
+                                                u1.getLastMessageTimestamp()));
+                                userAdapter.notifyDataSetChanged();
+                            }
+                        });
             }
         });
     }
+
+    /** Genera siempre el mismo ID de chat ordenando las UIDs */
+    private String makeChatId(String uid1, String uid2) {
+        return uid1.compareTo(uid2) < 0
+                ? uid1 + "_" + uid2
+                : uid2 + "_" + uid1;
+    }
+
 
 }

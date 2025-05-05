@@ -9,6 +9,7 @@ public class User {
     private String address;
     private String email;
     private int unreadMessages;
+    private long lastMessageTimestamp;
 
     // Constructor vacío para Firebase
     public User() {}
@@ -42,6 +43,14 @@ public class User {
         this.email = email;
     }
 
+    // ③ Métodos nuevos para el timestamp
+    public long getLastMessageTimestamp() {
+        return lastMessageTimestamp;
+    }
+
+    public void setLastMessageTimestamp(long lastMessageTimestamp) {
+        this.lastMessageTimestamp = lastMessageTimestamp;
+    }
 
     public String getName() {
         return name;
