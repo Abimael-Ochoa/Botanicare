@@ -80,12 +80,28 @@
         android:textSize="23sp"
         android:padding="12dp"
         android:inputType="phone"
+        android:maxLength="10"
         android:layout_marginTop="12dp"
-    app:layout_constraintTop_toBottomOf="@id/tvNameMaxWarning"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginStart="32dp"
-    android:layout_marginEnd="32dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tvNameMaxWarning"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
+    <!-- Mensaje de aviso para teléfono -->
+    <!-- Mensaje de advertencia para teléfono -->
+    <TextView
+        android:id="@+id/tvPhoneWarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ingrese un número de 10 dígitos"
+        android:textSize="12sp"
+        android:fontFamily="@font/my_custom_font"
+        android:textColor="#D32F2F"
+        android:visibility="gone"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/phoneField"
+        app:layout_constraintStart_toStartOf="@id/phoneField"/>
 
     <!-- Campo de texto para Domicilio -->
     <EditText
@@ -98,12 +114,13 @@
         android:fontFamily="@font/my_custom_font"
         android:textSize="23sp"
         android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@id/phoneField"
+        app:layout_constraintTop_toBottomOf="@id/tvPhoneWarning"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
+
 
     <!-- Campo de texto para Usuario -->
     <EditText
@@ -123,6 +140,19 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 
+    <TextView
+        android:id="@+id/formatoCorreo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ej: usuario@mail.com"
+        android:textSize="12sp"
+        android:fontFamily="@font/my_custom_font"
+        android:textColor="#7B8A7B"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart= "15dp"
+        app:layout_constraintTop_toBottomOf="@id/usernameField"
+        app:layout_constraintStart_toStartOf="@id/usernameField"/>
+
     <!-- Campo de texto para Contraseña -->
     <EditText
         android:id="@+id/passwordField"
@@ -135,10 +165,10 @@
         android:textSize="23sp"
         android:padding="12dp"
         android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/usernameField"
+        app:layout_constraintTop_toBottomOf="@id/formatoCorreo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="2dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 

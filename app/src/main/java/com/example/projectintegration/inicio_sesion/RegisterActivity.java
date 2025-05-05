@@ -1,5 +1,6 @@
 package com.example.projectintegration.inicio_sesion;
 
+import android.adservices.adselection.AddAdSelectionOverrideRequest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +19,9 @@ import com.example.projectintegration.models.User;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.example.projectintegration.utilities.Utils;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -68,6 +72,22 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+        TextView tvPhoneWarning = findViewById(R.id.tvPhoneWarning);
+
+        phoneField.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 10 || s.length() == 0) {
+                    tvPhoneWarning.setVisibility(View.GONE);
+                } else {
+                    tvPhoneWarning.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         // ————————————————————————————————
 
         // Configura el OnClickListener para el botón de registro
@@ -86,11 +106,26 @@ public class RegisterActivity extends AppCompatActivity {
                 if (address.isEmpty())  ErrorHandler.setFieldErrorStyle(addressField,  RegisterActivity.this);
                 if (email.isEmpty())    ErrorHandler.setFieldErrorStyle(usernameField, RegisterActivity.this);
                 if (password.isEmpty()) ErrorHandler.setFieldErrorStyle(passwordField, RegisterActivity.this);
-            } else {
-                registerUser(email, password, name, phone, address);
+                return;
+            }
+            if(phone.length() != 10) {
+                ErrorHandler.showErrorMessage(errorMessage, "El teléfono ingresado debe tener 10 dígitos");
+                ErrorHandler.setFieldErrorStyleText(phoneField, RegisterActivity.this);
+                return;
+            }
+            String emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+
+            if (!email.matches(emailPattern)) {
+                ErrorHandler.showErrorMessage(errorMessage, "Correo electrónico inválido");
+                ErrorHandler.setFieldErrorStyle(usernameField, RegisterActivity.this);
+                return; // Detiene el flujo si el email no es válido
+            }
+
+
+            registerUser(email, password, name, phone, address, usernameField, passwordField);
                 ErrorHandler.resetFieldStyles(this, nameField, phoneField, addressField, usernameField, passwordField);
                 ErrorHandler.hideErrorMessage(errorMessage);
-            }
+
         });
 
         // TextWatchers genéricos para limpiar errores
@@ -126,33 +161,42 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // Método para registrar al usuario usando Firebase Authentication y Firestore
-    private void registerUser(String email, String password, String name, String phone, String address) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            // Crea un objeto User con los datos del registro
-                            User newUser = new User(name, phone, address, email,0);
+    private void registerUser(String email, String password, String name, String phone, String address, EditText usernameField, EditText passwordField) {
+                        mAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(this, task -> {
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        if (user != null) {
+                                            // Crea un objeto User con los datos del registro
+                                            User newUser = new User(name, phone, address, email, 0);
 
 
-                            // Guarda el objeto User en Firestore bajo la colección "users"
-                            db.collection("users").document(user.getUid())
-                                    .set(newUser)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                                        // Redirige al usuario a la actividad principal
-                                        Intent intent = new Intent(RegisterActivity.this, LoginScreen.class);
-                                        startActivity(intent);
-                                        finish(); // Finaliza la actividad actual
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        ErrorHandler.showErrorMessage(errorMessage, "Error al guardar en Firestore");
-                                    });
-                        }
-                    } else {
-                        ErrorHandler.showErrorMessage(errorMessage, "El email o la contraseña son incorrectos");
-                    }
-                });
+                                            // Guarda el objeto User en Firestore bajo la colección "users"
+                                            db.collection("users").document(user.getUid())
+                                                    .set(newUser)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                                                        // Redirige al usuario a la actividad principal
+                                                        Intent intent = new Intent(RegisterActivity.this, LoginScreen.class);
+                                                        startActivity(intent);
+                                                        finish(); // Finaliza la actividad actual
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        ErrorHandler.showErrorMessage(errorMessage, "Error al guardar en Firestore");
+                                                    });
+                                        }
+                                    } else {
+                                        Exception e = task.getException();
+                                        if (e instanceof FirebaseAuthUserCollisionException) {
+                                            ErrorHandler.showErrorMessage(errorMessage, "El correo ingresado ya está en uso");
+                                            ErrorHandler.setFieldErrorStyle(usernameField, RegisterActivity.this);
+                                        } else if (e instanceof FirebaseAuthWeakPasswordException) {
+                                            ErrorHandler.showErrorMessage(errorMessage, "La contraseña es muy débil (mínimo 6 caracteres)");
+                                            ErrorHandler.setFieldErrorStyle(passwordField, RegisterActivity.this);
+                                        } else {
+                                            ErrorHandler.showErrorMessage(errorMessage, "Error desconocido al registrar usuario");
+                                        }
+                                    }
+                                });
     }
 }
