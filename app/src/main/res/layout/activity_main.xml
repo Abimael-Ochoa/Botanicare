@@ -39,22 +39,24 @@
             app:layout_constraintTop_toBottomOf="@id/imagePlant" />
 
         <!-- Campo de texto para Usuario -->
+
+        <!-- Campo de texto para Contraseña -->
         <EditText
             android:id="@+id/usernameField"
             android:layout_width="330dp"
             android:layout_height="55dp"
-            android:hint="Usuario"
+            android:layout_marginTop="20dp"
             android:background="@drawable/rounded_background"
-            android:padding="16dp"
             android:fontFamily="@font/my_custom_font"
+            android:hint="Email"
+            android:padding="16dp"
             android:textColor="#000000"
             android:textColorHint="#808080"
-            app:layout_constraintTop_toBottomOf="@id/titleText"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp" />
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText" />
 
-        <!-- Campo de texto para Contraseña -->
         <EditText
             android:id="@+id/passwordField"
             android:layout_width="330dp"
