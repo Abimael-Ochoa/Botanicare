@@ -63,12 +63,15 @@ public class SearchBarCatalogo {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(16, 8, 16, 8); // Agregar márgenes
+            layoutParams.setMargins(16, 8, 16, 8);
             searchBar.setLayoutParams(layoutParams);
             searchBar.setHint("Buscar...");
-            searchBar.setHintTextColor(ColorStateList.valueOf(context.getResources().getColor(R.color.white)));
-            searchBar.setBoxBackgroundColor(context.getResources().getColor(R.color.white)); // Fondo de la barra
-            searchBar.setBoxStrokeColor(context.getResources().getColor(R.color.white)); // Color del borde
+            searchBar.setHintTextColor(ColorStateList.valueOf(
+                    context.getResources().getColor(R.color.white)));
+            searchBar.setBoxBackgroundColor(
+                    context.getResources().getColor(R.color.white));
+            searchBar.setBoxStrokeColor(
+                    context.getResources().getColor(R.color.white));
 
             // Crear y configurar TextInputEditText
             searchInput = new TextInputEditText(context);
@@ -77,10 +80,10 @@ public class SearchBarCatalogo {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             ));
-            searchInput.setTextColor(context.getResources().getColor(R.color.white)); // Color del texto
-            searchInput.setHintTextColor(context.getResources().getColor(R.color.white)); // Color del hint
-            searchInput.setTextSize(16); // Tamaño del texto
-            searchInput.setPadding(16, 16, 16, 16); // Espaciado interno
+            searchInput.setTextColor(context.getResources().getColor(R.color.white));
+            searchInput.setHintTextColor(context.getResources().getColor(R.color.white));
+            searchInput.setTextSize(16);
+            searchInput.setPadding(16, 16, 16, 16);
 
             // Añadir TextInputEditText al TextInputLayout
             searchBar.addView(searchInput);
@@ -92,34 +95,40 @@ public class SearchBarCatalogo {
             toolBarTitle.setVisibility(View.GONE);
             addButton.setVisibility(View.GONE);
 
-            // Configurar listener para detectar cambios en el texto
+            // Detectar cambios en el texto y lanzar la búsqueda
             searchInput.addTextChangedListener(new android.text.TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
+                @Override public void beforeTextChanged(CharSequence c, int i, int i1, int i2) {}
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if (onSearchListener != null) {
                         onSearchListener.onSearch(s.toString().trim());
                     }
                 }
-
-                @Override
-                public void afterTextChanged(Editable editable) {}
+                @Override public void afterTextChanged(Editable editable) {}
             });
 
         } else {
-            // Restaurar el estado original
+            // 1) Limpiar el texto para la próxima apertura
+            searchInput.setText("");
+
+            // 2) Restaurar la UI original
             toolbar.removeView(searchBar);
+            searchBar = null;
             searchInput = null;
-            if("admin@admin.com".equals(email)) {
+            toolBarTitle.setVisibility(View.VISIBLE);
+            if ("admin@admin.com".equals(email)) {
                 addButton.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 addButton.setVisibility(View.GONE);
             }
-            toolBarTitle.setVisibility(View.VISIBLE);
+
+            // 3) Lanzar búsqueda vacía para recargar todo el catálogo
+            if (onSearchListener != null) {
+                onSearchListener.onSearch("");
+            }
         }
     }
+
 
 
 }
