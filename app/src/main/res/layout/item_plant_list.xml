@@ -32,13 +32,15 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/mote"
+            android:id="@+id/apodo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mote: juancito"
+            android:text="Apodo: planta"
             android:fontFamily="@font/my_custom_font"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/darker_gray"
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 </LinearLayout>

@@ -109,19 +109,30 @@
             </LinearLayout>
 
 
+            <EditText
+                android:id="@+id/editTextApodoPlanta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/background_cantidad"
+                android:fontFamily="@font/my_custom_font"
+                android:hint="Apodo de tu planta"
+                android:inputType="text" />
 
             <!-- Notas -->
             <EditText
                 android:id="@+id/notas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_margin="16dp"
                 android:background="@drawable/background_cantidad"
                 android:fontFamily="@font/my_custom_font"
                 android:gravity="top"
                 android:hint="Notas:"
                 android:minHeight="100dp"
                 android:padding="7dp" />
+
 
             <!-- Selección de fecha -->
             <LinearLayout

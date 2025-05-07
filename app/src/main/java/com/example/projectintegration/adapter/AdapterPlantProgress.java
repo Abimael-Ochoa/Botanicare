@@ -17,6 +17,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.projectintegration.GaleriaProgreso;
 import com.example.projectintegration.R;
 import com.example.projectintegration.models.IPlantProgress;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,7 +28,7 @@ public class AdapterPlantProgress extends BaseAdapter {
     private List<IPlantProgress> items;
     private RequestQueue requestQueue;
     private FirebaseFirestore firestore;
-    private TextView mote;
+    private TextView apodo;
 
     public AdapterPlantProgress(Context context, List<IPlantProgress> items) {
         this.context = context;
@@ -53,33 +54,69 @@ public class AdapterPlantProgress extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_plant_list, parent, false);
+            holder = new ViewHolder();
+            holder.imageView = convertView.findViewById(R.id.plant_image);
+            holder.textView = convertView.findViewById(R.id.plant_name);
+            holder.apodo = convertView.findViewById(R.id.apodo);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-
-        ImageView imageView = convertView.findViewById(R.id.plant_image);
-        TextView textView = convertView.findViewById(R.id.plant_name);
-        mote = convertView.findViewById(R.id.mote);
 
         IPlantProgress currentItem = items.get(position);
-
-        textView.setText(currentItem.getPlantName());
-        String id = currentItem.getUniqueId();
-        mote.setText("Apodo: " + (id.length() > 5 ? id.substring(0, 5) : id));
-
-        // Cargar la imagen
+        String plantName = currentItem.getPlantName();
+        String uniqueId = currentItem.getUniqueId();
         String imageUrl = currentItem.getImageUrl();
-        if (imageUrl != null) {
-            loadImageWithVolley(imageUrl, imageView);
-        } else {
-            imageView.setImageResource(R.drawable.ic_plant); // Imagen predeterminada si no hay URL
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        holder.textView.setText(plantName);
+        holder.apodo.setText(""); // Limpiar antes de consultar
+        holder.apodo.setVisibility(View.GONE); // Ocultar por defecto
+
+// Consultar apodo desde Firestore solo si hay uniqueId
+        if (uniqueId != null && !uniqueId.trim().isEmpty()) {
+            firestore.collection("users")
+                    .document(userId)
+                    .collection("userPlants")
+                    .whereEqualTo("uniqueId", uniqueId)
+                    .get()
+                    .addOnSuccessListener(querySnapshot -> {
+                        String nickname = null;
+
+                        for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                            String nick = doc.getString("plantNickName");
+                            if (nick != null && !nick.trim().isEmpty()) {
+                                nickname = nick; // tomar el primero válido
+                                break;
+                            }
+                        }
+
+                        if (nickname != null) {
+                            holder.apodo.setText("Apodo: " + nickname);
+                            holder.apodo.setVisibility(View.VISIBLE);
+                        } else {
+                            holder.apodo.setText(""); // limpiar por si acaso
+                            holder.apodo.setVisibility(View.GONE);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        holder.apodo.setText("");
+                        holder.apodo.setVisibility(View.GONE);
+                    });
         }
 
-        // Aquí puedes agregar un OnClickListener o usar el uniqueId de alguna otra manera
+        // Cargar imagen si hay
+        if (imageUrl != null) {
+            loadImageWithVolley(imageUrl, holder.imageView);
+        } else {
+            holder.imageView.setImageResource(R.drawable.ic_plant);
+        }
+
         convertView.setOnClickListener(v -> {
-            String uniqueId = currentItem.getUniqueId();
-            String plantName = currentItem.getPlantName();
-            // Hacer algo con el uniqueId, por ejemplo, abrir una nueva actividad con ese ID
             Intent intent = new Intent(context, GaleriaProgreso.class);
             intent.putExtra("uniqueId", uniqueId);
             intent.putExtra("plantName", plantName);
@@ -88,6 +125,14 @@ public class AdapterPlantProgress extends BaseAdapter {
 
         return convertView;
     }
+
+    // ViewHolder pattern para evitar múltiples llamadas a findViewById
+    static class ViewHolder {
+        ImageView imageView;
+        TextView textView;
+        TextView apodo;
+    }
+
 
 
 

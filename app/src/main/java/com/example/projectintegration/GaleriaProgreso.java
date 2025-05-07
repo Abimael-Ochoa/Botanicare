@@ -51,7 +51,32 @@ public class GaleriaProgreso extends AppCompatActivity {
 
         // Initialize views
         tvHeaderTitle = findViewById(R.id.header);  // Assuming you have a TextView with this ID in your layout
-        tvHeaderTitle.setText("Progreso de " + plantName);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(firebaseUser.getUid())
+                .collection("userPlants")
+                .whereEqualTo("uniqueId", uniqueId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    String header;
+
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        String nickName = queryDocumentSnapshots.getDocuments()
+                                .get(queryDocumentSnapshots.size() - 1)
+                                .getString("plantNickName");
+
+                        header = (nickName != null && !nickName.trim().isEmpty())
+                                ? "Progreso de " + nickName
+                                : "Progreso de " + plantName;
+                    } else {
+                        header = "Progreso de " + plantName;
+                    }
+
+                    tvHeaderTitle.setText(header);
+                })
+                .addOnFailureListener(e -> {
+                    tvHeaderTitle.setText("Progreso de " + plantName);
+                });
 
         btnSubir = findViewById(R.id.subir);  // Assuming you have a LinearLayout with this ID in your layout
 
@@ -66,10 +91,14 @@ public class GaleriaProgreso extends AppCompatActivity {
             public void onClick(View v) {
                 // Suponiendo que tienes un objeto 'plant' con el uniqueId y el nombre de la planta
                 // Crear Intent para pasar a MonitoreoPlantas
-                Intent intent = new Intent(GaleriaProgreso.this, MonitoreoPlantas.class);
-                intent.putExtra("uniqueId", uniqueId); // Pasar el uniqueId
-                intent.putExtra("plantName", plantName); // Pasar el nombre de la planta
-                startActivity(intent);
+                try {
+                    Intent intent = new Intent(GaleriaProgreso.this, MonitoreoPlantas.class);
+                    intent.putExtra("uniqueId", uniqueId); // Pasar el uniqueId
+                    intent.putExtra("plantName", plantName); // Pasar el nombre de la planta
+                    startActivity(intent);
+                }catch (Exception e){
+                    System.out.println("Error en:" + e.getMessage());
+                }
             }
         });
 
@@ -88,10 +117,14 @@ public class GaleriaProgreso extends AppCompatActivity {
         } else {
             // If the user is not an admin, display the normal gallery title with the user's name
         }
-        loadPlantProgressData();
-
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPlantProgressData(); // 🔄 Se llama cada vez que la Activity vuelve al frente
+    }
+
     private void loadPlantProgressData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(firebaseUser.getUid())

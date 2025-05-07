@@ -30,6 +30,7 @@ import com.example.projectintegration.utilities.ErrorHandler;
 import com.example.projectintegration.utilities.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
@@ -83,12 +84,20 @@ public class MonitoreoPlantas extends AppCompatActivity {
 
         // Obtener los datos del Intent
         plantName = getIntent().getStringExtra("plantName");
+        String uniqueId = getIntent().getStringExtra("uniqueId");
+        cargarApodoExistente(uniqueId);
+
 
 
         // Configurar el EditText con el nombre de la planta como placeholder
-        editTextApodoPlanta = findViewById(R.id.editTextApodoPlanta);
-        if (plantName != null) {
-            editTextApodoPlanta.setHint("Apodo de tu planta (" + plantName + ")");
+        try {
+            editTextApodoPlanta = findViewById(R.id.editTextApodoPlanta);
+            if (plantName != null) {
+                editTextApodoPlanta.setHint("Apodo de tu planta (" + plantName + ")");
+            }
+        }catch (Exception e){
+            Toast.makeText(this, "Error en:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+
         }
 
         // Mostrar la fecha actual en el TextView
@@ -213,45 +222,55 @@ public class MonitoreoPlantas extends AppCompatActivity {
         String plantNickName = editTextApodoPlanta.getText().toString();
         String notes = editTextNotas.getText().toString();
         String progressDate = tvFecha.getText().toString();
-
-        // Usar el uniqueId recibido del Intent (si es necesario para la referencia interna)
         String uniqueId = getIntent().getStringExtra("uniqueId");
 
-        // Verificar si el uniqueId no es nulo
         if (uniqueId == null || uniqueId.isEmpty()) {
             Toast.makeText(this, "No se recibió un ID único válido.", Toast.LENGTH_SHORT).show();
-            return; // Salir si no se recibió un uniqueId válido
+            return;
         }
 
-        // Crear un mapa con los datos
-        Map<String, Object> plantData = new HashMap<>();
-        plantData.put("plantNickName", plantNickName);
-        plantData.put("imageUrl", imageUrl);
-        plantData.put("notes", notes);
-        plantData.put("progressDate", progressDate);
-        plantData.put("uniqueId", uniqueId);
-
-        // Generar un ID aleatorio para el nuevo registro en la colección
-        String newDocumentId = db.collection("users")
-                .document(userId)
-                .collection("userPlants")
-                .document() // No pasamos un ID aquí, Firestore lo genera automáticamente
-                .getId(); // Obtenemos el ID generado
-
-        // Guardar los datos en Firestore bajo la colección del usuario, usando el nuevo ID
+        // ✅ 1. Actualizar todos los documentos previos con ese uniqueId
         db.collection("users")
                 .document(userId)
                 .collection("userPlants")
-                .document(newDocumentId) // Usar el nuevo ID generado
-                .set(plantData)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(MonitoreoPlantas.this, "Datos guardados exitosamente.", Toast.LENGTH_SHORT).show();
+                .whereEqualTo("uniqueId", uniqueId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                        document.getReference().update("plantNickName", plantNickName);
+                    }
+
+                    // ✅ 2. Guardar el nuevo registro de progreso
+                    Map<String, Object> plantData = new HashMap<>();
+                    plantData.put("plantNickName", plantNickName);
+                    plantData.put("imageUrl", imageUrl);
+                    plantData.put("notes", notes);
+                    plantData.put("progressDate", progressDate);
+                    plantData.put("uniqueId", uniqueId);
+
+                    String newDocumentId = db.collection("users")
+                            .document(userId)
+                            .collection("userPlants")
+                            .document()
+                            .getId();
+
+                    db.collection("users")
+                            .document(userId)
+                            .collection("userPlants")
+                            .document(newDocumentId)
+                            .set(plantData)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(MonitoreoPlantas.this, "Datos guardados exitosamente.", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(MonitoreoPlantas.this, "Error al guardar los datos.", Toast.LENGTH_SHORT).show();
+                            });
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(MonitoreoPlantas.this, "Error al guardar los datos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error al actualizar el apodo en documentos anteriores.", Toast.LENGTH_SHORT).show();
                 });
     }
-
 
 
     // Interfaz para el callback
@@ -259,4 +278,30 @@ public class MonitoreoPlantas extends AppCompatActivity {
         void onUploadSuccess(String imageUrl);
         void onUploadFailure(String error);
     }
+
+    private void cargarApodoExistente(String uniqueId) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users")
+                .document(userId)
+                .collection("userPlants")
+                .whereEqualTo("uniqueId", uniqueId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        // Tomamos el apodo más reciente (último documento)
+                        String apodo = queryDocumentSnapshots.getDocuments()
+                                .get(queryDocumentSnapshots.size() - 1)
+                                .getString("plantNickName");
+
+                        if (apodo != null && !apodo.isEmpty()) {
+                            editTextApodoPlanta.setText(apodo);
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al cargar el apodo", Toast.LENGTH_SHORT).show();
+                });
+    }
+
 }
