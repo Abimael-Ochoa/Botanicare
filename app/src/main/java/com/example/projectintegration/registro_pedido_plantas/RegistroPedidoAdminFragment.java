@@ -21,6 +21,8 @@ import com.example.projectintegration.models.PlantOrder;
 import com.example.projectintegration.models.PlantOrderList;
 import com.example.projectintegration.utilities.ErrorHandler;
 import com.example.projectintegration.utilities.PlantStockValidator;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -83,7 +85,11 @@ public class RegistroPedidoAdminFragment extends Fragment {
         btnRegisterOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnRegisterOrder.setEnabled(false); // ⛔ Evita múltiples clics
+
                 if (!plantStockValidator.validarTodoElStock(plantList)) {
+                    btnRegisterOrder.setEnabled(true); // ✅ Rehabilita si hay error de validación
+
                     return; // Detener el flujo si hay errores de stock
                 }
                 registrarPedido();
@@ -259,16 +265,15 @@ public class RegistroPedidoAdminFragment extends Fragment {
 
     private void registrarPedido() {
         List<PlantOrderList> plantItems = new ArrayList<>();
+        List<Task<Void>> transactionTasks = new ArrayList<>();
 
         EditText userName = getView().findViewById(R.id.et_nombre_usuario);
         String clientName = userName.getText().toString();
 
         if (clientName.isEmpty()) {
             ErrorHandler.setFieldErrorStyle(userName, getContext());
-            String error = "Debe ingresar el nombre del usuario.";
-            errorMessage.setText(error);
+            errorMessage.setText("Debe ingresar el nombre del usuario.");
             errorMessage.setVisibility(View.VISIBLE);
-
             return;
         }
 
@@ -276,88 +281,75 @@ public class RegistroPedidoAdminFragment extends Fragment {
 
         for (int i = 0; i < plantList.getChildCount(); i++) {
             View plantaView = plantList.getChildAt(i);
-
             Spinner spinner = plantaView.findViewById(R.id.plantsAvailable);
             EditText cantidadEditText = plantaView.findViewById(R.id.et_plant_quantity);
-
-            if (spinner.getSelectedItem() == null) {
-                String error = "Debe seleccionar una planta en el registro " + (i + 1);
-                errorMessage.setText(error);
-                errorMessage.setVisibility(View.VISIBLE);
-                return;
-            }
 
             String plantName = spinner.getSelectedItem().toString();
             String quantityText = cantidadEditText.getText().toString();
 
-            if (quantityText.isEmpty() || Integer.parseInt(quantityText) <= 0) {
+            if (plantName.equals("Selecciona una planta") || quantityText.isEmpty() || Integer.parseInt(quantityText) <= 0) {
                 ErrorHandler.setFieldErrorStyle(cantidadEditText, getContext());
-                String error = "Debe seleccionar una planta en el registro " + (i + 1);
-                errorMessage.setText(error);
+                errorMessage.setText("Revisa los datos de la planta en el registro " + (i + 1));
                 errorMessage.setVisibility(View.VISIBLE);
                 return;
             }
 
             int quantity = Integer.parseInt(quantityText);
 
-            // Consulta previa para obtener el documento de la planta
-            db.collection("plants")
+            Task<Void> task = db.collection("plants")
                     .whereEqualTo("name", plantName)
                     .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
-                            DocumentSnapshot plantDoc = task.getResult().getDocuments().get(0);
-
-                            // Ahora ejecutamos la transacción
-                            db.runTransaction(transaction -> {
-                                DocumentSnapshot snapshot = transaction.get(plantDoc.getReference());
-                                int stockDisponible = snapshot.getLong("quantity").intValue();
-
-                                if (quantity > stockDisponible) {
-                                    throw new FirebaseFirestoreException(
-                                            "Stock insuficiente para la planta: " + plantName,
-                                            FirebaseFirestoreException.Code.ABORTED
-                                    );
-                                }
-
-                                // Actualizar stock
-                                int nuevoStock = stockDisponible - quantity;
-                                transaction.update(plantDoc.getReference(), "quantity", nuevoStock);
-
-                                // Agregar planta al pedido
-                                plantItems.add(new PlantOrderList(plantName, quantity));
-
-                                return null; // Retorno de la transacción
-                            }).addOnSuccessListener(aVoid -> {
-                                if (!plantItems.isEmpty()) {
-                                    // Registrar el pedido después de todas las validaciones
-                                    int orderCode = generateOrderCode();
-                                    Date timestamp = new Date();
-                                    PlantOrder plantOrder = new PlantOrder(orderCode, plantItems, cliente, false, timestamp);
-
-                                    db.collection("plantOrders")
-                                            .add(plantOrder)
-                                            .addOnSuccessListener(documentReference -> {
-                                                Toast.makeText(getContext(), "Pedido registrado con éxito.", Toast.LENGTH_SHORT).show();
-                                                RegisterConfirmationAlert dialog = RegisterConfirmationAlert.newInstance(orderCode);
-                                                dialog.show(getChildFragmentManager(), "RegisterConfirmationAlert");
-                                            })
-                                            .addOnFailureListener(e -> {
-                                                Toast.makeText(getContext(), "Error al registrar el pedido.", Toast.LENGTH_SHORT).show();
-                                            });
-                                }
-                            }).addOnFailureListener(e -> {
-                                if (e instanceof FirebaseFirestoreException) {
-                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getContext(), "Error inesperado: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } else {
-                            Toast.makeText(getContext(), "Error al buscar la planta: " + plantName, Toast.LENGTH_SHORT).show();
+                    .continueWithTask(task1 -> {
+                        if (!task1.isSuccessful() || task1.getResult().isEmpty()) {
+                            throw new Exception("Planta no encontrada: " + plantName);
                         }
+
+                        DocumentSnapshot plantDoc = task1.getResult().getDocuments().get(0);
+
+                        return db.runTransaction(transaction -> {
+                            DocumentSnapshot snapshot = transaction.get(plantDoc.getReference());
+                            int stockDisponible = snapshot.getLong("quantity").intValue();
+
+                            if (quantity > stockDisponible) {
+                                throw new FirebaseFirestoreException("Stock insuficiente para " + plantName,
+                                        FirebaseFirestoreException.Code.ABORTED);
+                            }
+
+                            int nuevoStock = stockDisponible - quantity;
+                            transaction.update(plantDoc.getReference(), "quantity", nuevoStock);
+                            synchronized (plantItems) {
+                                plantItems.add(new PlantOrderList(plantName, quantity));
+                            }
+                            return null;
+                        });
                     });
+
+            transactionTasks.add(task);
         }
+
+        // Esperar a que todas las tareas finalicen
+        Tasks.whenAllComplete(transactionTasks)
+                .addOnSuccessListener(tasks -> {
+                    if (!plantItems.isEmpty()) {
+                        int orderCode = generateOrderCode();
+                        Date timestamp = new Date();
+                        PlantOrder order = new PlantOrder(orderCode, plantItems, cliente, false, timestamp);
+
+                        db.collection("plantOrders")
+                                .add(order)
+                                .addOnSuccessListener(ref -> {
+                                    Toast.makeText(getContext(), "Pedido registrado con éxito.", Toast.LENGTH_SHORT).show();
+                                    RegisterConfirmationAlert dialog = RegisterConfirmationAlert.newInstance(orderCode);
+                                    dialog.show(getChildFragmentManager(), "RegisterConfirmationAlert");
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(getContext(), "Error al registrar el pedido.", Toast.LENGTH_SHORT).show();
+                                });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error al validar stock o procesar el pedido: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 
